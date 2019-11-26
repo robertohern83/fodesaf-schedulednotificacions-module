@@ -43,13 +43,17 @@ public class NotificacionesPK implements Serializable {
 	@Getter
 	@Setter
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Idserie", referencedColumnName = "serie")
+	@JoinColumn(name = "segregado", referencedColumnName = "segregado")
 	Patronos patrono;
 
 	@Override
 	public String toString() {
 		return "NotificacionesPK [segmento=" + segmento + ", campana=" + campana + ", patrono=" + patrono + "]";
 	}
+
+	
+
+	
 
 	
 	

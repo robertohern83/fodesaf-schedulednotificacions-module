@@ -24,38 +24,19 @@ import lombok.Setter;
 @Entity
 @Table (name = "Patronos", schema = "dbo")
 @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class Patronos implements Serializable {/**
+public class Patronos implements Serializable {
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	@Getter @Setter
-	@Id 
-	@Column (name = "Serie")
-	int serie;
-	
-	@Getter @Setter
-	@Column (name = "N_P")
-	int n_p;
-	
-	@Getter @Setter
-	@Column (name = "Ultima_prevencion")
-	Date ultimaPrevencion;
-	
-	@Getter @Setter
-	@Column (name = "Ultima_notificación")
-	Date ultimaNotificacion;
-	
-	@Setter @Getter
-	@Column (name = "Facturación_CCSS")
-	String facturacionCCSS;
-	
+	@Id
 	@Getter @Setter
 	@Column (name = "Segregado")
 	String segregado;
 	
 	@Setter @Getter
-	@Column (name = "Cédula")
+	@Column (name = "Cedula")
 	String cedula;
 	
 
@@ -64,16 +45,20 @@ public class Patronos implements Serializable {/**
 	String nombre;
 	
 	@Getter @Setter
-	@Column (name= "Régimen")
+	@Column (name= "Regimen")
 	String regimen;
 	
 	@Setter @Getter
-	@Column (name = "Condición_legal")
+	@Column (name = "Condicion_Legal")
 	String condicionLegal;
 	
 	@Getter @Setter
 	@Column (name = "Alerta")
 	String alerta;
+	
+	@Getter @Setter
+	@Column (name = "Categoria_Alerta")
+	String categoriaAlerta;
 	
 	@Getter @Setter
 	@Column (name = "Situacion")
@@ -84,43 +69,43 @@ public class Patronos implements Serializable {/**
 	Double deudaTotal;
 	
 	@Getter @Setter
-	@Column (name = "Pago_mínimo")
-	Double pagoinimo;
+	@Column (name = "Pago_Minimo")
+	Double pagoMinimo;
 	
 	@Getter @Setter
-	@Column (name = "Saldo_arreglo")
+	@Column (name = "Saldo_Arreglo")
 	Double saldoArreglo;
 	
 	@Getter @Setter
-	@Column (name = "Cuotas_al_cobro")
+	@Column (name = "Cuotas_Al_Cobro")
 	Double cuotasAlCobro;
 	
 	@Setter @Getter
-	@Column (name = "Principal_arreglo")
+	@Column (name = "Principal_Arreglo")
 	Double principalArreglo;
 	
 	@Getter @Setter
-	@Column (name = "Intereses_administrativos")
+	@Column (name = "Intereses_Administrativos")
 	Double interesesAdministrativos;
 	
 	@Getter @Setter
-	@Column (name = "Intereses_moratorios")
+	@Column (name = "Intereses_Moratorios")
 	Double interesesMoratorios;
 	
 	@Getter @Setter
-	@Column (name = "Cuotas_atraso")
+	@Column (name = "Cuotas_Atraso")
 	int cuotasAtraso;
 	
 	@Getter @Setter
-	@Column (name = "Desde_período_Fuera_de_arreglo")
+	@Column (name = "Desde_Periodo_Fuera")
 	Date desdePeriodoFueraDeArreglo;
 	
 	@Getter @Setter
-	@Column (name = "Hasta_período_Fuera_de_arreglo")
+	@Column (name = "Hasta_Periodo_Fuera")
 	Date hastaPeriodoFueraDeArreglo;
 	
 	@Getter @Setter
-	@Column (name = "Prinipal")
+	@Column (name = "Principal")
 	Double principal;
 	
 	@Getter @Setter
@@ -136,48 +121,33 @@ public class Patronos implements Serializable {/**
 	String correo;
 	
 	@Getter @Setter
-	@Column (name = "Teléfono_representante_legal")
+	@Column (name = "Telefono_Representante")
 	String telefonoRepresentanteLegal;
 	
 	@Getter @Setter
-	@Column (name = "Teléfono")
+	@Column (name = "Telefono")
 	String telefono;
 	
 	@Getter @Setter
-	@Column (name = "Tele_Fax")
+	@Column (name = "Telefax")
 	String teleFax;
-	
-	@Getter @Setter
-	@Column (name = "Responsable")
-	String responsable;
-	
-	@Getter @Setter
-	@Column (name = "Activo_CCSS")
-	String activoCCSS;
-	
-	@Getter @Setter
-	@Column (name = "Arreglo")
-	Double arreglo;
-	
-	@Getter @Setter
-	@Column (name = "Suscrito")
-	Date suscrito;
 
 	@Override
 	public String toString() {
-		return "MorososEntity [serie=" + serie + ", n_p=" + n_p + ", ultimaPrevencion=" + ultimaPrevencion
-				+ ", ultimaNotificacion=" + ultimaNotificacion + ", facturacionCCSS=" + facturacionCCSS + ", segregado="
-				+ segregado + ", cedula=" + cedula + ", nombre=" + nombre + ", regimen=" + regimen + ", condicionLegal="
-				+ condicionLegal + ", alerta=" + alerta + ", situacion=" + situacion + ", deudaTotal=" + deudaTotal
-				+ ", pagoinimo=" + pagoinimo + ", saldoArreglo=" + saldoArreglo + ", cuotasAlCobro=" + cuotasAlCobro
-				+ ", principalArreglo=" + principalArreglo + ", interesesAdministrativos=" + interesesAdministrativos
-				+ ", interesesMoratorios=" + interesesMoratorios + ", cuotasAtraso=" + cuotasAtraso
-				+ ", desdePeriodoFueraDeArreglo=" + desdePeriodoFueraDeArreglo + ", hastaPeriodoFueraDeArreglo="
-				+ hastaPeriodoFueraDeArreglo + ", principal=" + principal + ", recargos=" + recargos + ", multas="
-				+ multas + ", correo=" + correo + ", telefonoRepresentanteLegal=" + telefonoRepresentanteLegal
-				+ ", telefono=" + telefono + ", teleFax=" + teleFax + ", responsable=" + responsable + ", activoCCSS="
-				+ activoCCSS + ", arreglo=" + arreglo + ", suscrito=" + suscrito + "]";
+		return "Patronos [segregado=" + segregado + ", cedula=" + cedula + ", nombre=" + nombre + ", regimen=" + regimen
+				+ ", condicionLegal=" + condicionLegal + ", alerta=" + alerta + ", categoriaAlerta=" + categoriaAlerta
+				+ ", situacion=" + situacion + ", deudaTotal=" + deudaTotal + ", pagoMinimo=" + pagoMinimo
+				+ ", saldoArreglo=" + saldoArreglo + ", cuotasAlCobro=" + cuotasAlCobro + ", principalArreglo="
+				+ principalArreglo + ", interesesAdministrativos=" + interesesAdministrativos + ", interesesMoratorios="
+				+ interesesMoratorios + ", cuotasAtraso=" + cuotasAtraso + ", desdePeriodoFueraDeArreglo="
+				+ desdePeriodoFueraDeArreglo + ", hastaPeriodoFueraDeArreglo=" + hastaPeriodoFueraDeArreglo
+				+ ", principal=" + principal + ", recargos=" + recargos + ", multas=" + multas + ", correo=" + correo
+				+ ", telefonoRepresentanteLegal=" + telefonoRepresentanteLegal + ", telefono=" + telefono + ", teleFax="
+				+ teleFax + "]";
 	}
+	
+
+	
 
 	
 	

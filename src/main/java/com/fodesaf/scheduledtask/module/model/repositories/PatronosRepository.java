@@ -1,5 +1,7 @@
 package com.fodesaf.scheduledtask.module.model.repositories;
 
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
 
 import com.fodesaf.scheduledtask.module.model.Patronos;
@@ -10,8 +12,8 @@ import com.fodesaf.scheduledtask.module.model.Patronos;
  */
 public interface PatronosRepository extends CrudRepository<Patronos, Integer>{
 	
-	Patronos findByCedula(String cedula);
-	Patronos findBySerie(int serie);
+	List<Patronos> findByCedula(String cedula);
+	Patronos findBySegregado(String segregado);
 	
 
 }

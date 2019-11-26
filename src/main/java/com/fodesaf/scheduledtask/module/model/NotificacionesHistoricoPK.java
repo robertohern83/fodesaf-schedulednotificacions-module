@@ -39,7 +39,7 @@ public class NotificacionesHistoricoPK implements Serializable {
 
 	@Getter
 	@Setter
-	@Column (name = "Idserie")
+	@Column (name = "segregado")
 	int patrono;
 
 	@Override
@@ -47,6 +47,10 @@ public class NotificacionesHistoricoPK implements Serializable {
 		return "NotificacionesHistoricoPK [segmento=" + segmento + ", campana=" + campana + ", patrono=" + patrono
 				+ "]";
 	}
+
+	
+
+	
 
 	
 
