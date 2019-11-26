@@ -22,9 +22,9 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 .classpath
-*.properties
 .project
 *.prefs
 target/classes/.DS_Store
 .mvn/wrapper/MavenWrapperDownloader.java
 .DS_Store
+target/classes/application.properties
