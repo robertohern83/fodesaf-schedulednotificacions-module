@@ -1,10 +1,13 @@
 package com.fodesaf.scheduledtask.module.notifications;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -24,7 +27,9 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.RawMessage;
 import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
-import com.amazonaws.util.IOUtils;
+import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
+
+import net.sf.jasperreports.engine.JRException;
 
 @Service
 public class EmailNotificationService {
@@ -43,9 +48,6 @@ public class EmailNotificationService {
 		// The subject line for the email.
 		private static String SUBJECT = "Email de ejemplo de notificacion de campaña";
 
-		// The full path to the file that will be attached to the email.
-		// If you're using Windows, escape backslashes as shown in this variable.
-		private static String ATTACHMENT = "/Users/robertohernandez/Downloads/0107.xls";
 
 		// The email body for recipients with non-HTML email clients.
 		private static String BODY_TEXT = "Hola,\r\n"
@@ -63,14 +65,33 @@ public class EmailNotificationService {
 
 	static AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.defaultClient();
 	
-	public static void main (String args[]) throws MessagingException, IOException {
+	public static void main (String args[]) throws JRException, Exception {
+		
+		
+		Connection conn = null;
+    	try {
+	    	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	    	conn = DriverManager.getConnection("jdbc:sqlserver://fodesafcampaingsdb.c31iwj6og8sy.us-east-1.rds.amazonaws.com:1433;databaseName=DBCobrosFodesaf","admin","satelite");
+	    	} catch (SQLException ex) {
+	    		ex.printStackTrace();
+	    } catch (ClassNotFoundException ex) {
+	    	ex.printStackTrace();
+	    }
+		
+		
+		Map<String, Object> params = new HashMap<>();
+		//params.put("pSegregadoPrincipal", "000100575474001001");
+		params.put("pCedula", "00100596918");
+		
+		byte[] file = GenerateReportFromTemplate.createReportFromDatabase(conn, params, "/Campana2_BD.jasper", "pdf");
+		
 		
 		EmailNotificationService service = new EmailNotificationService();
-		service.sendEmailNotification(SENDER, SUBJECT, RECIPIENT, IOUtils.toByteArray(new FileInputStream(new File(ATTACHMENT))), "application/vnd.ms-excel", "AdjuntoEjemplo.xls");
+		service.sendEmailNotification(SENDER, SUBJECT, BODY_HTML, BODY_TEXT, RECIPIENT, file, "application/pdf", "Notificacion.pdf");
 		
 	}
 	
-	public String sendEmailNotification(String sender, String Subject, String recipient, byte[] attachment, String contentType, String fileName) {
+	public String sendEmailNotification(String sender, String Subject, String htmlBody, String textBody, String recipient, byte[] attachment, String contentType, String fileName) {
 		Session session = Session.getDefaultInstance(new Properties());
         
 		ByteArrayDataSource byteDataSource = new ByteArrayDataSource(attachment,contentType);
@@ -92,11 +113,11 @@ public class EmailNotificationService {
 	        
 	        // Define the text part.
 	        MimeBodyPart textPart = new MimeBodyPart();
-	        textPart.setContent(BODY_TEXT, "text/plain; charset=UTF-8");
+	        textPart.setContent(textBody, "text/plain; charset=UTF-8");
 	                
 	        // Define the HTML part.
 	        MimeBodyPart htmlPart = new MimeBodyPart();
-	        htmlPart.setContent(BODY_HTML,"text/html; charset=UTF-8");
+	        htmlPart.setContent(htmlBody,"text/html; charset=UTF-8");
 	                
 	        // Add the text and HTML parts to the child container.
 	        msg_body.addBodyPart(textPart);
