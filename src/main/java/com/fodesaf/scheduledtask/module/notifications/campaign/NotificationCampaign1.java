@@ -186,7 +186,7 @@ public class NotificationCampaign1 implements Notification {
 			
 			break;
 		case VOICE:
-			System.out.println(String.format("Enviando notificacion de VOZ, %s", this.getSupportedCampaign()));
+			System.out.println(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()));
 			
 			break;
 
