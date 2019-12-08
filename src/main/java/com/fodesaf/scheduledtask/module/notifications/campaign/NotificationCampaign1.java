@@ -18,6 +18,8 @@ import org.springframework.stereotype.Service;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
+import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
 
 import net.sf.jasperreports.engine.JRException;
@@ -26,31 +28,108 @@ import net.sf.jasperreports.engine.JRException;
 public class NotificationCampaign1 implements Notification {
 
 	@Value("${fodesaf.notifications.email.sender}")
-	private String sender;
+	private String emailSender;
+	
+	@Value("${fodesaf.notifications.sms.sender}")
+	private String smsSender;
 	
 	@Autowired
 	EmailNotificationService emailService;
 	
 	@Autowired
+	SMSNotificationService smsService;
+	
+	@Autowired
     protected DataSource localDataSource;
 	
+	private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Le agradecemos ponerse al día lo antes posible. Si ya canceló favor omitir este mensaje.";
+	
 	// The subject line for the email.
-	private static String SUBJECT = "Email de ejemplo de notificacion de campaña";
+	private static final String SUBJECT = "Notificación de cobro - FODESAF";
 
 
 	// The email body for recipients with non-HTML email clients.
-	private static String BODY_TEXT = "Hola,\r\n"
-                                        + "Este es un correo de ejemplo de  "
-                                        + "un correo para contacto de clientes";
+	private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
+			" \n" + 
+			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR).\n" + 
+			"El pago puede realizarse por medio del servicio de Conectividad en ventanilla (indicando al cajero el número patronal completo, el cual consta de 18 dígitos) o desde su cuenta del BCR seleccionando: 1-Pago de Servicios 2-Cuotas y Planes 3-Cobro FODESAF 4-Pago a realizar (debe colocar el número patronal completo, el cual consta de 18 dígitos). Con lo anterior, el pago se aplicará automáticamente a su deuda, o bien puede realizarlo por medio de depósito bancario o transferencia a las siguientes cuentas:\n" + 
+			" \n" + 
+			"1. Banco Nacional de Costa Rica:\n" + 
+			"·     	Cuenta IBAN: CR94015100010010777734\n" + 
+			"·     	Nombre de la cuenta: DESAF-INGRESOS\n" + 
+			" \n" + 
+			"2. Banco de Costa Rica:\n" + 
+			"·    	 Cuenta IBAN: CR36015201001029593489\n" + 
+			"·     	Nombre de la cuenta: Dirección General de Asignaciones Familiares\n" + 
+			" \n" + 
+			" Cédula Jurídica de Fodesf es: 3007092879\n" + 
+			"Es importante anotar en el detalle del depósito / transferencia el número de cédula jurídica de la empresa, el número de cédula física o número de asegurado (en el caso de extranjero) de quien mantiene la deuda con el Fodesaf en el depósito.\n" + 
+			" \n" + 
+			"Debe reportar el comprobante al correo electrónico desaf.cobros@mtss.go.cr\n" + 
+			"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
+			"";
+	
+	private static final String BODY_TEXT_2 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto ";
 
 	// The HTML body of the email.
-	private static String BODY_HTML = "<html>"
-                                        + "<head></head>"
-                                        + "<body>"
-                                        + "<h1>Hola!</h1>"
-                                        + "<p>Por favor vea el correo adjunto para certificar su deuda</p>"
-                                        + "</body>"
-                                        + "</html>";
+	private static final String BODY_HTML_1 = "\n" + 
+			"<html>\n" + 
+			"\n" + 
+			"<head></head>\n" + 
+			"<body>\n" + 
+			"<p>\n" + 
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
+			"</p>\n" + 
+			"<p>\n" + 
+			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR).\n" + 
+			"El pago puede realizarse por medio del servicio de Conectividad en ventanilla (indicando al cajero el número patronal completo, el cual consta de 18 dígitos) o desde su cuenta del BCR seleccionando: 1-Pago de Servicios 2-Cuotas y Planes 3-Cobro FODESAF 4-Pago a realizar (debe colocar el número patronal completo, el cual consta de 18 dígitos). Con lo anterior, el pago se aplicará automáticamente a su deuda, o bien puede realizarlo por medio de depósito bancario o transferencia a las siguientes cuentas:\n" + 
+			"</p>\n" + 
+			"<p>\n" + 
+			"<ol>\n" + 
+			"<li>\n" + 
+			"Banco Nacional de Costa Rica:\n" + 
+			"  <ul>\n" + 
+			"    <li>\n" + 
+			"      Cuenta IBAN: CR94015100010010777734\n" + 
+			"    </li>\n" + 
+			"    <li>\n" + 
+			"      Nombre de la cuenta: DESAF-INGRESOS\n" + 
+			"    </li>\n" + 
+			"  </ul>\n" + 
+			"</li>\n" + 
+			"<li>\n" + 
+			"Banco de Costa Rica:\n" + 
+			"<ul>\n" + 
+			"  <li>\n" + 
+			"    Cuenta IBAN: CR36015201001029593489\n" + 
+			"  </li>\n" + 
+			"  <li>\n" + 
+			"    Nombre de la cuenta: Dirección General de Asignaciones Familiares\n" + 
+			"  </li>\n" + 
+			"</ul>\n" + 
+			"</li>\n" + 
+			"</ol>\n" + 
+			"</p>\n" + 
+			"<p>\n" + 
+			" Cédula Jurídica de Fodesf es: 3007092879\n" + 
+			"Es importante anotar en el detalle del depósito / transferencia el número de cédula jurídica de la empresa, el número de cédula física o número de asegurado (en el caso de extranjero) de quien mantiene la deuda con el Fodesaf en el depósito.\n" + 
+			"</p>\n" + 
+			"<p>\n" + 
+			"Debe reportar el comprobante al correo electrónico desaf.cobros@mtss.go.cr\n" + 
+			"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
+			"</p>\n" + 
+			"</body>\n" + 
+			"\n" + 
+			"</html>";
+	
+	private static final String BODY_HTML_2 = "<html>\n" + 
+			"<head></head>\n" + 
+			"<body>\n" + 
+			"<p>\n" + 
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto </p>\n" + 
+			"<p>\n" + 
+			"</body>\n" + 
+			"</html>";
 	
 	@Override
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) {
@@ -58,23 +137,51 @@ public class NotificationCampaign1 implements Notification {
 		String cedula = (String)notificationData.get("Cedula");
 		String segregado = (String)notificationData.get("Segregado");
 		String telefono = (String)notificationData.get("Telefono");
+		double cuotasAlCobro = (double)notificationData.get("CuotasAlCobro");
 		
 		switch (channel) {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
+			
+			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), smsSender, MessageType.PROMOTIONAL);
+			
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			String correo = (String)notificationData.get("Correo");
 			
-			Map<String, Object> params = new HashMap<>();
-			params.put("pSegregadoPrincipal", segregado);
-			byte[] file = null;
-			try {
-				file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana1_BD.jasper", "pdf");
-				messageIdResult = emailService.sendEmailNotification(sender, SUBJECT, BODY_HTML, BODY_TEXT, correo, file, "application/pdf", "Notificacion.pdf");
-			} catch (IOException | JRException | SQLException  e) {
-				e.printStackTrace();
+			int attemp = (int)notificationData.get("Attemp");
+			
+			if(1 == attemp) {
+				emailService.sendEmailNotification(
+						emailSender, 
+						SUBJECT, 
+						BODY_HTML_1.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), 
+						BODY_TEXT_1.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), 
+						formatTelephone(correo), 
+						null, 
+						null, 
+						null);
+			}
+			else {
+				Map<String, Object> params = new HashMap<>();
+				params.put("pSegregadoPrincipal", formatTelephone(segregado));
+				byte[] file = null;
+				try {
+					file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana1_BD.jasper", "pdf");
+					messageIdResult = 
+							emailService.sendEmailNotification(
+									emailSender, 
+									SUBJECT, 
+									BODY_HTML_2, 
+									BODY_TEXT_2, 
+									formatTelephone(correo), 
+									file, 
+									"application/pdf", 
+									"Notificacion.pdf");
+				} catch (IOException | JRException | SQLException  e) {
+					e.printStackTrace();
+				}
 			}
 			
 			break;
@@ -86,8 +193,12 @@ public class NotificationCampaign1 implements Notification {
 		default:
 			break;
 		}
-		return messageIdResult;
+		return formatTelephone(messageIdResult);
 
+	}
+
+	public String formatTelephone(String telefono) {
+		return String.format("+506%s",telefono);
 	}
 
 	@Override

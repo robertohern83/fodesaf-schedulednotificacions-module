@@ -94,13 +94,13 @@ public class EmailNotificationService {
 	public String sendEmailNotification(String sender, String Subject, String htmlBody, String textBody, String recipient, byte[] attachment, String contentType, String fileName) {
 		Session session = Session.getDefaultInstance(new Properties());
         
-		ByteArrayDataSource byteDataSource = new ByteArrayDataSource(attachment,contentType);
+		
         // Create a new MimeMessage object.
         MimeMessage message = new MimeMessage(session);
         
         // Add subject, from and to lines.
         try {
-			message.setSubject(SUBJECT, "UTF-8");
+			message.setSubject(Subject, "UTF-8");
 		
 	        message.setFrom(new InternetAddress(SENDER));
 	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(RECIPIENT));
@@ -136,13 +136,15 @@ public class EmailNotificationService {
 	        msg.addBodyPart(wrap);
 	        
 	        // Define the attachment
-	        MimeBodyPart att = new MimeBodyPart();
-	        DataSource fds = byteDataSource;
-	        att.setDataHandler(new DataHandler(fds));
-	        att.setFileName(fileName);
-	        
-	        // Add the attachment to the message.
-	        msg.addBodyPart(att);
+	        if(null != attachment){
+		        ByteArrayDataSource byteDataSource = new ByteArrayDataSource(attachment,contentType);
+		        MimeBodyPart att = new MimeBodyPart();
+		        DataSource fds = byteDataSource;
+		        att.setDataHandler(new DataHandler(fds));
+		        att.setFileName(fileName);
+		        // Add the attachment to the message.
+		        msg.addBodyPart(att);
+	        }
 			
 			/** FIN DE ARMADO DE MENSAJE **/
 	        
