@@ -156,14 +156,14 @@ public class NotificationCampaign1 implements Notification {
 						SUBJECT, 
 						BODY_HTML_1.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), 
 						BODY_TEXT_1.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), 
-						formatTelephone(correo), 
+						correo, 
 						null, 
 						null, 
 						null);
 			}
 			else {
 				Map<String, Object> params = new HashMap<>();
-				params.put("pSegregadoPrincipal", formatTelephone(segregado));
+				params.put("pSegregadoPrincipal", segregado);
 				byte[] file = null;
 				try {
 					file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana1_BD.jasper", "pdf");
@@ -173,7 +173,7 @@ public class NotificationCampaign1 implements Notification {
 									SUBJECT, 
 									BODY_HTML_2, 
 									BODY_TEXT_2, 
-									formatTelephone(correo), 
+									correo, 
 									file, 
 									"application/pdf", 
 									"Notificacion.pdf");
@@ -191,7 +191,7 @@ public class NotificationCampaign1 implements Notification {
 		default:
 			break;
 		}
-		return formatTelephone(messageIdResult);
+		return messageIdResult;
 
 	}
 
