@@ -201,7 +201,7 @@ public class NotificationCampaign1 implements Notification {
 
 	@Override
 	public String getSupportedCampaign() {
-		return "CAMPAIGN1";
+		return "Notif. arreglos de pago cuotas atrasadas en el CJ-CA";
 	}
 
 	@Override

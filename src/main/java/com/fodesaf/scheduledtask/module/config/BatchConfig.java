@@ -18,6 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.fodesaf.scheduledtask.module.model.repositories.CampanaCanalesRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
+import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
 /**
  * @author geanque
  *
@@ -41,8 +42,8 @@ public class BatchConfig {
 	@Autowired
 	private CampanaCanalesRepository campanaCanalesRepository;
 	
-	@Value("test.csv")
-    private Resource inputResource;
+	@Autowired
+	NotificationFactory factory;
 
 	@Bean
     protected Step readLines() {
@@ -56,7 +57,7 @@ public class BatchConfig {
     protected Step processLines() {
         return steps
           .get("processLines")
-          .tasklet(new NotificationsProcessor(notificacionesRepository, campanaCanalesRepository))
+          .tasklet(new NotificationsProcessor(notificacionesRepository, campanaCanalesRepository, factory))
           .build();
     }
 	

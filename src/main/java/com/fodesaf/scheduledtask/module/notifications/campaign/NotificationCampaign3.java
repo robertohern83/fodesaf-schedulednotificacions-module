@@ -222,7 +222,7 @@ public class NotificationCampaign3 implements Notification {
 
 	@Override
 	public String getSupportedCampaign() {
-		return "CAMPAIGN3";
+		return "Record. Cuota Arreglo CJ-CA";
 	}
 
 	@Override

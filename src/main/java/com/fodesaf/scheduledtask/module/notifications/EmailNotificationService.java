@@ -103,7 +103,7 @@ public class EmailNotificationService {
 			message.setSubject(Subject, "UTF-8");
 		
 	        message.setFrom(new InternetAddress(SENDER));
-	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(RECIPIENT));
+	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
 	
 	        // Create a multipart/alternative child container.
 	        MimeMultipart msg_body = new MimeMultipart("alternative");

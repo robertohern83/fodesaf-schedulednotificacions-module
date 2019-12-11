@@ -127,7 +127,7 @@ public class NotificationCampaign5 implements Notification {
 
 	@Override
 	public String getSupportedCampaign() {
-		return "CAMPAIGN5";
+		return "Preven. solo Periodos";
 	}
 
 	@Override

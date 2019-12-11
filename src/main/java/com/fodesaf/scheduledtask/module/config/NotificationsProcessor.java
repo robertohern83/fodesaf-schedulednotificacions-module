@@ -4,7 +4,9 @@
 package com.fodesaf.scheduledtask.module.config;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +18,7 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
 import com.fodesaf.scheduledtask.module.model.CampanaCanales;
@@ -23,12 +26,18 @@ import com.fodesaf.scheduledtask.module.model.Campanas;
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.repositories.CampanaCanalesRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
+import com.fodesaf.scheduledtask.module.notifications.Notification;
+import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
 
 /**
  * @author geanque
  *
  */
 public class NotificationsProcessor implements Tasklet, StepExecutionListener {
+	
+	
+	NotificationFactory factory;
 
 	private static final String VOZ = "VOZ";
 
@@ -45,8 +54,9 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	
 	
 	
-	public NotificationsProcessor(NotificacionesRepository notificacionesRepository, CampanaCanalesRepository campanaCanalesRepository) {
+	public NotificationsProcessor(NotificacionesRepository notificacionesRepository, CampanaCanalesRepository campanaCanalesRepository, NotificationFactory _factory) {
 		super();
+		this.factory = _factory;
 		this.notificacionesRepo = notificacionesRepository;
 		this.campanaCanalesRepo = campanaCanalesRepository;
 		
@@ -87,40 +97,59 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	
 	private void notificar(Notificaciones item) {
 		
-		int idCampana = item.getPrimaryKey().getCampana().getId();
+		//int idCampana = item.getPrimaryKey().getCampana().getId();
 		
-		Campanas campana = new Campanas();
+		notificarCanal(item, item.getPrimaryKey().getCanal());
+		
+		/*Campanas campana = new Campanas();
 		campana.setId(idCampana);
 		
 		List<CampanaCanales> canales = campanaCanalesRepo.findByPrimaryKeyCampana(campana);
 		
 		canales.forEach(canal -> {
 			notificarCanal(item, canal);
-		});
+		});*/
 		
 		
 	}
 
-	private void notificarCanal(Notificaciones notificacion, CampanaCanales canal) {
+	private void notificarCanal(Notificaciones notificacion, String canal) {
 		
-
-		switch (canal.getPrimaryKey().getCanal()) {
-		case SMS:
-			System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-			//TODO: IMPLEMENTAR
-			break;
-		case EMAIL:
-			System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-			//TODO: IMPLEMENTAR
-			break;
-		case VOZ:
-			System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-			//TODO: IMPLEMENTAR
-			break;
-		default:
-			break;
+		String tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo();
+		Notification notification = factory.getCaseService(tipoCampana.trim());
+		Map<String, Object> notificationData = loadParams(notificacion);
+		
+		switch (canal) {
+			case SMS:		
+				System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				notification.sendNotification(notificationData, NotificationChannel.SMS);
+				break;
+			case EMAIL:
+				System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				notification.sendNotification(notificationData, NotificationChannel.EMAIL);
+				break;
+			case VOZ:
+				System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				notification.sendNotification(notificationData, NotificationChannel.VOICE);
+				break;
+			default:
+				break;
 		}
 		
+	}
+
+	private Map<String, Object> loadParams(Notificaciones notificacion) {
+		Map<String, Object> notificationData = new HashMap<String, Object>();
+		notificationData.put("Segregado", notificacion.getPrimaryKey().getPatrono().getSegregado());
+		notificationData.put("Correo", notificacion.getPrimaryKey().getPatrono().getCorreo());
+		notificationData.put("CuotasAlCobro", notificacion.getPrimaryKey().getPatrono().getCuotasAlCobro());
+		notificationData.put("Telefono", notificacion.getPrimaryKey().getPatrono().getTelefono());
+		notificationData.put("Cedula", notificacion.getPrimaryKey().getPatrono().getCedula());
+		notificationData.put("DeudaTotal", notificacion.getPrimaryKey().getPatrono().getDeudaTotal());
+		//FIXME manejar consecutivo
+		notificationData.put("Consecutive", 9999);
+		notificationData.put("Attemp", 1);
+		return notificationData;
 	}
 
 }
