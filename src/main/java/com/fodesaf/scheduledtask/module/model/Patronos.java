@@ -4,12 +4,15 @@
 package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -98,11 +101,13 @@ public class Patronos implements Serializable {
 	
 	@Getter @Setter
 	@Column (name = "Desde_Periodo_Fuera")
-	Date desdePeriodoFueraDeArreglo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	LocalDate desdePeriodoFueraDeArreglo;
 	
 	@Getter @Setter
 	@Column (name = "Hasta_Periodo_Fuera")
-	Date hastaPeriodoFueraDeArreglo;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	LocalDate hastaPeriodoFueraDeArreglo;
 	
 	@Getter @Setter
 	@Column (name = "Principal")
@@ -131,6 +136,15 @@ public class Patronos implements Serializable {
 	@Getter @Setter
 	@Column (name = "Telefax")
 	String teleFax;
+	
+	@Getter @Setter
+	@Column (name = "Ultima_Notificacion")
+	Date ultimaNotificacion;
+	
+	@Getter @Setter
+	@Column (name = "Ultima_Prevencion")
+	Date ultimaPrevencion;
+	
 
 	@Override
 	public String toString() {
@@ -143,8 +157,11 @@ public class Patronos implements Serializable {
 				+ desdePeriodoFueraDeArreglo + ", hastaPeriodoFueraDeArreglo=" + hastaPeriodoFueraDeArreglo
 				+ ", principal=" + principal + ", recargos=" + recargos + ", multas=" + multas + ", correo=" + correo
 				+ ", telefonoRepresentanteLegal=" + telefonoRepresentanteLegal + ", telefono=" + telefono + ", teleFax="
-				+ teleFax + "]";
+				+ teleFax + ", ultimaNotificacion=" + ultimaNotificacion + ", ultimaPrevencion=" + ultimaPrevencion
+				+ "]";
 	}
+
+	
 	
 
 	

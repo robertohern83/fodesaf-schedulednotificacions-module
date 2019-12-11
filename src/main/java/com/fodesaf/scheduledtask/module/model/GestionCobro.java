@@ -14,6 +14,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -39,11 +41,16 @@ public class GestionCobro implements Serializable {/**
 	int id;
 	
 	@Getter @Setter
+	@Column (name = "Segregado")
+	String segregado;
+	
+	@Getter @Setter
 	@Column (name = "Cedula")
 	String cedula;
 	
 	@Getter @Setter
 	@Column (name = "Fechacontacto")
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	Date fechaContacto;
 	
 	@Getter @Setter
@@ -56,6 +63,7 @@ public class GestionCobro implements Serializable {/**
 	
 	@Getter @Setter
 	@Column (name = "Fechapromesapago")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate fechaPromesaPago;
 	
 	@Getter @Setter
@@ -84,17 +92,13 @@ public class GestionCobro implements Serializable {/**
 
 	@Override
 	public String toString() {
-		return "GestionCobro [id=" + id + ", cedula=" + cedula + ", fechaContacto=" + fechaContacto + ", tipoContacto="
-				+ tipoContacto + ", razonLlamada=" + razonLlamada + ", fechaPromesaPago=" + fechaPromesaPago
-				+ ", montoPrometido=" + montoPrometido + ", comentarios=" + comentarios + ", usuarioIngresa="
-				+ usuarioIngresa + ", fechaIngreso=" + fechaIngreso + ", usuarioModifica=" + usuarioModifica
-				+ ", fechaModificacion=" + fechaModificacion + "]";
+		return "GestionCobro [id=" + id + ", segregado=" + segregado + ", cedula=" + cedula + ", fechaContacto="
+				+ fechaContacto + ", tipoContacto=" + tipoContacto + ", razonLlamada=" + razonLlamada
+				+ ", fechaPromesaPago=" + fechaPromesaPago + ", montoPrometido=" + montoPrometido + ", comentarios="
+				+ comentarios + ", usuarioIngresa=" + usuarioIngresa + ", fechaIngreso=" + fechaIngreso
+				+ ", usuarioModifica=" + usuarioModifica + ", fechaModificacion=" + fechaModificacion + "]";
 	}
 
-	
-	
-	
-	
-	
 
+	
 }

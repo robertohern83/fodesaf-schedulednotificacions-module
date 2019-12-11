@@ -15,7 +15,9 @@ import com.fodesaf.scheduledtask.module.model.Campanas;
 public interface CampanaCanalesRepository extends CrudRepository<CampanaCanales, Integer>{
 	
 	CampanaCanales findByPrimaryKey(CampanaCanalesPK pk);
+	
 	List<CampanaCanales> findByPrimaryKeyCampana(Campanas campana);
-
+	
+	void deleteByPrimaryKeyCampana(Campanas campana);
 
 }

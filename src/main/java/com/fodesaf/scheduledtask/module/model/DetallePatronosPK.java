@@ -5,6 +5,8 @@ package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -19,52 +21,44 @@ import lombok.Setter;
  * @author geanque
  *
  */
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
-public class NotificacionesPK implements Serializable {
+
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@Embeddable
+public class DetallePatronosPK implements Serializable{
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	@Getter
-	@Setter
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Idsegmento", referencedColumnName = "id")
-	Segmentacion segmento;
-
-	@Getter
-	@Setter
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "Idcampana", referencedColumnName = "id")
-	Campanas campana;
-
+	
 	@Getter
 	@Setter
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "segregado", referencedColumnName = "segregado")
-	Patronos patrono;
+	Patronos segregado;
 	
-	@Getter
-	@Setter
+	
+	@Getter @Setter
+	@Column (name = "cedula")
 	String cedula;
+
+	@Getter @Setter
+	@Column (name = "Periodo")
+	String periodo;
 	
-	@Getter
-	@Setter
-	String canal;
+	@Getter @Setter
+	@Column (name = "Tipo")
+	String tipo;
 
 	@Override
 	public String toString() {
-		return "NotificacionesPK [segmento=" + segmento + ", campana=" + campana + ", patrono=" + patrono + ", cedula="
-				+ cedula + ", canal=" + canal + "]";
+		return "DetallePatronosPK [segregado=" + segregado + ", cedula=" + cedula + ", periodo=" + periodo + ", tipo="
+				+ tipo + "]";
 	}
 
 	
 	
-
 	
-
 	
 	
 

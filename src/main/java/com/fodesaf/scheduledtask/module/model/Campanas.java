@@ -1,6 +1,7 @@
 package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -41,26 +44,24 @@ public class Campanas implements Serializable{
 	@Column (name = "Nombre")
 	String nombre;
 	
-	@Getter @Setter
-	@Column (name = "Activa")
-	int activa;
 	
 	@Getter @Setter
 	@Column (name = "Estado")
 	String estado;
 
-	
 	@Getter @Setter
 	@Column (name = "Tipo")
 	String tipo;
 	
 	@Getter @Setter
 	@Column (name = "Fechainicio")
-	Date fechaInicio;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	LocalDate fechaInicio;
 	
 	@Getter @Setter
 	@Column (name = "Fechafin")
-	Date fechaFin;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	LocalDate fechaFin;
 	
 	@Getter @Setter
 	@Column (name = "Maximoresultados")
@@ -88,17 +89,12 @@ public class Campanas implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Campanas [id=" + id + ", nombre=" + nombre + ", activa=" + activa + ", estado=" + estado + ", tipo="
-				+ tipo + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", maximoResultados="
-				+ maximoResultados + ", maximoNotificacionesDiarias=" + maximoNotificacionesDiarias
-				+ ", usuarioIngresa=" + usuarioIngresa + ", fechaIngreso=" + fechaIngreso + ", usuarioModifica="
-				+ usuarioModifica + ", fechaModificacion=" + fechaModificacion + "]";
+		return "Campanas [id=" + id + ", nombre=" + nombre + ", estado=" + estado + ", tipo=" + tipo + ", fechaInicio="
+				+ fechaInicio + ", fechaFin=" + fechaFin + ", maximoResultados=" + maximoResultados
+				+ ", maximoNotificacionesDiarias=" + maximoNotificacionesDiarias + ", usuarioIngresa=" + usuarioIngresa
+				+ ", fechaIngreso=" + fechaIngreso + ", usuarioModifica=" + usuarioModifica + ", fechaModificacion="
+				+ fechaModificacion + "]";
 	}
-	
-
-	
-	
-	
 	
 	
 

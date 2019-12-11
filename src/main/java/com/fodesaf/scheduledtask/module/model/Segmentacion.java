@@ -63,7 +63,7 @@ public class Segmentacion implements Serializable {
 	
 	@Getter @Setter
 	@Column (name = "Sinnotificacion")
-	int sinNotificacion;
+	int sinNotificacion = -1;
 	
 	@Getter @Setter
 	@Column (name = "Montominimo")
