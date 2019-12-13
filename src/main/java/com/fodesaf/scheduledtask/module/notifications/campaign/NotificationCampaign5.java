@@ -89,11 +89,11 @@ public class NotificationCampaign5 implements Notification {
 			int consecutive = (int)notificationData.get("Consecutive");
 			
 			Map<String, Object> params = new HashMap<>();
-			params.put("pSegregadoPrincipal", segregado);
+			params.put("pSegregado", segregado);
 			params.put("pConsecutive", consecutive);
 			byte[] file = null;
 			try {
-				file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana5_BD.jasper", "pdf");
+				file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana5PrevencionCobro.jasper", "pdf");
 				messageIdResult = 
 						emailService.sendEmailNotification(
 								emailSender, 

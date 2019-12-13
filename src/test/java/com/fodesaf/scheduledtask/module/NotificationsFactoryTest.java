@@ -197,12 +197,12 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign4ByEmail() {
-		Notification notification = factory.getCaseService("CAMPAIGN4");
+		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000100575474001001");
+		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("DeudaTotal", 12345.45);
 		notificationData.put("Consecutive", 9999);
@@ -241,13 +241,13 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign5ByEmail() {
-		Notification notification = factory.getCaseService("CAMPAIGN5");
+		Notification notification = factory.getCaseService("Preven. solo Periodos");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
 		notificationData.put("Attemp", 1);
-		notificationData.put("Segregado", "000100575474001001");
+		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("DeudaTotal", 12345.45);
 		notificationData.put("Consecutive", 9999);
