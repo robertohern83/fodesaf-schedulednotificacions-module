@@ -38,22 +38,25 @@
 			<property name="com.jaspersoft.studio.field.label" value="Multa"/>
 		</field>
 	</subDataset>
-	<parameter name="pCedula" class="java.lang.String">
-		<defaultValueExpression><![CDATA["03101101324"]]></defaultValueExpression>
+	<parameter name="pSegregado" class="java.lang.String">
+		<defaultValueExpression><![CDATA["203101101324002001"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT Cedula, Nombre, SUM(Principal) as Principal, 
+		<![CDATA[SELECT Cedula,Segregado, Nombre
+, SUM(Principal) as Principal,
 SUM(Recargos) as Recargos, 
 SUM(Multas) as Multas, 
 SUM(Saldo_Arreglo) as Saldo_Arreglo, 
+SUM(Principal_Arreglo) as Principal_Arreglo, 
 SUM(Intereses_Moratorios) as Intereses_Moratorios, 
 SUM(Deuda_Total) as Deuda_Total, 
 SUM(Intereses_Administrativos) as Intereses_Administrativos,
 SUM(Total_Periodos) as Total_Periodos,
+SUM(Cuotas_Al_Cobro) as Cuotas_Al_Cobro,
 SUM(Total_Arreglo) as Total_Arreglo
-FROM DBCobrosFodesaf.dbo.Patronos
-where Cedula = $P{pCedula}
-group by Cedula, Nombre]]>
+FROM Patronos
+where Segregado = $P{pSegregado}
+group by Cedula,Segregado, Nombre]]>
 	</queryString>
 	<field name="Cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="Cedula"/>
@@ -82,7 +85,10 @@ group by Cedula, Nombre]]>
 	<field name="Intereses_Administrativos" class="java.lang.Double">
 		<property name="com.jaspersoft.studio.field.label" value="Intereses_Administrativos"/>
 	</field>
+	<field name="Principal_Arreglo" class="java.lang.Double"/>
+	<field name="Segregado" class="java.lang.String"/>
 	<field name="Total_Periodos" class="java.lang.Double"/>
+	<field name="Cuotas_Al_Cobro" class="java.lang.Double"/>
 	<field name="Total_Arreglo" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
@@ -113,20 +119,6 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<line>
 				<reportElement x="-20" y="-32" width="560" height="1" uuid="99fd3545-8756-43e2-9f2b-6065c5370d90"/>
 			</line>
-			<staticText>
-				<reportElement x="47" y="60" width="413" height="10" uuid="9883b6a8-b5fd-4da1-a909-762a1934e3bb"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[San José, Barrio Amón 400 N. del Auto Mercado, contiguo Equipos Nieto <><> Del INVU 100 O. y 25 N.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="47" y="70" width="413" height="10" uuid="aca7c77b-c5f2-4ad6-92fd-07636c1f9b43"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Correo electrónico: desaf.cobros@mtss.go.cr]]></text>
-			</staticText>
 			<textField evaluationTime="Report" pattern="hh:mm a">
 				<reportElement x="410" y="30" width="101" height="10" uuid="32a929ee-6dfb-4d9c-8245-3b977df1e2ae"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -144,202 +136,269 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 		</band>
 	</title>
 	<pageHeader>
-		<band height="221" splitType="Stretch">
+		<band height="404" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
-			<rectangle>
-				<reportElement x="1" y="30" width="510" height="180" uuid="ccd970c1-3692-4e0e-8fa5-9dbf9894a156"/>
-			</rectangle>
 			<textField>
-				<reportElement x="70" y="50" width="260" height="17" uuid="f984eec9-4f2b-4f3c-9d47-b2df24b055c5"/>
+				<reportElement x="70" y="257" width="260" height="17" uuid="f984eec9-4f2b-4f3c-9d47-b2df24b055c5"/>
 				<textFieldExpression><![CDATA[$F{Nombre}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="70" y="33" width="260" height="17" uuid="3417199a-cdfb-4585-902d-57d4c9e29f47"/>
-				<textFieldExpression><![CDATA[$F{Cedula}]]></textFieldExpression>
+				<reportElement x="69" y="240" width="260" height="17" uuid="3417199a-cdfb-4585-902d-57d4c9e29f47"/>
+				<textFieldExpression><![CDATA[$F{Segregado}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement x="0" y="0" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
-				<textElement textAlignment="Left" verticalAlignment="Middle">
+				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PAGUE EN LÍNEA EN BCR, PAGO DE SERVICIOS, CUOTAS Y PLANES - SERVICIO DE COBRO]]></text>
+				<text><![CDATA[PREVENCIÓN DE COBRO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="33" width="60" height="17" uuid="156b67b1-2cf6-4302-921e-6e879c41134d"/>
-				<text><![CDATA[Cédula: ]]></text>
+				<reportElement x="10" y="240" width="60" height="17" uuid="156b67b1-2cf6-4302-921e-6e879c41134d"/>
+				<text><![CDATA[Número:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="50" width="60" height="17" uuid="2b9c65ec-adb2-4ae1-be4b-3ffc186828df"/>
+				<reportElement x="10" y="257" width="60" height="17" uuid="2b9c65ec-adb2-4ae1-be4b-3ffc186828df"/>
 				<text><![CDATA[Nombre]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="75" width="100" height="15" uuid="f9ae1811-8834-4a9b-8253-c25ffb9cc8fc"/>
+				<reportElement x="10" y="282" width="100" height="15" uuid="f9ae1811-8834-4a9b-8253-c25ffb9cc8fc"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Deuda por planillas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="90" width="120" height="15" uuid="9f147eae-9b15-46bf-b79c-f218453f2ee5"/>
+				<reportElement x="10" y="297" width="120" height="15" uuid="9f147eae-9b15-46bf-b79c-f218453f2ee5"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Períodos Atrasados]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="130" y="90" width="120" height="15" uuid="4984bb4f-8f23-41e6-86eb-7cf4b163e5b6"/>
+				<reportElement x="130" y="297" width="120" height="15" uuid="4984bb4f-8f23-41e6-86eb-7cf4b163e5b6"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Intereses moratorios]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="250" y="90" width="120" height="15" uuid="d475b3f7-53d4-4faa-8b76-0b0fc59bbc23"/>
+				<reportElement x="250" y="297" width="120" height="15" uuid="d475b3f7-53d4-4faa-8b76-0b0fc59bbc23"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Multas atrasadas]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="90" width="120" height="15" uuid="5de91675-8f1d-4e6c-9e66-a0bb485b0366"/>
+				<reportElement x="370" y="297" width="120" height="15" uuid="5de91675-8f1d-4e6c-9e66-a0bb485b0366"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Total atraso por planillas]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="10" y="105" width="120" height="15" uuid="79e984f8-6a1b-4014-98ed-216d33ace629"/>
+				<reportElement x="10" y="312" width="120" height="15" uuid="79e984f8-6a1b-4014-98ed-216d33ace629"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Principal}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="130" y="105" width="120" height="15" uuid="98e77f00-f27c-4e8e-9f01-f5c2ea3e9ea4"/>
+				<reportElement x="130" y="312" width="120" height="15" uuid="98e77f00-f27c-4e8e-9f01-f5c2ea3e9ea4"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Recargos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="105" width="120" height="15" uuid="5b4d946e-7576-428b-937a-290df3205228"/>
+				<reportElement x="250" y="312" width="120" height="15" uuid="5b4d946e-7576-428b-937a-290df3205228"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Multas}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="130" y="160" width="120" height="15" uuid="8352d0a2-0f2b-48ed-b68a-bbc314d636dc"/>
+				<reportElement x="130" y="367" width="120" height="15" uuid="8352d0a2-0f2b-48ed-b68a-bbc314d636dc"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Intereses_Administrativos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="160" width="120" height="15" uuid="8554da03-5080-4435-96d9-f3bdfdcd296a"/>
+				<reportElement x="250" y="367" width="120" height="15" uuid="8554da03-5080-4435-96d9-f3bdfdcd296a"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Intereses_Moratorios}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="250" y="145" width="120" height="15" uuid="56e08a04-efdd-408d-bb5e-a2ae751745bf"/>
+				<reportElement x="250" y="352" width="120" height="15" uuid="56e08a04-efdd-408d-bb5e-a2ae751745bf"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Intereses moratorios]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="130" width="100" height="15" uuid="8e0e5cf6-8c9a-4901-b327-16dd3d997ae0"/>
+				<reportElement x="10" y="337" width="120" height="15" uuid="8e0e5cf6-8c9a-4901-b327-16dd3d997ae0"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Deuda por arreglos]]></text>
+				<text><![CDATA[Deuda por arreglo de pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="370" y="145" width="120" height="15" uuid="84074825-6629-4a14-b51c-6b1bdfeebd98"/>
+				<reportElement x="370" y="352" width="120" height="15" uuid="84074825-6629-4a14-b51c-6b1bdfeebd98"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Total deuda por arreglo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="130" y="145" width="120" height="15" uuid="62c269fc-564b-463a-974b-412886faa72a"/>
+				<reportElement x="130" y="352" width="120" height="15" uuid="62c269fc-564b-463a-974b-412886faa72a"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Intereses Administrativos]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="10" y="160" width="120" height="15" uuid="6ccda2d9-2418-404e-993b-4e0bb9e0f5dc"/>
+				<reportElement x="10" y="367" width="120" height="15" uuid="6ccda2d9-2418-404e-993b-4e0bb9e0f5dc"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Saldo_Arreglo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="145" width="120" height="15" uuid="9ecb7246-2f21-4fcf-97e1-a65a3af0cf77"/>
+				<reportElement x="10" y="352" width="120" height="15" uuid="9ecb7246-2f21-4fcf-97e1-a65a3af0cf77"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Saldo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="180" width="100" height="15" uuid="28934cd7-bca8-4ec4-9775-154798a0329e"/>
-				<textElement>
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Honorarios y costas:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="110" y="180" width="120" height="15" uuid="ecfddce6-03bf-4890-9953-646d994777af"/>
-				<textElement textAlignment="Center">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["0.00"]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="230" y="180" width="130" height="15" uuid="99dca698-9c33-4d65-871d-cd7fdbaff1c8"/>
+				<reportElement x="154" y="387" width="130" height="15" uuid="99dca698-9c33-4d65-871d-cd7fdbaff1c8"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Monto total de la deuda]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="360" y="180" width="130" height="15" uuid="638f93f6-1c09-4799-b17c-2d33b24242fc"/>
+				<reportElement x="288" y="387" width="130" height="15" uuid="638f93f6-1c09-4799-b17c-2d33b24242fc"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Deuda_Total}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="2" y="-23" width="520" height="20" uuid="48760194-813b-4733-ae9c-afe548d16be8"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[GCO-08134-2019]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="30" width="493" height="40" uuid="0c42d810-1e2b-4f69-9a1c-45d79ae42760"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[De conformidad con la competencia del Departamento de Gestión de Cobro, respecto al proceso del recargo del 5% de las planillas que todo patrono debe pagar al FODESAF (Ley 8783 reforma a la Ley 5662, art. 15), se le notifica que su obligación se encuentra incumplida, según el siguiente detalle:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="70" width="330" height="15" uuid="8cec3bce-470f-4b4e-a5e0-ee220f2637bf"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Tiene un atraso en el arreglo de pago por un monto de:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="33" y="90" width="330" height="15" uuid="e93da7e8-638d-4338-87ad-2a9ec467ffc8"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Además tiene periodos nuevos fuera de arreglo por:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="107" width="493" height="34" uuid="54e370d3-d06a-4765-af6b-9e0a7084277c"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Dado lo anterior se le concede un plazo de 10 días hábiles improrrogables para que proceda a poner al día su deuda. VENCIDO EL PLAZO SE PROCEDERA A TRASLADAR SU DEDUDA A COBRO JUDICIAL, ADICIONANDO LOS RECARGOS LEGALES RESPECTIVOS.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="165" width="493" height="34" uuid="f48b63d0-a8b3-4b41-8d4d-f3730c122332"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Se adjunta el estado de cuenta con el detalle de su deuda. Los datos corresponden a la ultima información reportada por la Caja Costarricense del Seguro Social.
+
+]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="194" width="493" height="30" uuid="0952c37d-4bee-413f-8c6e-41f3a1eb36da"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Si usted efectuó sus pagos, y recibe este Aviso, repórtelos al correo ¨desaf.cobros”mtss.go.cr¨, incluyendo su numero de cedula correspondiente.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="14" y="222" width="493" height="18" uuid="7ba32bee-1f15-4b82-b406-75792757949a"/>
+				<textElement textAlignment="Center">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAGUE EN LINEA CON SU NUMERO PATRONAL A TRAVES DEL BCR-PLANES Y CUOTAS FODESAF.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="142" width="493" height="34" uuid="80ab2336-9ba0-43c3-8dd7-a7bdba8e2ec0"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[VENCIDO EL PLAZO SE PROCEDERA A TRASLADAR SU DEDUDA A COBRO JUDICIAL, ADICIONANDO LOS RECARGOS LEGALES RESPECTIVOS.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="12" y="237" width="491" height="1" uuid="99bb99c9-19de-4249-8e2f-a7d22a36bfcc"/>
+			</line>
+			<line>
+				<reportElement x="11" y="276" width="491" height="1" uuid="eed0af32-34c0-4f0f-927f-af355314d6ae"/>
+			</line>
 			<textField>
-				<reportElement x="380" y="104" width="110" height="30" uuid="c000d3ea-b49b-41c5-a6cf-a9a9beec8d32"/>
+				<reportElement x="322" y="73" width="181" height="12" uuid="9bae1ac8-9fc4-49b4-9458-2ff427a6bc15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Cuotas_Al_Cobro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="91" width="181" height="15" uuid="67fe9b52-bfc1-41ed-a22e-4b3feff72d92"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="312" width="121" height="15" uuid="3a8195dd-c59a-43e1-9ba1-111b2dd948d5"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="160" width="110" height="30" uuid="0b64df54-8799-48ad-bceb-37db8a7e7265"/>
+				<reportElement x="370" y="367" width="120" height="20" uuid="84bb59b0-04d7-4ffb-b137-c640eec5aca8"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Arreglo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
 	<detail>
-		<band height="72">
+		<band height="78">
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 			<subreport>
 				<reportElement x="10" y="10" width="515" height="50" uuid="9e203469-b024-47c9-961b-0a4e1bca2115"/>
-				<subreportParameter name="pCedula">
-					<subreportParameterExpression><![CDATA[$P{pCedula}]]></subreportParameterExpression>
+				<subreportParameter name="pSegregado">
+					<subreportParameterExpression><![CDATA[$P{pSegregado}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA["Campana2_BD_Detalle.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["CampanaPrevencion_Detalle.jasper"]]></subreportExpression>
 			</subreport>
+			<line>
+				<reportElement x="10" y="2" width="491" height="1" uuid="17bcb903-a1f6-43d5-913e-313bd28927de"/>
+			</line>
 		</band>
-		<band height="189">
+		<band height="254">
 			<staticText>
-				<reportElement x="14" y="17" width="486" height="134" uuid="244e5637-7e86-453c-88c3-d1b6e3388d7d"/>
+				<reportElement x="14" y="6" width="486" height="134" uuid="0e92bbab-6d59-418c-bc0b-01aa24ffd0e2"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
@@ -352,8 +411,32 @@ Con base en lo reportado por la CCSS, con un corte al 18/10/2019.
 ]]></text>
 			</staticText>
 			<line>
-				<reportElement x="10" y="12" width="473" height="1" uuid="699d0bcf-072c-4635-a2de-692cfdcc41ff"/>
+				<reportElement x="10" y="114" width="491" height="1" uuid="3a626c54-d2ee-4ba2-84c2-5bd07598d160"/>
 			</line>
+			<line>
+				<reportElement x="10" y="2" width="491" height="1" uuid="d3b52243-81a6-4493-aa1f-a25e340d05c9"/>
+			</line>
+			<staticText>
+				<reportElement x="17" y="120" width="486" height="20" uuid="cfcfc4d9-ed4b-4e18-98a3-6f8deea5cdad"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Dirección: TUCURRIQUE, COSTADO SUR DE LA PLAZA DE DEPORTES, CARNICERIA TUCURRIQUE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="150" width="486" height="20" uuid="ee1d8fae-27d8-4633-be41-66d4bc35a430"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Teléfono:87879909	Fax:00000000	Actualizado por la CCSS: ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="16" y="180" width="486" height="20" uuid="19afb6fb-ac82-4b8a-a98f-fac608e6f0ba"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Correo: INDUSTRIASQUIFER01@HOTMAIL.COM]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>

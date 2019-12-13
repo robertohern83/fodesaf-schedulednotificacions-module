@@ -39,7 +39,7 @@
 		</field>
 	</subDataset>
 	<parameter name="pSegregado" class="java.lang.String">
-		<defaultValueExpression><![CDATA["000100596918001001"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["203101101324002001"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT Cedula,Segregado, Nombre
@@ -50,11 +50,13 @@ SUM(Saldo_Arreglo) as Saldo_Arreglo,
 SUM(Principal_Arreglo) as Principal_Arreglo, 
 SUM(Intereses_Moratorios) as Intereses_Moratorios, 
 SUM(Deuda_Total) as Deuda_Total, 
-SUM(Intereses_Administrativos) as Intereses_Administrativos
+SUM(Intereses_Administrativos) as Intereses_Administrativos,
+SUM(Total_Periodos) as Total_Periodos,
+SUM(Cuotas_Al_Cobro) as Cuotas_Al_Cobro,
+SUM(Total_Arreglo) as Total_Arreglo
 FROM Patronos
 where Segregado = $P{pSegregado}
-group by Cedula,Segregado, Nombre
-]]>
+group by Cedula,Segregado, Nombre]]>
 	</queryString>
 	<field name="Cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="Cedula"/>
@@ -85,6 +87,9 @@ group by Cedula,Segregado, Nombre
 	</field>
 	<field name="Principal_Arreglo" class="java.lang.Double"/>
 	<field name="Segregado" class="java.lang.String"/>
+	<field name="Total_Periodos" class="java.lang.Double"/>
+	<field name="Cuotas_Al_Cobro" class="java.lang.Double"/>
+	<field name="Total_Arreglo" class="java.lang.Double"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -131,7 +136,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 		</band>
 	</title>
 	<pageHeader>
-		<band height="402" splitType="Stretch">
+		<band height="404" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 			<textField>
@@ -212,20 +217,6 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Multas}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="370" y="312" width="120" height="15" uuid="233790d3-eac1-4d94-83d2-22ab2a2a535b"/>
-				<textElement textAlignment="Center">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["COLUMNA"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="370" y="367" width="120" height="15" uuid="1501ca7b-b53d-41ff-9b11-b27ad3438a9f"/>
-				<textElement textAlignment="Center">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["COLUMNA"]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="130" y="367" width="120" height="15" uuid="8352d0a2-0f2b-48ed-b68a-bbc314d636dc"/>
@@ -337,7 +328,9 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Se adjunta el estado de cuenta con el detalle de su deuda. Los datos corresponden a la ultima información reportada por la Caja Costarricense del Seguro Social.]]></text>
+				<text><![CDATA[Se adjunta el estado de cuenta con el detalle de su deuda. Los datos corresponden a la ultima información reportada por la Caja Costarricense del Seguro Social.
+
+]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="194" width="493" height="30" uuid="0952c37d-4bee-413f-8c6e-41f3a1eb36da"/>
@@ -353,18 +346,6 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[PAGUE EN LINEA CON SU NUMERO PATRONAL A TRAVES DEL BCR-PLANES Y CUOTAS FODESAF.]]></text>
 			</staticText>
-			<textField>
-				<reportElement x="365" y="92" width="113" height="15" uuid="a549931c-58aa-4ae1-b16f-a6f3bbb5bfd6"/>
-				<textElement textAlignment="Right">
-					<font size="9"/>
-				</textElement>
-				<textFieldExpression><![CDATA["COLUMNA"]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="382" y="72" width="120" height="14" uuid="eb0ff67f-2129-4097-88ed-d39b81b8f875"/>
-				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{Principal_Arreglo}]]></textFieldExpression>
-			</textField>
 			<staticText>
 				<reportElement x="10" y="142" width="493" height="34" uuid="80ab2336-9ba0-43c3-8dd7-a7bdba8e2ec0"/>
 				<textElement textAlignment="Justified">
@@ -378,6 +359,26 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<line>
 				<reportElement x="11" y="276" width="491" height="1" uuid="eed0af32-34c0-4f0f-927f-af355314d6ae"/>
 			</line>
+			<textField>
+				<reportElement x="322" y="73" width="181" height="12" uuid="9bae1ac8-9fc4-49b4-9458-2ff427a6bc15"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Cuotas_Al_Cobro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="321" y="91" width="181" height="15" uuid="67fe9b52-bfc1-41ed-a22e-4b3feff72d92"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="312" width="121" height="15" uuid="3a8195dd-c59a-43e1-9ba1-111b2dd948d5"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="370" y="367" width="120" height="20" uuid="84bb59b0-04d7-4ffb-b137-c640eec5aca8"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{Total_Arreglo}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>
@@ -401,7 +402,13 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[La columna TIPO se refiere a si la planilla es Ordinaria o Extraordinaria.La columna FECHA se refiere a la fecha de la planilla.La columna MONTO se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.La columna RECARGO se refiere al 1.5% del monto de la planilla.La columna MULTA corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.Con base en lo reportado por la CCSS, con un corte al 18/10/2019.]]></text>
+				<text><![CDATA[La columna TIPO se refiere a si la planilla es Ordinaria o Extraordinaria.
+La columna FECHA se refiere a la fecha de la planilla.
+La columna MONTO se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
+La columna RECARGO se refiere al 1.5% del monto de la planilla.
+La columna MULTA corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
+Con base en lo reportado por la CCSS, con un corte al 18/10/2019.
+]]></text>
 			</staticText>
 			<line>
 				<reportElement x="10" y="114" width="491" height="1" uuid="3a626c54-d2ee-4ba2-84c2-5bd07598d160"/>
