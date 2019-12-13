@@ -215,28 +215,28 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Principal}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="130" y="105" width="120" height="15" uuid="98e77f00-f27c-4e8e-9f01-f5c2ea3e9ea4"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Recargos}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="250" y="105" width="120" height="15" uuid="5b4d946e-7576-428b-937a-290df3205228"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Multas}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="130" y="160" width="120" height="15" uuid="8352d0a2-0f2b-48ed-b68a-bbc314d636dc"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Intereses_Administrativos}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="250" y="160" width="120" height="15" uuid="8554da03-5080-4435-96d9-f3bdfdcd296a"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -271,7 +271,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Intereses Administrativos]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="10" y="160" width="120" height="15" uuid="6ccda2d9-2418-404e-993b-4e0bb9e0f5dc"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -306,20 +306,20 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Monto total de la deuda]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="360" y="180" width="130" height="15" uuid="638f93f6-1c09-4799-b17c-2d33b24242fc"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Deuda_Total}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="380" y="104" width="110" height="30" uuid="c000d3ea-b49b-41c5-a6cf-a9a9beec8d32"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
 			</textField>
-			<textField>
-				<reportElement x="380" y="160" width="110" height="30" uuid="0b64df54-8799-48ad-bceb-37db8a7e7265"/>
+			<textField pattern="#,##0.00#">
+				<reportElement x="378" y="160" width="110" height="20" uuid="0b64df54-8799-48ad-bceb-37db8a7e7265"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Arreglo}]]></textFieldExpression>
 			</textField>
