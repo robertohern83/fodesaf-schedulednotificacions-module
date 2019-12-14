@@ -28,19 +28,19 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testNotificationCampaign1Load() {
-		Notification notification = factory.getCaseService("CAMPAIGN1");
+		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		System.out.println(notification);
 		Assert.assertNotNull(notification);
 	}
 	
 	@Test
 	void testSendNotificationCampaign1ByEmailAttemp1() {
-		Notification notification = factory.getCaseService("CAMPAIGN1");
+		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000100575474001001");
+		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("CuotasAlCobro", 12345.45);
 		notificationData.put("Attemp", 1);
@@ -50,12 +50,12 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign1ByEmailAttemp2() {
-		Notification notification = factory.getCaseService("CAMPAIGN1");
+		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000100575474001001");
+		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("CuotasAlCobro", 12345.45);
 		notificationData.put("Attemp", 2);
@@ -65,12 +65,12 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign1BySMS() {
-		Notification notification = factory.getCaseService("CAMPAIGN1");
+		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000100575474001001");
+		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("CuotasAlCobro", 12345.45);
 		notificationData.put("Telefono", "87307606");
@@ -81,12 +81,12 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign2BySMS() {
-		Notification notification = factory.getCaseService("CAMPAIGN2");
+		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Cedula", "00100596918");
+		notificationData.put("Cedula", "00107050876");
 		notificationData.put("DeudaTotal", 12345.45);
 		notificationData.put("Telefono", "87307606");
 		
@@ -95,12 +95,12 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign2ByEmail() {
-		Notification notification = factory.getCaseService("CAMPAIGN2");
+		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Cedula", "00100596918");
+		notificationData.put("Cedula", "00107050876");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("DeudaTotal", 12345.45);
 		
@@ -109,12 +109,12 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign2ByVoice() {
-		Notification notification = factory.getCaseService("CAMPAIGN2");
+		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Cedula", "00100596918");
+		notificationData.put("Cedula", "00107050876");
 		notificationData.put("DeudaTotal", 12345345.45);
 		notificationData.put("Telefono", "87307606");
 		
@@ -123,14 +123,14 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testNotificationCampaign2Load() {
-		Notification notification = factory.getCaseService("CAMPAIGN2");
+		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		System.out.println(notification);
 		Assert.assertNotNull(notification);
 	}
 	
 	@Test
 	void testSendNotificationCampaign3ByEmailAttemp1() {
-		Notification notification = factory.getCaseService("CAMPAIGN3");
+		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -143,7 +143,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign3ByEmailAttemp2() {
-		Notification notification = factory.getCaseService("CAMPAIGN3");
+		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -156,7 +156,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign3BySMS() {
-		Notification notification = factory.getCaseService("CAMPAIGN3");
+		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -169,7 +169,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign4BySMSAttemp1() {
-		Notification notification = factory.getCaseService("CAMPAIGN4");
+		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -183,7 +183,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign4BySMSAttemp2() {
-		Notification notification = factory.getCaseService("CAMPAIGN4");
+		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -213,7 +213,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign5BySMSAttemp1() {
-		Notification notification = factory.getCaseService("CAMPAIGN5");
+		Notification notification = factory.getCaseService("Preven. solo Periodos");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -227,7 +227,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign5BySMSAttemp2() {
-		Notification notification = factory.getCaseService("CAMPAIGN5");
+		Notification notification = factory.getCaseService("Preven. solo Periodos");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
