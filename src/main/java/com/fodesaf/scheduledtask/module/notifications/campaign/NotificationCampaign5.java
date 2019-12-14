@@ -86,7 +86,7 @@ public class NotificationCampaign5 implements Notification {
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			String correo = (String)notificationData.get("Correo");
-			int consecutive = (int)notificationData.get("Consecutive");
+			String consecutive = (String)notificationData.get("Consecutive");
 			
 			Map<String, Object> params = new HashMap<>();
 			params.put("pSegregado", segregado);

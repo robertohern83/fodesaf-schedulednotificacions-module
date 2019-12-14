@@ -41,6 +41,9 @@
 	<parameter name="pSegregado" class="java.lang.String">
 		<defaultValueExpression><![CDATA["00000"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="pConsecutive" class="java.lang.String">
+		<defaultValueExpression><![CDATA["00001"]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[SELECT Cedula,Segregado, Nombre
 , SUM(Principal) as Principal,
@@ -132,6 +135,13 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="62" width="520" height="20" uuid="512f4aaa-976a-419d-919c-87ecc4458913"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GCO-" + $P{pConsecutive} + "-2019"]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -288,13 +298,6 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Deuda_Total}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="2" y="-23" width="520" height="20" uuid="48760194-813b-4733-ae9c-afe548d16be8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[GCO-08027-2019]]></text>
-			</staticText>
 			<staticText>
 				<reportElement x="10" y="30" width="493" height="40" uuid="0c42d810-1e2b-4f69-9a1c-45d79ae42760"/>
 				<textElement textAlignment="Justified">

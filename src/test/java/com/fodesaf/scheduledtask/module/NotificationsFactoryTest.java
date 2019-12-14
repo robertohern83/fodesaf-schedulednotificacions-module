@@ -205,7 +205,7 @@ class NotificationsFactoryTest {
 		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Consecutive", 9999);
+		notificationData.put("Consecutive", "9999");
 		notificationData.put("Attemp", 1);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
@@ -250,7 +250,7 @@ class NotificationsFactoryTest {
 		notificationData.put("Segregado", "000107050876001001");
 		notificationData.put("Correo", "consultorias.rhm@gmail.com");
 		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Consecutive", 9999);
+		notificationData.put("Consecutive", "9999");
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
