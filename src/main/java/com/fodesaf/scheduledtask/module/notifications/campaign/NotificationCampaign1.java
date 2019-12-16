@@ -2,6 +2,7 @@ package com.fodesaf.scheduledtask.module.notifications.campaign;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -141,7 +142,8 @@ public class NotificationCampaign1 implements Notification {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			
-			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), smsSender, MessageType.PROMOTIONAL);
+			DecimalFormat df = new DecimalFormat("#.00"); 
+			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(cuotasAlCobro)), smsSender, MessageType.PROMOTIONAL);
 			
 			break;
 		case EMAIL:

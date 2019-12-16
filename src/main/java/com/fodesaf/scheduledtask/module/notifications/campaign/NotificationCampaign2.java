@@ -136,12 +136,15 @@ public class NotificationCampaign2 implements Notification {
 		String cedula = (String)notificationData.get("Cedula");
 		String telefono = (String)notificationData.get("Telefono");
 		double deudaTotal = (double)notificationData.get("DeudaTotal");
+		DecimalFormat df;
 		
 		switch (channel) {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			
-			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", String.valueOf(deudaTotal)), smsSender, MessageType.PROMOTIONAL);
+			df = new DecimalFormat("#.00"); 
+			
+			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(deudaTotal)), smsSender, MessageType.PROMOTIONAL);
 			
 			break;
 		case EMAIL:
@@ -173,8 +176,7 @@ public class NotificationCampaign2 implements Notification {
 			System.out.println(String.format("Enviando notificación por voz, %s", this.getSupportedCampaign()));
 			
 			Map<String, String> attributes = new HashMap<>();
-			DecimalFormat df = new DecimalFormat("#.00"); 
-			System.out.println(df.format(deudaTotal));
+			df = new DecimalFormat("#.00"); 
 			
 			attributes.put("deudaTotal", df.format(deudaTotal));
 			

@@ -1,5 +1,6 @@
 package com.fodesaf.scheduledtask.module.notifications.campaign;
 
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -171,7 +172,9 @@ public class NotificationCampaign3 implements Notification {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			
-			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", String.valueOf(cuotaAlCobro)), smsSender, MessageType.PROMOTIONAL);
+			DecimalFormat df = new DecimalFormat("#.00"); 
+			
+			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(cuotaAlCobro)), smsSender, MessageType.PROMOTIONAL);
 			
 			break;
 		case EMAIL:
