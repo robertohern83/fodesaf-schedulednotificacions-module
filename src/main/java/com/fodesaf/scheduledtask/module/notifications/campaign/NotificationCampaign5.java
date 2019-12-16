@@ -66,15 +66,13 @@ public class NotificationCampaign5 implements Notification {
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) {
 		String messageIdResult = null;
 		
-		if (null == notificationData.get("Cedula") 
-				|| null == notificationData.get("Telefono") 
+		if ( null == notificationData.get("Telefono") 
 				|| null == notificationData.get("CuotaAlCobro")
 				|| null == notificationData.get("DeudaTotal")
 				|| null == notificationData.get("Segregado")) {
 			return "";
 		}
 		
-		String cedula = (String)notificationData.get("Cedula");
 		String segregado = (String)notificationData.get("Segregado");
 		String telefono = (String)notificationData.get("Telefono");
 		double deudaTotal = (double)notificationData.get("DeudaTotal");
