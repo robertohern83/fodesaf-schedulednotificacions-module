@@ -72,6 +72,10 @@ public class Campanas implements Serializable{
 	int maximoNotificacionesDiarias;
 	
 	@Getter @Setter
+	@Column (name = "Cantidadpatronos", nullable = true)
+	Integer cantidadPatronos;
+	
+	@Getter @Setter
 	@Column (name = "Usuarioingresa")
 	String usuarioIngresa;
 	
@@ -91,10 +95,12 @@ public class Campanas implements Serializable{
 	public String toString() {
 		return "Campanas [id=" + id + ", nombre=" + nombre + ", estado=" + estado + ", tipo=" + tipo + ", fechaInicio="
 				+ fechaInicio + ", fechaFin=" + fechaFin + ", maximoResultados=" + maximoResultados
-				+ ", maximoNotificacionesDiarias=" + maximoNotificacionesDiarias + ", usuarioIngresa=" + usuarioIngresa
-				+ ", fechaIngreso=" + fechaIngreso + ", usuarioModifica=" + usuarioModifica + ", fechaModificacion="
-				+ fechaModificacion + "]";
+				+ ", maximoNotificacionesDiarias=" + maximoNotificacionesDiarias + ", cantidadPatronos="
+				+ cantidadPatronos + ", usuarioIngresa=" + usuarioIngresa + ", fechaIngreso=" + fechaIngreso
+				+ ", usuarioModifica=" + usuarioModifica + ", fechaModificacion=" + fechaModificacion + "]";
 	}
+
+	
 	
 	
 

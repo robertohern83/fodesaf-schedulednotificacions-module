@@ -54,16 +54,16 @@ public class Segmentacion implements Serializable {
 	String regimen;
 	
 	@Setter @Getter
-	@Column (name = "Estado")
-	String estado;
+	@Column (name = "Situacion")
+	String situacion;
 	
 	@Getter @Setter
-	@Column (name = "Alerta")
-	String alerta;
+	@Column (name = "Categoriaalerta")
+	Integer categoriaAlerta;
 	
 	@Getter @Setter
 	@Column (name = "Sinnotificacion")
-	int sinNotificacion = -1;
+	Integer sinNotificacion;
 	
 	@Getter @Setter
 	@Column (name = "Montominimo")
@@ -72,6 +72,14 @@ public class Segmentacion implements Serializable {
 	@Getter @Setter
 	@Column (name = "Montomaximo")
 	Double montoMaximo;
+	
+	@Getter @Setter
+	@Column (name = "Cuotasdesde", nullable = true)
+	Integer cuotasDesde;
+	
+	@Getter @Setter
+	@Column (name = "Cuotashasta", nullable = true)
+	Integer cuotasHasta;
 	
 	@Getter @Setter
 	@Column (name = "Usuarioingresa")
@@ -91,12 +99,14 @@ public class Segmentacion implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Segmentacion [id=" + id + ", campana=" + campana + ", regimen=" + regimen + ", estado=" + estado
-				+ ", alerta=" + alerta + ", sinNotificacion=" + sinNotificacion + ", montoMinimo=" + montoMinimo
-				+ ", montoMaximo=" + montoMaximo + ", usuarioIngresa=" + usuarioIngresa + ", fechaIngreso="
-				+ fechaIngreso + ", usuarioModifica=" + usuarioModifica + ", fechaModificacion=" + fechaModificacion
-				+ "]";
+		return "Segmentacion [id=" + id + ", campana=" + campana + ", regimen=" + regimen + ", situacion=" + situacion
+				+ ", categoriaAlerta=" + categoriaAlerta + ", sinNotificacion=" + sinNotificacion + ", montoMinimo="
+				+ montoMinimo + ", montoMaximo=" + montoMaximo + ", cuotasDesde=" + cuotasDesde + ", cuotasHasta="
+				+ cuotasHasta + ", usuarioIngresa=" + usuarioIngresa + ", fechaIngreso=" + fechaIngreso
+				+ ", usuarioModifica=" + usuarioModifica + ", fechaModificacion=" + fechaModificacion + "]";
 	}
+
+	
 
 	
 	

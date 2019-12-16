@@ -145,6 +145,13 @@ public class Patronos implements Serializable {
 	@Column (name = "Ultima_Prevencion")
 	Date ultimaPrevencion;
 	
+	@Getter @Setter
+	@Column (name = "Total_Periodos")
+	Double totalPeriodos;
+	
+	@Getter @Setter
+	@Column (name = "Total_Arreglo")
+	Double totalArreglo;
 
 	@Override
 	public String toString() {
@@ -158,8 +165,11 @@ public class Patronos implements Serializable {
 				+ ", principal=" + principal + ", recargos=" + recargos + ", multas=" + multas + ", correo=" + correo
 				+ ", telefonoRepresentanteLegal=" + telefonoRepresentanteLegal + ", telefono=" + telefono + ", teleFax="
 				+ teleFax + ", ultimaNotificacion=" + ultimaNotificacion + ", ultimaPrevencion=" + ultimaPrevencion
-				+ "]";
+				+ ", totalPeriodos=" + totalPeriodos + ", totalArreglo=" + totalArreglo + "]";
 	}
+	
+
+	
 
 	
 	

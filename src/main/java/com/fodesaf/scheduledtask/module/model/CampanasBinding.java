@@ -34,7 +34,10 @@ public class CampanasBinding implements Serializable {
 	Segmentacion segmentacion;
 	
 	@Getter @Setter
-	int cantidadRegistros;
+	int cantidadRegistros = -1;
+	
+	@Getter @Setter
+	String[] regimenVector;
 
 	@Override
 	public String toString() {
