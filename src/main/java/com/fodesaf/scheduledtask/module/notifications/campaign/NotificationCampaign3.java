@@ -165,6 +165,9 @@ public class NotificationCampaign3 implements Notification {
 	@Override
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) {
 		String messageIdResult = null;
+		if (null == notificationData.get("Telefono") || null == notificationData.get("CuotaAlCobro")) {
+			return "";
+		}
 		String telefono = (String)notificationData.get("Telefono");
 		double cuotaAlCobro = (double)notificationData.get("CuotaAlCobro");
 		
