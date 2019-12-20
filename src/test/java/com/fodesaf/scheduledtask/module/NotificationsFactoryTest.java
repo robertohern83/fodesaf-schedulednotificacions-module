@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
 
 @RunWith(SpringRunner.class)
@@ -34,89 +36,120 @@ class NotificationsFactoryTest {
 	}
 	
 	@Test
-	void testSendNotificationCampaign1ByEmailAttemp1() {
+	void testSendNotificationCampaign1ByEmailAttemp1() throws NotificationException {
 		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setCuotasAlCobro(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Segregado", "000107050876001001");
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("CuotasAlCobro", 12345.45);
 		notificationData.put("Attemp", 1);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
 	
 	@Test
-	void testSendNotificationCampaign1ByEmailAttemp2() {
+	void testSendNotificationCampaign1ByEmailAttemp2()  throws NotificationException {
 		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000107050876001001");
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("CuotasAlCobro", 12345.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setCuotasAlCobro(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 2);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
 	
 	@Test
-	void testSendNotificationCampaign1BySMS() {
+	void testSendNotificationCampaign1BySMS()  throws NotificationException {
 		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000107050876001001");
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("CuotasAlCobro", 12345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setCuotasAlCobro(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 2);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign2BySMS() {
+	void testSendNotificationCampaign2BySMS() throws NotificationException  {
 		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Cedula", "00107050876");
-		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
+		notificationData.put("Patrono", patrono);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign2ByEmail() {
+	void testSendNotificationCampaign2ByEmail() throws NotificationException  {
 		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Cedula", "00107050876");
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("DeudaTotal", 12345.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
 	
 	@Test
-	void testSendNotificationCampaign2ByVoice() {
+	void testSendNotificationCampaign2ByVoice() throws NotificationException  {
 		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Cedula", "00107050876");
-		notificationData.put("DeudaTotal", 12345345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
 		
 		notification.sendNotification(notificationData, NotificationChannel.VOICE);
 	}
@@ -129,82 +162,121 @@ class NotificationsFactoryTest {
 	}
 	
 	@Test
-	void testSendNotificationCampaign3ByEmailAttemp1() {
+	void testSendNotificationCampaign3ByEmailAttemp1() throws NotificationException  {
 		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("CuotaAlCobro", 10000.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setCuotasAlCobro(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 1);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
 	
 	@Test
-	void testSendNotificationCampaign3ByEmailAttemp2() {
+	void testSendNotificationCampaign3ByEmailAttemp2() throws NotificationException  {
 		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("CuotaAlCobro", 11111.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setCuotasAlCobro(12345.45);
 		notificationData.put("Attemp", 2);
+		notificationData.put("Patrono", patrono);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
 	
 	@Test
-	void testSendNotificationCampaign3BySMS() {
+	void testSendNotificationCampaign3BySMS()  throws NotificationException {
 		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("CuotaAlCobro", 12345.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setCuotasAlCobro(12345.45);
 		notificationData.put("Telefono", "87307606");
+		notificationData.put("Patrono", patrono);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign4BySMSAttemp1() {
+	void testSendNotificationCampaign4BySMSAttemp1()  throws NotificationException {
 		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 1);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign4BySMSAttemp2() {
+	void testSendNotificationCampaign4BySMSAttemp2() throws NotificationException  {
 		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 2);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign4ByEmail() {
+	void testSendNotificationCampaign4ByEmail() throws NotificationException  {
 		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("Segregado", "000107050876001001");
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("DeudaTotal", 12345.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Consecutive", "9999");
 		notificationData.put("Attemp", 1);
 		
@@ -212,45 +284,63 @@ class NotificationsFactoryTest {
 	}
 	
 	@Test
-	void testSendNotificationCampaign5BySMSAttemp1() {
+	void testSendNotificationCampaign5BySMSAttemp1() throws NotificationException  {
 		Notification notification = factory.getCaseService("Preven. solo Periodos");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
+		
+		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 1);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign5BySMSAttemp2() {
+	void testSendNotificationCampaign5BySMSAttemp2() throws NotificationException {
 		Notification notification = factory.getCaseService("Preven. solo Periodos");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
-		notificationData.put("DeudaTotal", 12345.45);
-		notificationData.put("Telefono", "87307606");
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
 		notificationData.put("Attemp", 2);
+		notificationData.put("Patrono", patrono);
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
 	
 	@Test
-	void testSendNotificationCampaign5ByEmail() {
+	void testSendNotificationCampaign5ByEmail() throws NotificationException {
 		Notification notification = factory.getCaseService("Preven. solo Periodos");
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
 		
 		notificationData.put("Attemp", 1);
-		notificationData.put("Segregado", "000107050876001001");
-		notificationData.put("Correo", "consultorias.rhm@gmail.com");
-		notificationData.put("DeudaTotal", 12345.45);
+		Patronos patrono = new Patronos();
+		
+		patrono.setCedula("00107050876");
+		patrono.setSegregado("000107050876001001");
+		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setTelefono("87307606");
+		patrono.setDeudaTotal(12345.45);
 		notificationData.put("Consecutive", "9999");
+		notificationData.put("Patrono", patrono);
 		
 		notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 	}
