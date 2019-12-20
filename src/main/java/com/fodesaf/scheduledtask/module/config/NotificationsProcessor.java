@@ -5,7 +5,6 @@ package com.fodesaf.scheduledtask.module.config;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -18,11 +17,8 @@ import org.springframework.batch.core.scope.context.ChunkContext;
 import org.springframework.batch.core.step.tasklet.Tasklet;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import com.fodesaf.scheduledtask.module.model.CampanaCanales;
-import com.fodesaf.scheduledtask.module.model.Campanas;
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.repositories.CampanaCanalesRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
@@ -118,34 +114,35 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 		String tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo();
 		Notification notification = factory.getCaseService(tipoCampana.trim());
 		Map<String, Object> notificationData = loadParams(notificacion);
-		
-		switch (canal) {
-			case SMS:		
-				System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-				notification.sendNotification(notificationData, NotificationChannel.SMS);
-				break;
-			case EMAIL:
-				System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-				notification.sendNotification(notificationData, NotificationChannel.EMAIL);
-				break;
-			case VOZ:
-				System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-				notification.sendNotification(notificationData, NotificationChannel.VOICE);
-				break;
-			default:
-				break;
+		try {
+			switch (canal) {
+				case SMS:		
+					System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+					notification.sendNotification(notificationData, NotificationChannel.SMS);
+					break;
+				case EMAIL:
+					System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+					notification.sendNotification(notificationData, NotificationChannel.EMAIL);
+					break;
+				case VOZ:
+					System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+					notification.sendNotification(notificationData, NotificationChannel.VOICE);
+					break;
+				default:
+					break;
+			}
+		//Se captura toda excepción, para impedir que el proceso de notificación de campañas se detenga por un error en una notificación	
+		} catch (Exception e) {
+			// FIXME: Almacenar en bitácora error generado
+			e.printStackTrace();
 		}
+		
 		
 	}
 
 	private Map<String, Object> loadParams(Notificaciones notificacion) {
 		Map<String, Object> notificationData = new HashMap<String, Object>();
-		notificationData.put("Segregado", notificacion.getPrimaryKey().getPatrono().getSegregado());
-		notificationData.put("Correo", notificacion.getPrimaryKey().getPatrono().getCorreo());
-		notificationData.put("CuotasAlCobro", notificacion.getPrimaryKey().getPatrono().getCuotasAlCobro());
-		notificationData.put("Telefono", notificacion.getPrimaryKey().getPatrono().getTelefono());
-		notificationData.put("Cedula", notificacion.getPrimaryKey().getPatrono().getCedula());
-		notificationData.put("DeudaTotal", notificacion.getPrimaryKey().getPatrono().getDeudaTotal());
+		notificationData.put("Patrono", notificacion.getPrimaryKey().getPatrono());
 		//FIXME manejar consecutivo
 		notificationData.put("Consecutive", 9999);
 		notificationData.put("Attemp", 1);

@@ -14,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
+import com.fodesaf.scheduledtask.module.service.PatronosService;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -40,6 +43,9 @@ public class NotificationCampaign4 implements Notification {
 	
 	@Autowired
     protected DataSource localDataSource;
+	
+	@Autowired
+	PatronosService patronosService;
 	
 	private static final String SMS_TEMPLATE_1 = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Evítese cobros judiciales y gastos adicionales.";
 	
@@ -63,61 +69,62 @@ public class NotificationCampaign4 implements Notification {
 			"</html>";
 	
 	@Override
-	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) {
+	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException{
 		String messageIdResult = null;
 		
-		if (null == notificationData.get("Telefono") 
-				|| null == notificationData.get("CuotaAlCobro")
-				|| null == notificationData.get("DeudaTotal")
-				|| null == notificationData.get("Segregado")) {
-			return "";
-		}
-		
-		String segregado = (String)notificationData.get("Segregado");
-		String telefono = (String)notificationData.get("Telefono");
-		double deudaTotal = (double)notificationData.get("DeudaTotal");
+		Patronos patrono = (Patronos)notificationData.get("Patrono");
+		DecimalFormat df = new DecimalFormat("#.00"); 
 		int attemp = (int)notificationData.get("Attemp");
 		
 		
 		switch (channel) {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
-			
-			DecimalFormat df = new DecimalFormat("#.00");
-			
-			if(1 == attemp) {
-				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE_1.replaceAll("<<MONTO>>", df.format(deudaTotal)), smsSender, MessageType.PROMOTIONAL);
+			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
+			if(null != telefono) {
+				if(1 == attemp) {
+					messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE_1.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())), smsSender, MessageType.PROMOTIONAL);
+				}
+				else {
+					messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE_2.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())), smsSender, MessageType.PROMOTIONAL);
+				}
 			}
 			else {
-				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE_2.replaceAll("<<MONTO>>", df.format(deudaTotal)), smsSender, MessageType.PROMOTIONAL);
+				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
 			}
 			
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
-			String correo = (String)notificationData.get("Correo");
-			String consecutive = (String)notificationData.get("Consecutive");
+			String correo = patronosService.obtenerCorreoPatrono(patrono);
 			
-			Map<String, Object> params = new HashMap<>();
-			params.put("pSegregado", segregado);
-			params.put("pConsecutive", consecutive);
-			byte[] file = null;
-			try {
-				file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/CampanaPrevencionCobro.jasper", "pdf");
-				messageIdResult = 
-						emailService.sendEmailNotification(
-								emailSender, 
-								SUBJECT, 
-								BODY_HTML_1, 
-								BODY_TEXT_1, 
-								correo, 
-								file, 
-								"application/pdf", 
-								"Notificacion.pdf");
-			} catch (IOException | JRException | SQLException  e) {
-				e.printStackTrace();
+			if(null != correo) {
+				String consecutive = (String)notificationData.get("Consecutive");
+				Map<String, Object> params = new HashMap<>();
+				params.put("pSegregado", patrono.getSegregado());
+				params.put("pConsecutive", consecutive);
+				byte[] file = null;
+				try {
+					file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/CampanaPrevencionCobro.jasper", "pdf");
+					messageIdResult = 
+							emailService.sendEmailNotification(
+									emailSender, 
+									SUBJECT, 
+									BODY_HTML_1, 
+									BODY_TEXT_1, 
+									correo, 
+									file, 
+									"application/pdf", 
+									"Notificacion.pdf");
+				} catch (IOException | JRException | SQLException  e) {
+					e.printStackTrace();
+				}
 			}
-			
+			else {
+				System.out.println(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+			}
 			
 			break;
 		case VOICE:

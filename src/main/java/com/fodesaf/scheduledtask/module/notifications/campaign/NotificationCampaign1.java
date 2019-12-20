@@ -14,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
+import com.fodesaf.scheduledtask.module.service.PatronosService;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -40,6 +43,9 @@ public class NotificationCampaign1 implements Notification {
 	
 	@Autowired
     protected DataSource localDataSource;
+	
+	@Autowired
+	PatronosService patronosService;
 	
 	private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Le agradecemos ponerse al día lo antes posible. Si ya canceló favor omitir este mensaje.";
 	
@@ -131,57 +137,65 @@ public class NotificationCampaign1 implements Notification {
 			"</html>";
 	
 	@Override
-	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) {
+	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException {
 		String messageIdResult = null;
-		String cedula = (String)notificationData.get("Cedula");
-		String segregado = (String)notificationData.get("Segregado");
-		String telefono = (String)notificationData.get("Telefono");
-		double cuotasAlCobro = (double)notificationData.get("CuotasAlCobro");
+		Patronos patrono = (Patronos)notificationData.get("Patrono");
+		DecimalFormat df = new DecimalFormat("#.00"); 
 		
 		switch (channel) {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
-			
-			DecimalFormat df = new DecimalFormat("#.00"); 
-			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(cuotasAlCobro)), smsSender, MessageType.PROMOTIONAL);
-			
+			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
+			if(null != telefono) {
+				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), smsSender, MessageType.PROMOTIONAL);
+			}
+			else {
+				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+			}
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
-			String correo = (String)notificationData.get("Correo");
+			String correo = patronosService.obtenerCorreoPatrono(patrono);
 			
-			int attemp = (int)notificationData.get("Attemp");
-			
-			if(1 == attemp) {
-				emailService.sendEmailNotification(
-						emailSender, 
-						SUBJECT, 
-						BODY_HTML_1.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), 
-						BODY_TEXT_1.replaceAll("<<MONTO>>", String.valueOf(cuotasAlCobro)), 
-						correo, 
-						null, 
-						null, 
-						null);
+			if(null != correo) {
+				int attemp = (int)notificationData.get("Attemp");
+				
+				if(1 == attemp) {
+					emailService.sendEmailNotification(
+							emailSender, 
+							SUBJECT, 
+							BODY_HTML_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), 
+							BODY_TEXT_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), 
+							correo, 
+							null, 
+							null, 
+							null);
+				}
+				else {
+					Map<String, Object> params = new HashMap<>();
+					params.put("pSegregadoPrincipal", patrono.getSegregado());
+					byte[] file = null;
+					try {
+						file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana1_BD.jasper", "pdf");
+						messageIdResult = 
+								emailService.sendEmailNotification(
+										emailSender, 
+										SUBJECT, 
+										BODY_HTML_2, 
+										BODY_TEXT_2, 
+										correo, 
+										file, 
+										"application/pdf", 
+										"Notificacion.pdf");
+					} catch (IOException | JRException | SQLException  e) {
+						throw new NotificationException("Excepcion al generar notificacion de correo electronico", e);
+					}
+				}
 			}
 			else {
-				Map<String, Object> params = new HashMap<>();
-				params.put("pSegregadoPrincipal", segregado);
-				byte[] file = null;
-				try {
-					file = GenerateReportFromTemplate.createReportFromDatabase(localDataSource.getConnection(), params, "/Campana1_BD.jasper", "pdf");
-					messageIdResult = 
-							emailService.sendEmailNotification(
-									emailSender, 
-									SUBJECT, 
-									BODY_HTML_2, 
-									BODY_TEXT_2, 
-									correo, 
-									file, 
-									"application/pdf", 
-									"Notificacion.pdf");
-				} catch (IOException | JRException | SQLException  e) {
-					e.printStackTrace();
-				}
+				System.out.println(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
 			}
 			
 			break;

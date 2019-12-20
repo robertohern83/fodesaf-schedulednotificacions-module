@@ -11,11 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
+import com.fodesaf.scheduledtask.module.service.PatronosService;
 
 @Service
 public class NotificationCampaign3 implements Notification {
@@ -34,6 +37,9 @@ public class NotificationCampaign3 implements Notification {
 	
 	@Autowired
     protected DataSource localDataSource;
+	
+	@Autowired
+	PatronosService patronosService;
 	
 	private static final String SMS_TEMPLATE = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que ya está al cobro la cuota del mes de su arreglo de pago. El monto de la cuota es de ¢ <<MONTO>>.";
 	
@@ -163,51 +169,57 @@ public class NotificationCampaign3 implements Notification {
 			"</html>";
 	
 	@Override
-	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) {
+	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel)  throws NotificationException{
 		String messageIdResult = null;
-		/*if (null == notificationData.get("Telefono") || null == notificationData.get("CuotaAlCobro")) {
-			return "";
-		}*/
 		
-		String telefono = (String)notificationData.get("Telefono");
-		double cuotaAlCobro = (double)notificationData.get("CuotaAlCobro");
+		Patronos patrono = (Patronos)notificationData.get("Patrono");
+		DecimalFormat df = new DecimalFormat("#.00"); 
 		
 		switch (channel) {
 		case SMS:
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
-			
-			DecimalFormat df = new DecimalFormat("#.00"); 
-			
-			messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(cuotaAlCobro)), smsSender, MessageType.PROMOTIONAL);
-			
+			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
+			if(null != telefono) {
+				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), smsSender, MessageType.PROMOTIONAL);
+			}
+			else {
+				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+			}
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
-			String correo = (String)notificationData.get("Correo");
+			String correo = patronosService.obtenerCorreoPatrono(patrono);
 			
-			int attemp = (int)notificationData.get("Attemp");
-			
-			if(1 == attemp) {
-				emailService.sendEmailNotification(
-						emailSender, 
-						SUBJECT, 
-						BODY_HTML_1.replaceAll("<<MONTO>>", String.valueOf(cuotaAlCobro)), 
-						BODY_TEXT_1.replaceAll("<<MONTO>>", String.valueOf(cuotaAlCobro)), 
-						correo, 
-						null, 
-						null, 
-						null);
+			if(null != correo) {
+				int attemp = (int)notificationData.get("Attemp");
+				
+				if(1 == attemp) {
+					emailService.sendEmailNotification(
+							emailSender, 
+							SUBJECT, 
+							BODY_HTML_1.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
+							BODY_TEXT_1.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
+							correo, 
+							null, 
+							null, 
+							null);
+				}
+				else {
+					emailService.sendEmailNotification(
+							emailSender, 
+							SUBJECT, 
+							BODY_HTML_2.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
+							BODY_TEXT_2.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
+							correo, 
+							null, 
+							null, 
+							null);
+				}
 			}
 			else {
-				emailService.sendEmailNotification(
-						emailSender, 
-						SUBJECT, 
-						BODY_HTML_2.replaceAll("<<MONTO>>", String.valueOf(cuotaAlCobro)), 
-						BODY_TEXT_2.replaceAll("<<MONTO>>", String.valueOf(cuotaAlCobro)), 
-						correo, 
-						null, 
-						null, 
-						null);
+				System.out.println(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
 			}
 			
 			break;
@@ -220,6 +232,7 @@ public class NotificationCampaign3 implements Notification {
 			break;
 		}
 		return messageIdResult;
+		
 
 	}
 
