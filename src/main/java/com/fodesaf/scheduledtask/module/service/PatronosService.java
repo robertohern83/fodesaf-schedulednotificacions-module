@@ -32,10 +32,16 @@ public class PatronosService {
 		String telefonoResultado = null;
 		
 		DatosPatrono datosPatrono = this.obtenerDatosPatronoPorCedula(patrono.getCedula());
-		if(null != datosPatrono && null != datosPatrono.getCelular()) {
-			telefonoResultado = datosPatrono.getCelular();
-			if(smsCompatible && !isSMSCompatible(telefonoResultado)) {
-				telefonoResultado = null;
+		if(null != datosPatrono && (null != datosPatrono.getCelular() || null != datosPatrono.getTelefono())) {
+			
+			if(!smsCompatible) {
+				telefonoResultado = null != datosPatrono.getCelular()?datosPatrono.getCelular():datosPatrono.getTelefono();
+			}
+			else if(smsCompatible && isSMSCompatible(datosPatrono.getCelular())) {
+				telefonoResultado = datosPatrono.getCelular();
+			}
+			else if(smsCompatible && isSMSCompatible(datosPatrono.getTelefono())) {
+				telefonoResultado = datosPatrono.getTelefono();
 			}
 		}
 		
