@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class NotificationFactory {
 	
-	private final Map<String, Notification> notificationServices = new HashMap<>();
+	private final Map<Integer, Notification> notificationServices = new HashMap<>();
 
 	  @Autowired
 	  public NotificationFactory(List<Notification> services){
@@ -19,11 +19,11 @@ public class NotificationFactory {
 	    }
 	  }
 
-	  public void register(String campaign, Notification service) {
+	  public void register(Integer campaign, Notification service) {
 	    this.notificationServices.put(campaign, service);
 	  }
 
-	  public Notification getCaseService(String campaign){
+	  public Notification getCaseService(Integer campaign){
 	    return this.notificationServices.get(campaign);
 	  }
 

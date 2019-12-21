@@ -111,8 +111,8 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 
 	private void notificarCanal(Notificaciones notificacion, String canal) {
 		
-		String tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo();
-		Notification notification = factory.getCaseService(tipoCampana.trim());
+		Integer tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo().getId();
+		Notification notification = factory.getCaseService(tipoCampana);
 		Map<String, Object> notificationData = loadParams(notificacion);
 		try {
 			switch (canal) {

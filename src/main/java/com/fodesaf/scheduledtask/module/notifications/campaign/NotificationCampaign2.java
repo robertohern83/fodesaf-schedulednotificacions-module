@@ -211,8 +211,8 @@ public class NotificationCampaign2 implements Notification {
 	}
 
 	@Override
-	public String getSupportedCampaign() {
-		return "Notif. Periodos CJ-CA";
+	public Integer getSupportedCampaign() {
+		return 2;
 	}
 
 	@Override

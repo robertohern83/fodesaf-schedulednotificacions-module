@@ -30,14 +30,14 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testNotificationCampaign1Load() {
-		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
+		Notification notification = factory.getCaseService(1);
 		System.out.println(notification);
 		Assert.assertNotNull(notification);
 	}
 	
 	@Test
 	void testSendNotificationCampaign1ByEmailAttemp1() throws NotificationException {
-		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
+		Notification notification = factory.getCaseService(1);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -58,7 +58,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign1ByEmailAttemp2()  throws NotificationException {
-		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
+		Notification notification = factory.getCaseService(1);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -78,7 +78,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign1BySMS()  throws NotificationException {
-		Notification notification = factory.getCaseService("Notif. arreglos de pago cuotas atrasadas en el CJ-CA");
+		Notification notification = factory.getCaseService(1);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -99,7 +99,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign2BySMS() throws NotificationException  {
-		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
+		Notification notification = factory.getCaseService(2);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -118,7 +118,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign2ByEmail() throws NotificationException  {
-		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
+		Notification notification = factory.getCaseService(2);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -138,7 +138,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign2ByVoice() throws NotificationException  {
-		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
+		Notification notification = factory.getCaseService(2);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -156,14 +156,14 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testNotificationCampaign2Load() {
-		Notification notification = factory.getCaseService("Notif. Periodos CJ-CA");
+		Notification notification = factory.getCaseService(2);
 		System.out.println(notification);
 		Assert.assertNotNull(notification);
 	}
 	
 	@Test
 	void testSendNotificationCampaign3ByEmailAttemp1() throws NotificationException  {
-		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
+		Notification notification = factory.getCaseService(3);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -183,7 +183,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign3ByEmailAttemp2() throws NotificationException  {
-		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
+		Notification notification = factory.getCaseService(3);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -202,7 +202,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign3BySMS()  throws NotificationException {
-		Notification notification = factory.getCaseService("Record. Cuota Arreglo CJ-CA");
+		Notification notification = factory.getCaseService(3);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -221,7 +221,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign4BySMSAttemp1()  throws NotificationException {
-		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
+		Notification notification = factory.getCaseService(4);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -242,7 +242,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign4BySMSAttemp2() throws NotificationException  {
-		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
+		Notification notification = factory.getCaseService(4);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -263,7 +263,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign4ByEmail() throws NotificationException  {
-		Notification notification = factory.getCaseService("Preven. de arreglos de pagos cuotas de atraso");
+		Notification notification = factory.getCaseService(4);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -285,7 +285,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign5BySMSAttemp1() throws NotificationException  {
-		Notification notification = factory.getCaseService("Preven. solo Periodos");
+		Notification notification = factory.getCaseService(5);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -306,7 +306,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign5BySMSAttemp2() throws NotificationException {
-		Notification notification = factory.getCaseService("Preven. solo Periodos");
+		Notification notification = factory.getCaseService(5);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();
@@ -326,7 +326,7 @@ class NotificationsFactoryTest {
 	
 	@Test
 	void testSendNotificationCampaign5ByEmail() throws NotificationException {
-		Notification notification = factory.getCaseService("Preven. solo Periodos");
+		Notification notification = factory.getCaseService(5);
 		Assert.assertNotNull(notification);
 		
 		Map<String, Object> notificationData = new HashMap<>();

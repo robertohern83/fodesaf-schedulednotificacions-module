@@ -6,9 +6,12 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -50,8 +53,9 @@ public class Campanas implements Serializable{
 	String estado;
 
 	@Getter @Setter
-	@Column (name = "Tipo")
-	String tipo;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="Tipo", referencedColumnName = "id")
+	TipoCampana tipo;
 	
 	@Getter @Setter
 	@Column (name = "Fechainicio")

@@ -143,8 +143,8 @@ public class NotificationCampaign4 implements Notification {
 	}
 
 	@Override
-	public String getSupportedCampaign() {
-		return "Preven. de arreglos de pagos cuotas de atraso";
+	public Integer getSupportedCampaign() {
+		return 4;
 	}
 
 	@Override

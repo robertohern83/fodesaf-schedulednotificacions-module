@@ -6,7 +6,7 @@ import java.util.Map;
 public interface Notification {
     String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException;
     
-    String getSupportedCampaign();
+    Integer getSupportedCampaign();
     
     List<NotificationChannel> getSupportedChannels();
 }

@@ -148,8 +148,8 @@ public class NotificationCampaign5 implements Notification {
 	}
 
 	@Override
-	public String getSupportedCampaign() {
-		return "Preven. solo Periodos";
+	public Integer getSupportedCampaign() {
+		return 5;
 	}
 
 	@Override
