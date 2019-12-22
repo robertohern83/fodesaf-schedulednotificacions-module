@@ -7,6 +7,7 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -23,13 +24,15 @@ import lombok.Setter;
 @Entity
 @Table (name = "TipoCampana", schema = "dbo")
 @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class TipoCampana implements Serializable{/**
+public class TipoCampana implements Serializable{
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Getter @Setter
 	@Column (name ="id")
+	@Id
 	Integer id;
 	
 	@Getter @Setter
