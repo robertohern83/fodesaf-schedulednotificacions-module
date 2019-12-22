@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -70,7 +70,7 @@
 		</field>
 	</subDataset>
 	<parameter name="pCedula" class="java.lang.String">
-		<defaultValueExpression><![CDATA["00000"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["00100596918"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT *
@@ -313,13 +313,6 @@ where Cedula = $P{pCedula}]]>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Deuda_Total}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="220" y="157" width="130" height="15" uuid="3bf8ae26-92c0-4c27-a1dd-44fcef2cca6d"/>
-				<textElement textAlignment="Center">
-					<font size="10" isBold="true" isItalic="true"/>
-				</textElement>
-				<text><![CDATA[Pago Mínimo:]]></text>
-			</staticText>
 			<line>
 				<reportElement x="2" y="6" width="478" height="1" uuid="97027b5f-3c00-48ac-93db-73f2c963989e"/>
 			</line>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -39,7 +39,7 @@
 		</field>
 	</subDataset>
 	<parameter name="pCedula" class="java.lang.String">
-		<defaultValueExpression><![CDATA["00000"]]></defaultValueExpression>
+		<defaultValueExpression><![CDATA["03101101324"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
 		<![CDATA[SELECT Cedula, Nombre, SUM(Principal) as Principal, 
@@ -88,7 +88,7 @@ group by Cedula, Nombre]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="88">
+		<band height="100">
 			<staticText>
 				<reportElement x="47" y="0" width="420" height="40" uuid="c078e9a9-93cb-466b-8e87-bad709b6aef3"/>
 				<textElement textAlignment="Center">
@@ -99,13 +99,6 @@ DIRECCIÓN GENERAL DE DESARROLLO SOCIAL Y ASIGNACIONES FAMILIARES
 DEPARTAMENTO DE GESTIÓN DE COBRO
 ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="47" y="50" width="413" height="10" uuid="0e2c33a1-97e2-47db-8500-f47092678d48"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Aptdo. postal: 10133-1000-DESAF - TELS. 2547-3603 / 2547 - 3600 FAX: 2547-3693]]></text>
-			</staticText>
 			<image>
 				<reportElement x="430" y="-26" width="125" height="33" uuid="d62a8c95-e996-48ff-b059-afc9b9e03919"/>
 				<imageExpression><![CDATA["fodesaficon.png"]]></imageExpression>
@@ -113,20 +106,6 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<line>
 				<reportElement x="-20" y="-32" width="560" height="1" uuid="99fd3545-8756-43e2-9f2b-6065c5370d90"/>
 			</line>
-			<staticText>
-				<reportElement x="47" y="60" width="413" height="10" uuid="9883b6a8-b5fd-4da1-a909-762a1934e3bb"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[San José, Barrio Amón 400 N. del Auto Mercado, contiguo Equipos Nieto <><> Del INVU 100 O. y 25 N.]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="47" y="70" width="413" height="10" uuid="aca7c77b-c5f2-4ad6-92fd-07636c1f9b43"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Correo electrónico: desaf.cobros@mtss.go.cr]]></text>
-			</staticText>
 			<textField evaluationTime="Report" pattern="hh:mm a">
 				<reportElement x="410" y="30" width="101" height="10" uuid="32a929ee-6dfb-4d9c-8245-3b977df1e2ae"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
@@ -141,6 +120,21 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="27" y="61" width="473" height="20" uuid="1686b9a7-b964-4d90-aeec-b68c84caba3c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[San José, B° Amón 400 N. del Auto Mercado, contiguo Equipos Nieto <> Del INVU 100 O. y 25 N.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="80" width="484" height="20" uuid="5a83c138-c72a-4fba-8ff1-f310bc582c39"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Correo electrónico: desaf.cobros@mtss.go.cr ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="41" width="460" height="20" uuid="f2455a46-07b6-47db-8269-d8fa894a833d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[TELS. 2547-3603 / 2547 - 3600 FAX: 2547-3693]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -148,7 +142,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 			<rectangle>
-				<reportElement x="1" y="30" width="510" height="180" uuid="ccd970c1-3692-4e0e-8fa5-9dbf9894a156"/>
+				<reportElement x="1" y="31" width="510" height="180" uuid="ccd970c1-3692-4e0e-8fa5-9dbf9894a156"/>
 			</rectangle>
 			<textField>
 				<reportElement x="70" y="50" width="260" height="17" uuid="f984eec9-4f2b-4f3c-9d47-b2df24b055c5"/>
@@ -159,11 +153,11 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textFieldExpression><![CDATA[$F{Cedula}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="0" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
+				<reportElement x="0" y="-2" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PAGUE EN LÍNEA EN BCR, PAGO DE SERVICIOS, CUOTAS Y PLANES - SERVICIO DE COBRO]]></text>
+				<text><![CDATA[PAGUE EN LÍNEA EN BCR, PAGO DE SERVICIOS, CUOTAS Y PLANES - SERVICIO DE COBRO FODESAF]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="33" width="60" height="17" uuid="156b67b1-2cf6-4302-921e-6e879c41134d"/>
@@ -323,6 +317,13 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Arreglo}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="1" y="12" width="520" height="20" uuid="fea338ca-be0c-498d-825e-b5ea33eb2ad2"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[NUMERO DE SERVICIO: id-segregado-n]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<detail>
@@ -343,17 +344,24 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[La columna TIPO se refiere a si la planilla es Ordinaria o Extraordinaria.
-La columna FECHA se refiere a la fecha de la planilla.
-La columna MONTO se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
-La columna RECARGO se refiere al 1.5% del monto de la planilla.
-La columna MULTA corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
-Con base en lo reportado por la CCSS, con un corte al 18/10/2019.
+				<text><![CDATA[La columna Tipo se refiere a si la planilla es Ordinaria o Extraordinaria.
+La columna Período se refiere a la fecha de la planilla.
+La columna Principal se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
+La columna Recardo se refiere al 1.5% del monto de la planilla.
+La columna Multa corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
+Con base en lo reportado por la CCSS, con un corte al
 ]]></text>
 			</staticText>
 			<line>
 				<reportElement x="10" y="12" width="473" height="1" uuid="699d0bcf-072c-4635-a2de-692cfdcc41ff"/>
 			</line>
+			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
+				<reportElement x="241" y="102" width="101" height="10" uuid="4ac2a2a2-d539-46c6-aee0-20e68de42e0f"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>

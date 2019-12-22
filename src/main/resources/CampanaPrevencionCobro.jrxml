@@ -94,7 +94,7 @@ group by Cedula,Segregado, Nombre]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="88">
+		<band height="100">
 			<staticText>
 				<reportElement x="47" y="0" width="420" height="40" uuid="c078e9a9-93cb-466b-8e87-bad709b6aef3"/>
 				<textElement textAlignment="Center">
@@ -104,13 +104,6 @@ group by Cedula,Segregado, Nombre]]>
 DIRECCIÓN GENERAL DE DESARROLLO SOCIAL Y ASIGNACIONES FAMILIARES
 DEPARTAMENTO DE GESTIÓN DE COBRO
 ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="47" y="50" width="413" height="10" uuid="0e2c33a1-97e2-47db-8500-f47092678d48"/>
-				<textElement textAlignment="Center">
-					<font size="8"/>
-				</textElement>
-				<text><![CDATA[Aptdo. postal: 10133-1000-DESAF - TELS. 2547-3603 / 2547 - 3600 FAX: 2547-3693]]></text>
 			</staticText>
 			<image>
 				<reportElement x="430" y="-26" width="125" height="33" uuid="d62a8c95-e996-48ff-b059-afc9b9e03919"/>
@@ -133,6 +126,21 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="27" y="64" width="484" height="20" uuid="9c33cc3a-52f9-4ce3-b966-651c8d7d5aa5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Correo electrónico: desaf.cobros@mtss.go.cr ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="30" y="35" width="460" height="20" uuid="a4877257-b516-412b-a291-24806fd36ccf"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[TELS. 2547-3603 / 2547 - 3600 FAX: 2547-3693]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="27" y="49" width="473" height="20" uuid="302f9335-7295-447b-ad53-a55acd64508d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[San José, B° Amón 400 N. del Auto Mercado, contiguo Equipos Nieto <> Del INVU 100 O. y 25 N.]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
@@ -140,18 +148,18 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 			<staticText>
-				<reportElement x="0" y="0" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
+				<reportElement x="0" y="7" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PREVENCIÓN DE COBRO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="-23" width="520" height="20" uuid="48760194-813b-4733-ae9c-afe548d16be8"/>
+				<reportElement x="2" y="-11" width="520" height="20" uuid="48760194-813b-4733-ae9c-afe548d16be8"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[GCO-08027-2019]]></text>
+				<text><![CDATA[GCO-50001-2019]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="30" width="493" height="40" uuid="0c42d810-1e2b-4f69-9a1c-45d79ae42760"/>
@@ -179,10 +187,10 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Dado lo anterior se le concede un plazo de 10 días hábiles improrrogables para que proceda a poner al día su deuda. VENCIDO EL PLAZO SE PROCEDERA A TRASLADAR SU DEDUDA A COBRO JUDICIAL, ADICIONANDO LOS RECARGOS LEGALES RESPECTIVOS.]]></text>
+				<text><![CDATA[Dado lo anterior se le concede un plazo de 10 días hábiles improrrogables para que proceda a poner al día su deuda. ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="165" width="493" height="34" uuid="f48b63d0-a8b3-4b41-8d4d-f3730c122332"/>
+				<reportElement x="10" y="153" width="493" height="34" uuid="f48b63d0-a8b3-4b41-8d4d-f3730c122332"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
@@ -191,21 +199,21 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="194" width="493" height="30" uuid="0952c37d-4bee-413f-8c6e-41f3a1eb36da"/>
+				<reportElement x="10" y="179" width="493" height="30" uuid="0952c37d-4bee-413f-8c6e-41f3a1eb36da"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Si usted efectuó sus pagos, y recibe este Aviso, repórtelos al correo ¨desaf.cobros”mtss.go.cr¨, incluyendo su numero de cedula correspondiente.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="224" width="493" height="18" uuid="7ba32bee-1f15-4b82-b406-75792757949a"/>
+				<reportElement x="10" y="211" width="493" height="29" uuid="7ba32bee-1f15-4b82-b406-75792757949a"/>
 				<textElement textAlignment="Center">
 					<font size="9" isBold="true"/>
 				</textElement>
-				<text><![CDATA[PAGUE EN LINEA CON SU NUMERO PATRONAL A TRAVES DEL BCR-PLANES Y CUOTAS FODESAF.]]></text>
+				<text><![CDATA[PAGUE EN LINEA CON SU NUMERO PATRONAL A TRAVES DEL BCR-PAGO DE SERVICIOS - CUOTAS Y PLANES FODESAF.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="142" width="493" height="34" uuid="80ab2336-9ba0-43c3-8dd7-a7bdba8e2ec0"/>
+				<reportElement x="10" y="130" width="493" height="34" uuid="80ab2336-9ba0-43c3-8dd7-a7bdba8e2ec0"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
@@ -408,7 +416,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Teléfono:25925311	Fax:25925311	Actualizado por la CCSS: 22/05/2014 01:35:02 pm]]></text>
+				<text><![CDATA[Teléfono:25925311	Fax:25925311]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="19" y="174" width="486" height="20" uuid="19afb6fb-ac82-4b8a-a98f-fac608e6f0ba"/>
@@ -418,28 +426,27 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<text><![CDATA[Correo: kcalvo@cusacr.com]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="17" y="0" width="486" height="190" uuid="0e92bbab-6d59-418c-bc0b-01aa24ffd0e2"/>
+				<reportElement x="17" y="0" width="486" height="120" uuid="0e92bbab-6d59-418c-bc0b-01aa24ffd0e2"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[La columna TIPO se refiere a si la planilla es Ordinaria o Extraordinaria.
-La columna FECHA se refiere a la fecha de la planilla.
-La columna MONTO se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
-La columna RECARGO se refiere al 1.5% del monto de la planilla.
-La columna MULTA corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
-Con base en lo reportado por la CCSS, con un corte al 18/10/2019.
-]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="19" y="114" width="486" height="20" uuid="cfcfc4d9-ed4b-4e18-98a3-6f8deea5cdad"/>
-				<textElement textAlignment="Justified">
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Dirección: CARTAGO, CENTRAL, ORIENTE COSTADO NORESTE CEMENTERIO GENERAL]]></text>
+La columna Período se refiere a la fecha de la planilla.
+La columna Principal se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
+La columna Recargo se refiere al 1.5% del monto de la planilla.
+La columna Multa corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
+Con base en lo reportado por la CCSS, con un corte al ]]></text>
 			</staticText>
 			<line>
 				<reportElement x="12" y="108" width="491" height="1" uuid="3a626c54-d2ee-4ba2-84c2-5bd07598d160"/>
 			</line>
+			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
+				<reportElement x="241" y="86" width="101" height="10" uuid="9579699b-123e-435d-8ad8-09c4c6551998"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font size="8" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<pageFooter>
