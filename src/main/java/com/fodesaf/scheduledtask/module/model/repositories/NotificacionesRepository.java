@@ -17,6 +17,11 @@ import com.fodesaf.scheduledtask.module.model.NotificacionesPK;
 public interface NotificacionesRepository extends CrudRepository<Notificaciones, Integer> {
 	
 	Notificaciones findByPrimaryKey(NotificacionesPK pk);
+	
 	Page<Notificaciones> findByEstatus(String estatus, Pageable pageable);
+	
+	Page<Notificaciones> findByEstatusAndPrimaryKeyCampanaEstado(String estatus, String estado, Pageable pageable);
+	
+	
 
 }

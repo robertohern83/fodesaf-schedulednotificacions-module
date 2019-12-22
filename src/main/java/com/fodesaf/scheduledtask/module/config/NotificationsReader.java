@@ -49,7 +49,9 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
 		Pageable pageable = PageRequest.of(0, MAXIMO_POR_BLOQUE, Sort.by(Sort.Direction.ASC, FECHA_CREACION));
-		notificaciones = notificacionesRepo.findByEstatus(PENDING_STATUS, pageable);
+		//notificaciones = notificacionesRepo.findByEstatus(PENDING_STATUS, pageable);
+		
+		notificaciones = notificacionesRepo.findByEstatusAndPrimaryKeyCampanaEstado(PENDING_STATUS, EN_PROCESO, pageable);
 	
         return RepeatStatus.FINISHED;
 	}

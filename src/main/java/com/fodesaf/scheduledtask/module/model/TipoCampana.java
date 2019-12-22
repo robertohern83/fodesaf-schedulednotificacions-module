@@ -22,17 +22,16 @@ import lombok.Setter;
  */
 
 @Entity
-@Table (name = "TipoCampana", schema = "dbo")
+@Table (name = "Tipocampana", schema = "dbo")
 @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class TipoCampana implements Serializable{
-	/**
+public class TipoCampana implements Serializable{/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
 	@Getter @Setter
-	@Column (name ="id")
 	@Id
+	@Column (name ="id")
 	Integer id;
 	
 	@Getter @Setter
