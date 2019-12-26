@@ -49,12 +49,17 @@ public class Notificaciones implements Serializable{
 	@Column (name = "Fechaenvio")
 	Date fechaEnvio;
 
+	@Getter @Setter
+	@Column (name = "Messageid")
+	String messageId;
 
 	@Override
 	public String toString() {
 		return "Notificaciones [primaryKey=" + primaryKey + ", estatus=" + estatus + ", fechaCreacion=" + fechaCreacion
-				+ ", fechaEnvio=" + fechaEnvio + "]";
+				+ ", fechaEnvio=" + fechaEnvio + ", messageId=" + messageId + "]";
 	}
+
+	
 
 	
 
