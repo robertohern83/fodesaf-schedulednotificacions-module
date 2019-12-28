@@ -38,12 +38,18 @@ public class CampanasBinding implements Serializable {
 	
 	@Getter @Setter
 	String[] regimenVector;
+	
+	@Getter @Setter
+	String[] condicionesVector;
 
 	@Override
 	public String toString() {
 		return "CampanasBinding [campana=" + campana + ", canales=" + Arrays.toString(canales) + ", segmentacion="
-				+ segmentacion + ", cantidadRegistros=" + cantidadRegistros + "]";
+				+ segmentacion + ", cantidadRegistros=" + cantidadRegistros + ", regimenVector="
+				+ Arrays.toString(regimenVector) + ", condicionesVector=" + Arrays.toString(condicionesVector) + "]";
 	}
+
+	
 
 
 

@@ -82,6 +82,10 @@ public class Segmentacion implements Serializable {
 	Integer cuotasHasta;
 	
 	@Getter @Setter
+	@Column (name = "Condicionlegal", nullable = true)
+	String condicionLegal;
+	
+	@Getter @Setter
 	@Column (name = "Usuarioingresa")
 	String usuarioIngresa;
 	
@@ -102,9 +106,12 @@ public class Segmentacion implements Serializable {
 		return "Segmentacion [id=" + id + ", campana=" + campana + ", regimen=" + regimen + ", situacion=" + situacion
 				+ ", categoriaAlerta=" + categoriaAlerta + ", sinNotificacion=" + sinNotificacion + ", montoMinimo="
 				+ montoMinimo + ", montoMaximo=" + montoMaximo + ", cuotasDesde=" + cuotasDesde + ", cuotasHasta="
-				+ cuotasHasta + ", usuarioIngresa=" + usuarioIngresa + ", fechaIngreso=" + fechaIngreso
-				+ ", usuarioModifica=" + usuarioModifica + ", fechaModificacion=" + fechaModificacion + "]";
+				+ cuotasHasta + ", condicionLegal=" + condicionLegal + ", usuarioIngresa=" + usuarioIngresa
+				+ ", fechaIngreso=" + fechaIngreso + ", usuarioModifica=" + usuarioModifica + ", fechaModificacion="
+				+ fechaModificacion + "]";
 	}
+
+	
 
 	
 

@@ -9,16 +9,15 @@ import org.springframework.batch.core.configuration.annotation.EnableBatchProces
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.fodesaf.scheduledtask.module.model.repositories.CampanaCanalesRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
+import com.fodesaf.scheduledtask.module.service.NotificacionesService;
 /**
  * @author geanque
  *
@@ -43,13 +42,16 @@ public class BatchConfig {
 	private CampanaCanalesRepository campanaCanalesRepository;
 	
 	@Autowired
+	private NotificacionesService notificacionesService;
+	
+	@Autowired
 	NotificationFactory factory;
 
 	@Bean
     protected Step readLines() {
         return steps
           .get("readLines")
-          .tasklet(new NotificationsReader(notificacionesRepository))
+          .tasklet(new NotificationsReader(notificacionesRepository, notificacionesService))
           .build();
     }
 	
@@ -74,8 +76,8 @@ public class BatchConfig {
         return jobs
           .get("taskletsJob")
           .start(readLines())
-          .next(processLines())
-          .next(writeLines())
+          //.next(processLines())
+          //.next(writeLines())
           .build();
     }
 

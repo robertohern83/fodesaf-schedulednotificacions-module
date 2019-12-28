@@ -19,6 +19,7 @@ import org.springframework.data.domain.Sort;
 
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
+import com.fodesaf.scheduledtask.module.service.NotificacionesService;
 
 /**
  * @author geanque
@@ -38,10 +39,12 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 
 	private Page<Notificaciones> notificaciones;
 	private NotificacionesRepository notificacionesRepo;
+	private NotificacionesService notificacionesService;
 	
-	public NotificationsReader(NotificacionesRepository notificacionesRepository) {
+	public NotificationsReader(NotificacionesRepository notificacionesRepository, NotificacionesService notificacionesService) {
 		super();
 		this.notificacionesRepo = notificacionesRepository;
+		this.notificacionesService = notificacionesService;
 		
 	}
 
@@ -51,8 +54,9 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 		Pageable pageable = PageRequest.of(0, MAXIMO_POR_BLOQUE, Sort.by(Sort.Direction.ASC, FECHA_CREACION));
 		//notificaciones = notificacionesRepo.findByEstatus(PENDING_STATUS, pageable);
 		
-		notificaciones = notificacionesRepo.findByEstatusAndPrimaryKeyCampanaEstado(PENDING_STATUS, EN_PROCESO, pageable);
-	
+		//notificaciones = notificacionesRepo.findByEstatusAndPrimaryKeyCampanaEstado(PENDING_STATUS, EN_PROCESO, pageable);
+		notificaciones = notificacionesService.findByCriteria(PENDING_STATUS, EN_PROCESO, pageable);
+		
         return RepeatStatus.FINISHED;
 	}
 
