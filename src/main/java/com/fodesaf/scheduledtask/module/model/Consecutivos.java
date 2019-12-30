@@ -1,6 +1,3 @@
-/**
- * 
- */
 package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
@@ -15,6 +12,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
@@ -22,27 +20,24 @@ import lombok.Setter;
  */
 
 @Entity
-@Table (name = "Tipocampana", schema = "dbo")
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
-public class TipoCampana implements Serializable{/**
+@Table (name = "Consecutivos", schema = "dbo")
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
+public class Consecutivos implements Serializable{
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	
 	@Getter @Setter
 	@Id
-	@Column (name ="id")
-	Integer id;
+	@Column (name = "id")
+	int id;
 	
 	@Getter @Setter
-	@Column (name = "Nombre")
-	String nombre;
-
-	@Override
-	public String toString() {
-		return "TipoCampana [id=" + id + ", nombre=" + nombre + "]";
-	}
-	
+	@Column (name = "consecutivo")
+	int consecutivo;
+		
 	
 
 }

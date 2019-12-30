@@ -46,15 +46,11 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	private Page<Notificaciones> notificaciones;
 	
 	private NotificacionesRepository notificacionesRepo;
-	private CampanaCanalesRepository campanaCanalesRepo;
-	
-	
 	
 	public NotificationsProcessor(NotificacionesRepository notificacionesRepository, CampanaCanalesRepository campanaCanalesRepository, NotificationFactory _factory) {
 		super();
 		this.factory = _factory;
 		this.notificacionesRepo = notificacionesRepository;
-		this.campanaCanalesRepo = campanaCanalesRepository;
 		
 	}
 
@@ -62,7 +58,8 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
 		notificaciones.forEach(item -> {
-			notificar(item);
+			String messageId = notificarCanal(item);
+			item.setMessageId(messageId);
 			System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
 		});
 		return RepeatStatus.FINISHED;
@@ -91,53 +88,38 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
         return ExitStatus.COMPLETED;
 	}
 	
-	private void notificar(Notificaciones item) {
-		
-		//int idCampana = item.getPrimaryKey().getCampana().getId();
-		
-		notificarCanal(item, item.getPrimaryKey().getCanal());
-		
-		/*Campanas campana = new Campanas();
-		campana.setId(idCampana);
-		
-		List<CampanaCanales> canales = campanaCanalesRepo.findByPrimaryKeyCampana(campana);
-		
-		canales.forEach(canal -> {
-			notificarCanal(item, canal);
-		});*/
-		
-		
-	}
 
-	private void notificarCanal(Notificaciones notificacion, String canal) {
-		
+	private String notificarCanal(Notificaciones notificacion) {
+		String messageId = null;
 		Integer tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo().getId();
 		Notification notification = factory.getCaseService(tipoCampana);
 		Map<String, Object> notificationData = loadParams(notificacion);
 		try {
-			switch (canal) {
+			switch (notificacion.getPrimaryKey().getCanal()) {
 				case SMS:		
 					System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-					notification.sendNotification(notificationData, NotificationChannel.SMS);
+					messageId = notification.sendNotification(notificationData, NotificationChannel.SMS);
 					break;
 				case EMAIL:
 					System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-					notification.sendNotification(notificationData, NotificationChannel.EMAIL);
+					messageId = notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 					break;
 				case VOZ:
 					System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-					notification.sendNotification(notificationData, NotificationChannel.VOICE);
+					messageId = notification.sendNotification(notificationData, NotificationChannel.VOICE);
 					break;
 				default:
 					break;
 			}
+			
+		
 		//Se captura toda excepción, para impedir que el proceso de notificación de campañas se detenga por un error en una notificación	
 		} catch (Exception e) {
 			// FIXME: Almacenar en bitácora error generado
 			e.printStackTrace();
 		}
 		
-		
+		return messageId;
 	}
 
 	private Map<String, Object> loadParams(Notificaciones notificacion) {

@@ -22,6 +22,7 @@ import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
+import com.fodesaf.scheduledtask.module.service.ConsecutivosService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 
 import net.sf.jasperreports.engine.JRException;
@@ -46,6 +47,9 @@ public class NotificationCampaign5 implements Notification {
 	
 	@Autowired
 	PatronosService patronosService;
+	
+	@Autowired
+	ConsecutivosService consecutivosService;
 	
 	private static final String SMS_TEMPLATE_1 = "Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. El total pendiente es de ¢ <<MONTO>>. Evítese Cobros Judiciales y gastos adicionales.";
 	
@@ -102,7 +106,13 @@ public class NotificationCampaign5 implements Notification {
 			String correo = patronosService.obtenerCorreoPatrono(patrono);
 			
 			if(null != correo) {
-				String consecutive = (String)notificationData.get("Consecutive");
+				DecimalFormat dfConsecutive = new DecimalFormat("00000"); 
+				int intConsecutive = consecutivosService.getNextConsecutive();
+				if (-1 == intConsecutive) {
+					throw new NotificationException("No se pudo obtener el siguiente consecutivo");
+				}
+				
+				String consecutive = dfConsecutive.format(intConsecutive);
 				
 				Map<String, Object> params = new HashMap<>();
 				params.put("pSegregado", patrono.getSegregado());

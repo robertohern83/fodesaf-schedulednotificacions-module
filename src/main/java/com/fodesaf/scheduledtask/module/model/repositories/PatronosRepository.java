@@ -25,6 +25,10 @@ public interface PatronosRepository extends CrudRepository<Patronos, Integer>, J
 	@Query("SELECT DISTINCT(TRIM(both from p.regimen)) FROM Patronos p")
 	List<String> getRegimen();
 	
+	@Query("SELECT DISTINCT(TRIM(both from p.condicionLegal)) FROM Patronos p")
+	List<String> getCondiciones();
+	
+	
 	@Query("SELECT DISTINCT(TRIM(both from p.categoriaAlerta)) FROM Patronos p")
 	List<String> getAlertas();
 	
@@ -37,6 +41,7 @@ public interface PatronosRepository extends CrudRepository<Patronos, Integer>, J
 	@Override
     @RestResource(exported = true)
     <S extends Patronos> S save(S s);
+
 	
 
 }
