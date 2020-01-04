@@ -3,6 +3,7 @@
  */
 package com.fodesaf.scheduledtask.module.service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Campanas;
+import com.fodesaf.scheduledtask.module.model.ControlNotificacionesDiarias;
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
+import com.fodesaf.scheduledtask.module.model.repositories.ControlNotificacionesDiariasRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 
 /**
@@ -31,7 +35,10 @@ public class NotificacionesService {
 	@Resource
 	NotificacionesRepository notificacionesRepo;
 	
-	public Page<Notificaciones> findByCriteria(String notificacionEstatus, String estadoCampana, Pageable pageable){
+	@Resource 
+	ControlNotificacionesDiariasRepository controlRepo;
+	
+	public Page<Notificaciones> findByCriteria(String notificacionEstatus, String estadoCampana, List<Campanas> campanasExcluidas, Pageable pageable){
 		
 		return notificacionesRepo.findAll(new Specification<Notificaciones>() {
 			
@@ -40,6 +47,12 @@ public class NotificacionesService {
 			@Override
 			public Predicate toPredicate(Root<Notificaciones> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicates = new ArrayList<>();
+				
+				//Excluir notificaciones a campañas que ya hayan llegado a su limite diario
+				if(null != campanasExcluidas && !campanasExcluidas.isEmpty()) {
+					//root.get("primaryKey").get("campana").in(campanasExcluidas);
+					predicates.add(criteriaBuilder.and(criteriaBuilder.not(root.get("primaryKey").get("campana").in(campanasExcluidas))));
+				}
 				
 				//Notificaciones que estén PENDIENTES
 				if(null != notificacionEstatus) {
@@ -50,11 +63,6 @@ public class NotificacionesService {
 				if(null != estadoCampana) {
 					predicates.add(criteriaBuilder.and(criteriaBuilder.equal(root.get("primaryKey").get("campana").get("estado"), estadoCampana)));
 				}
-				
-				//Path<LocalDate> start = root.get("primaryKey").get("campana").<LocalDate>get("fechaInicio");
-				//Path<LocalDate> end = root.get("primaryKey").get("campana").<LocalDate>get("fechaFin");
-				
-				
 				//Que se encuentre dentro del rando de fechas de la campaña
 				predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.currentDate(), root.get("primaryKey").get("campana").get("fechaInicio"))));
 				predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(criteriaBuilder.currentDate(), root.get("primaryKey").get("campana").get("fechaFin"))));
@@ -64,6 +72,11 @@ public class NotificacionesService {
 		}, pageable);
 		
 		
+		
+	}
+	
+	public List<ControlNotificacionesDiarias> getControlDiarioHoy(LocalDate fecha) {
+		return controlRepo.findByPrimaryKeyFechaControl(fecha);
 		
 	}
 	

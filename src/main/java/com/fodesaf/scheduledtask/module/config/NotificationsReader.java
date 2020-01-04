@@ -3,6 +3,13 @@
  */
 package com.fodesaf.scheduledtask.module.config;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.ExitStatus;
@@ -17,6 +24,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import com.fodesaf.scheduledtask.module.model.Campanas;
+import com.fodesaf.scheduledtask.module.model.ControlNotificacionesDiarias;
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 import com.fodesaf.scheduledtask.module.service.NotificacionesService;
@@ -47,25 +56,35 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 		this.notificacionesService = notificacionesService;
 		
 	}
-
-	@Override
-	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
-		
-		Pageable pageable = PageRequest.of(0, MAXIMO_POR_BLOQUE, Sort.by(Sort.Direction.ASC, FECHA_CREACION));
-		//notificaciones = notificacionesRepo.findByEstatus(PENDING_STATUS, pageable);
-		
-		//notificaciones = notificacionesRepo.findByEstatusAndPrimaryKeyCampanaEstado(PENDING_STATUS, EN_PROCESO, pageable);
-		notificaciones = notificacionesService.findByCriteria(PENDING_STATUS, EN_PROCESO, pageable);
-		
-        return RepeatStatus.FINISHED;
-	}
-
+	
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
 		//notificaciones = (Page<Notificaciones>) new ArrayList<Notificaciones>();
         logger.debug("Iniciando lectura de patronos a notificar...");
 
 	}
+
+	@Override
+	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
+		List<Campanas> campanasExcluidas = new ArrayList<Campanas>();
+		Pageable pageable = PageRequest.of(0, MAXIMO_POR_BLOQUE, Sort.by(Sort.Direction.ASC, FECHA_CREACION));
+		
+		List<ControlNotificacionesDiarias> control = notificacionesService.getControlDiarioHoy(LocalDate.now());
+		
+		if (null != control) {
+			control.forEach(e -> {
+				if(e.getRestantes() <= 0){
+					campanasExcluidas.add(e.getPrimaryKey().getCampana());
+				}
+			});
+		}
+		
+		notificaciones = notificacionesService.findByCriteria(PENDING_STATUS, EN_PROCESO, campanasExcluidas, pageable);
+		
+		return RepeatStatus.FINISHED;
+	}
+
+	
 
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
