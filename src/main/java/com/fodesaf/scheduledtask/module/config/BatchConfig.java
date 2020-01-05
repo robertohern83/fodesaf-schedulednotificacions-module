@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 import com.fodesaf.scheduledtask.module.model.repositories.CampanaCanalesRepository;
+import com.fodesaf.scheduledtask.module.model.repositories.ControlNotificacionesDiariasRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
 import com.fodesaf.scheduledtask.module.service.NotificacionesService;
@@ -45,6 +46,9 @@ public class BatchConfig {
 	private NotificacionesService notificacionesService;
 	
 	@Autowired
+	private ControlNotificacionesDiariasRepository controlRepository;
+	
+	@Autowired
 	NotificationFactory factory;
 
 	@Bean
@@ -67,7 +71,7 @@ public class BatchConfig {
     protected Step writeLines() {
         return steps
           .get("writeLines")
-          .tasklet(new NotificationsWriter(notificacionesRepository))
+          .tasklet(new NotificationsWriter(notificacionesRepository, controlRepository))
           .build();
     }
 	
@@ -77,7 +81,7 @@ public class BatchConfig {
           .get("taskletsJob")
           .start(readLines())
           //.next(processLines())
-          //.next(writeLines())
+          .next(writeLines())
           .build();
     }
 

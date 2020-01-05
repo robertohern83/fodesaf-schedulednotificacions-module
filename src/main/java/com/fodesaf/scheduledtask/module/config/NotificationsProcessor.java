@@ -53,7 +53,18 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 		this.notificacionesRepo = notificacionesRepository;
 		
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public void beforeStep(StepExecution stepExecution) {
+		ExecutionContext executionContext = stepExecution
+		          .getJobExecution()
+		          .getExecutionContext();
+		this.notificaciones = (Page<Notificaciones>) executionContext.get("notificaciones");
+		logger.debug("Iniciando procesamiento de Notificaciones...");
 
+	}
+	
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
@@ -67,16 +78,7 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 
 	
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public void beforeStep(StepExecution stepExecution) {
-		ExecutionContext executionContext = stepExecution
-		          .getJobExecution()
-		          .getExecutionContext();
-		this.notificaciones = (Page<Notificaciones>) executionContext.get("notificaciones");
-		logger.debug("Lines Processor initialized.");
-
-	}
+	
 
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
