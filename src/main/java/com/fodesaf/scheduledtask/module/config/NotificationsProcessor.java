@@ -3,9 +3,13 @@
  */
 package com.fodesaf.scheduledtask.module.config;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,8 +23,10 @@ import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.data.domain.Page;
 
+import com.fodesaf.scheduledtask.module.model.GestionCobro;
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.repositories.CampanaCanalesRepository;
+import com.fodesaf.scheduledtask.module.model.repositories.GestionCobroRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
@@ -40,6 +46,26 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	private static final String EMAIL = "EMAIL";
 
 	private static final String SMS = "SMS";
+	
+	private static final String PAGO_GESTIONADO = "PAGO_GESTIONADO";
+	
+	private static final String ENVIADA = "ENVIADA";
+	
+	private static final List<String> RAZONES = Collections.unmodifiableList(Arrays.asList(
+			"Reporte de su pago"
+			));
+	/*
+	"Cédula jurídica de la Desaf.",
+	"Reporte de su pago",
+	"Certificación de patrono al día",
+	"Requisitos sobre trámites administrativos",
+	"Información general",
+	"Trámites administrativos",
+	"Requisitos de arreglo de pago",
+	"Monto de su deuda",
+	"Estado de cuenta",
+	"Medios de Pago"
+	*/
 
 	private Logger logger = LoggerFactory.getLogger(NotificationsProcessor.class);
 
@@ -47,10 +73,13 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	
 	private NotificacionesRepository notificacionesRepo;
 	
-	public NotificationsProcessor(NotificacionesRepository notificacionesRepository, CampanaCanalesRepository campanaCanalesRepository, NotificationFactory _factory) {
+	private GestionCobroRepository gestionCobroRepo;
+	
+	public NotificationsProcessor(NotificacionesRepository notificacionesRepository, CampanaCanalesRepository campanaCanalesRepository, GestionCobroRepository gestionCobroRepository, NotificationFactory _factory) {
 		super();
 		this.factory = _factory;
 		this.notificacionesRepo = notificacionesRepository;
+		this.gestionCobroRepo = gestionCobroRepository;
 		
 	}
 	
@@ -69,28 +98,70 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
 		notificaciones.forEach(item -> {
-			String messageId = notificarCanal(item);
-			item.setMessageId(messageId);
-			System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
+			if(!pagoRealizado(item)) {
+				String messageId = notificarCanal(item);
+				item.setMessageId(messageId);
+				item.setFechaEnvio(new Date());
+				item.setEstatus(ENVIADA);
+				System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
+			} else {
+				item.setEstatus(PAGO_GESTIONADO);
+			}
+			notificacionesRepo.save(item);
 		});
 		return RepeatStatus.FINISHED;
 	}
 
 	
 
-	
-
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
-		notificaciones.forEach(item -> {
-			item.setFechaEnvio(new Date());
-			notificacionesRepo.save(item);
-		});
+		
 		logger.debug("Lines Processor ended.");
         return ExitStatus.COMPLETED;
 	}
 	
+	/**
+	 * Valida si ya tiene un pago gestionado
+	 * @param item
+	 * @return 
+	 * @return 
+	 * @return
+	 */
+	private boolean pagoRealizado(Notificaciones item) {
+		AtomicReference<Boolean> result = new AtomicReference<Boolean>(false);
+		
+		if(item.getPrimaryKey().getIntento() > 1) {
+			
+			List<GestionCobro> cobro = gestionCobroRepo
+					.findBySegregado(item.getPrimaryKey().getPatrono().getSegregado());
+			
+			cobro.forEach(c -> {
+				if(c.getFechaContacto().after(item.getFechaCreacion()) && razonLlamadaCobro(c)) {
+					result.set(true);
+				}
+			});
+			
+		}
+		
+		return result.get();
+	}
+	
 
+	/**
+	 * Verifica que la razón de la gestion del cobro sea un reporte de pago
+	 * @param c
+	 * @return
+	 */
+	private boolean razonLlamadaCobro(GestionCobro c) {
+		return RAZONES.contains(c.getRazonLlamada());
+	}
+
+	/**
+	 * Envia una notificacion dependiendo del canal
+	 * @param notificacion
+	 * @return
+	 */
 	private String notificarCanal(Notificaciones notificacion) {
 		String messageId = null;
 		Integer tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo().getId();
@@ -127,9 +198,7 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	private Map<String, Object> loadParams(Notificaciones notificacion) {
 		Map<String, Object> notificationData = new HashMap<String, Object>();
 		notificationData.put("Patrono", notificacion.getPrimaryKey().getPatrono());
-		//FIXME manejar consecutivo
-		notificationData.put("Consecutive", 9999);
-		notificationData.put("Attemp", 1);
+		notificationData.put("Attemp", notificacion.getPrimaryKey().getIntento());
 		return notificationData;
 	}
 

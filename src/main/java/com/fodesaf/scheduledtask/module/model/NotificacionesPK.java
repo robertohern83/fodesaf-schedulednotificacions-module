@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
@@ -22,6 +23,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@ToString
 public class NotificacionesPK implements Serializable {
 	/**
 	 * 
@@ -53,17 +55,10 @@ public class NotificacionesPK implements Serializable {
 	@Getter
 	@Setter
 	String canal;
-
-	@Override
-	public String toString() {
-		return "NotificacionesPK [segmento=" + segmento + ", campana=" + campana + ", patrono=" + patrono + ", cedula="
-				+ cedula + ", canal=" + canal + "]";
-	}
-
 	
-	
-
-	
+	@Getter
+	@Setter
+	int intento;
 
 	
 	

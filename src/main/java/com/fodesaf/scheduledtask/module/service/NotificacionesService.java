@@ -67,6 +67,11 @@ public class NotificacionesService {
 				predicates.add(criteriaBuilder.and(criteriaBuilder.greaterThanOrEqualTo(criteriaBuilder.currentDate(), root.get("primaryKey").get("campana").get("fechaInicio"))));
 				predicates.add(criteriaBuilder.and(criteriaBuilder.lessThanOrEqualTo(criteriaBuilder.currentDate(), root.get("primaryKey").get("campana").get("fechaFin"))));
 				
+				//Que la fecha programada sea nula o sea hoy (para el segundo intento)
+				Predicate p1 = criteriaBuilder.isNull(root.get("fechaProgramada"));
+				Predicate p2 =criteriaBuilder.equal(root.get("fechaProgramada"), LocalDate.now());
+            	predicates.add(criteriaBuilder.and(criteriaBuilder.or(p1,p2)));
+				
 				return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
 			}
 		}, pageable);

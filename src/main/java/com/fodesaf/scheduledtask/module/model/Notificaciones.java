@@ -4,6 +4,7 @@
 package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,11 +12,14 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
@@ -23,7 +27,7 @@ import lombok.Setter;
  */
 @Entity
 @Table (name = "Notificaciones", schema = "dbo")
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
 public class Notificaciones implements Serializable{
 
 	/**
@@ -52,19 +56,12 @@ public class Notificaciones implements Serializable{
 	@Getter @Setter
 	@Column (name = "Messageid")
 	String messageId;
-
-	@Override
-	public String toString() {
-		return "Notificaciones [primaryKey=" + primaryKey + ", estatus=" + estatus + ", fechaCreacion=" + fechaCreacion
-				+ ", fechaEnvio=" + fechaEnvio + ", messageId=" + messageId + "]";
-	}
-
 	
+	@Getter @Setter
+	@Column (name = "Fechaprogramada")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	LocalDate fechaProgramada;
 
-	
-
-
-	
 	
 
 }

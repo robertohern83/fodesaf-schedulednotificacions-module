@@ -6,9 +6,6 @@ package com.fodesaf.scheduledtask.module.config;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +41,8 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 
 	private static final String PENDING_STATUS = "Pendiente";
 
+	private static final String INTENTO = "PrimaryKey.Intento";
+
 	private final Logger logger = LoggerFactory.getLogger(NotificationsReader.class);
 
 	private Page<Notificaciones> notificaciones;
@@ -67,8 +66,10 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		List<Campanas> campanasExcluidas = new ArrayList<Campanas>();
-		Pageable pageable = PageRequest.of(0, MAXIMO_POR_BLOQUE, Sort.by(Sort.Direction.ASC, FECHA_CREACION));
-		
+	
+		Pageable pageable = PageRequest.of(0, MAXIMO_POR_BLOQUE,
+				Sort.by(INTENTO).descending().and(Sort.by(FECHA_CREACION).ascending()));
+
 		List<ControlNotificacionesDiarias> control = notificacionesService.getControlDiarioHoy(LocalDate.now());
 		
 		if (null != control) {
