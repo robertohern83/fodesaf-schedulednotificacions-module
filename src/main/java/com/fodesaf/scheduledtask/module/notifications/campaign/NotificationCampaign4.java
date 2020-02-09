@@ -94,8 +94,9 @@ public class NotificationCampaign4 implements Notification {
 				}
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
-				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()),
+						NO_CONTACT_INFO_ERROR);
 			}
 			
 			break;
@@ -132,15 +133,15 @@ public class NotificationCampaign4 implements Notification {
 				}
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
-				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s",
+						this.getSupportedCampaign(), patrono.getSegregado()),
+						NO_CONTACT_INFO_ERROR);
 			}
 			
 			break;
 		case VOICE:
-			System.out.println(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()));
-			break;
-
+			throw new NotificationException(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()), NOT_SUPPORTED_CHANNEL);
+			
 		default:
 			break;
 		}

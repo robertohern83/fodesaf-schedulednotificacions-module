@@ -54,7 +54,7 @@ public class PatronosService {
 			}
 		}
 		
-		return telefonoResultado;
+		return telefonoResultado.trim();
 	}
 
 	private String obtenerTelefonoValidado(String telefono, boolean smsCompatible) {
@@ -71,7 +71,7 @@ public class PatronosService {
 
 	private boolean isSMSCompatible(String telefono) {
 		//FIXME: Pendiente investigar si es posible determinar si un numero es celular o no
-		return telefono.matches("[0-9]{8}");
+		return telefono.trim().matches("[0-9]{8}");
 	}	
 	
 	public String obtenerCorreoPatrono(Patronos patrono){

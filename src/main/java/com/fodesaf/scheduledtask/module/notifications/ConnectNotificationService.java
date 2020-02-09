@@ -46,7 +46,7 @@ public class ConnectNotificationService {
 		StartOutboundVoiceContactRequest startOutboundVoiceContactRequest = new StartOutboundVoiceContactRequest();
 		startOutboundVoiceContactRequest.setInstanceId(connectInstanceId);
 		startOutboundVoiceContactRequest.setContactFlowId(contactFlowId);
-		startOutboundVoiceContactRequest.setDestinationPhoneNumber(phoneNumber);
+		startOutboundVoiceContactRequest.setDestinationPhoneNumber(phoneNumber.trim());
 		startOutboundVoiceContactRequest.setSourcePhoneNumber(outboundPhone);
 		attributes.forEach((key, value) -> {startOutboundVoiceContactRequest.addAttributesEntry(key, value);});
 		

@@ -16,13 +16,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
  *
  */
 
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
 @Embeddable
 public class DetallePatronosPK implements Serializable{
 	
@@ -37,11 +38,10 @@ public class DetallePatronosPK implements Serializable{
 	@JoinColumn(name = "segregado", referencedColumnName = "segregado")
 	Patronos segregado;
 	
-	
 	@Getter @Setter
-	@Column (name = "cedula")
+	@Column (name = "Cedula")
 	String cedula;
-
+	
 	@Getter @Setter
 	@Column (name = "Periodo")
 	String periodo;
@@ -49,12 +49,11 @@ public class DetallePatronosPK implements Serializable{
 	@Getter @Setter
 	@Column (name = "Tipo")
 	String tipo;
+	
+	@Getter @Setter
+	@Column (name = "Consecutivo")
+	int consecutivo;
 
-	@Override
-	public String toString() {
-		return "DetallePatronosPK [segregado=" + segregado + ", cedula=" + cedula + ", periodo=" + periodo + ", tipo="
-				+ tipo + "]";
-	}
 
 	
 	

@@ -15,14 +15,15 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
  *
  */
 @Entity
-@Table (name = "Detallepatronos", schema = "dbo")
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@Table (name = "Intellect_Periodo", schema = "dbo")
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
 public class DetallePatronos implements Serializable {
 
 	/**
@@ -54,12 +55,9 @@ public class DetallePatronos implements Serializable {
 	@Getter @Setter
 	@Column (name = "Multa")
 	double multa;
+	
 
-	@Override
-	public String toString() {
-		return "DetallePatronos [primaryKey=" + primaryKey + ", nombre=" + nombre + ", estado=" + estado
-				+ ", principal=" + principal + ", recargo=" + recargo + ", multa=" + multa + "]";
-	}
+	
 	
 	
 	

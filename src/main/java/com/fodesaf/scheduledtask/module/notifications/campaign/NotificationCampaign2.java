@@ -150,8 +150,9 @@ public class NotificationCampaign2 implements Notification {
 				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())), smsSender, MessageType.PROMOTIONAL);
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
-				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()),
+						NO_CONTACT_INFO_ERROR);
 			}
 			break;
 		case EMAIL:
@@ -179,8 +180,9 @@ public class NotificationCampaign2 implements Notification {
 				}
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
-				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()),
+						NO_CONTACT_INFO_ERROR);
 			}
 			
 			break;
@@ -194,7 +196,10 @@ public class NotificationCampaign2 implements Notification {
 				messageIdResult = connectService.sendVoiceNotification(contactFlowId, attributes, formatTelephone(telefono));
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()), 
+						NO_CONTACT_INFO_ERROR);
+				
 			}
 			
 			break;

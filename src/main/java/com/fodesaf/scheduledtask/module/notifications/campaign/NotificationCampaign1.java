@@ -47,6 +47,8 @@ public class NotificationCampaign1 implements Notification {
 	@Autowired
 	PatronosService patronosService;
 	
+	
+	
 	private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Le agradecemos ponerse al día lo antes posible. Si ya canceló favor omitir este mensaje.";
 	
 	// The subject line for the email.
@@ -150,8 +152,9 @@ public class NotificationCampaign1 implements Notification {
 				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), smsSender, MessageType.PROMOTIONAL);
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
-				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()), 
+						NO_CONTACT_INFO_ERROR);
 			}
 			break;
 		case EMAIL:
@@ -162,7 +165,7 @@ public class NotificationCampaign1 implements Notification {
 				int attemp = (int)notificationData.get("Attemp");
 				
 				if(1 == attemp) {
-					emailService.sendEmailNotification(
+					messageIdResult = emailService.sendEmailNotification(
 							emailSender, 
 							SUBJECT, 
 							BODY_HTML_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), 
@@ -194,15 +197,14 @@ public class NotificationCampaign1 implements Notification {
 				}
 			}
 			else {
-				System.out.println(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
-				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: s%", this.getSupportedCampaign(), patrono.getSegregado()));
+				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()), 
+						NO_CONTACT_INFO_ERROR);
 			}
 			
 			break;
 		case VOICE:
-			System.out.println(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()));
-			
-			break;
+			throw new NotificationException(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()), NOT_SUPPORTED_CHANNEL);
 
 		default:
 			break;

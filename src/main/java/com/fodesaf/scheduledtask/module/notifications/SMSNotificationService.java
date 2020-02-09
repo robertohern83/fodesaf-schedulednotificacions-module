@@ -20,7 +20,7 @@ public class SMSNotificationService {
 	
 	public String sendSMSMessage(String phoneNumber, String message, String pSender, MessageType pType) {
 		PublishRequest request = new PublishRequest();
-		request.setPhoneNumber(phoneNumber);
+		request.setPhoneNumber(phoneNumber.trim());
 		request.setMessage(message);
 		MessageAttributeValue sender = new MessageAttributeValue();
 		sender.setDataType("String");

@@ -30,6 +30,7 @@ import com.fodesaf.scheduledtask.module.model.repositories.GestionCobroRepositor
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
+import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
 
 /**
@@ -51,22 +52,18 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	
 	private static final String ENVIADA = "ENVIADA";
 	
+	private static final String ENVIADA_SIN_MESSAGEID = "ENVIADA SIN CONFIRMAR";
+	
+	private static final String NO_CONTACT_INFO = "SIN_INFO_CONTACTO";
+
+	private static final String NOT_SUPPORTED_CHANNEL = "CANAL_NO_SOPORTADO";
+
+	
 	private static final List<String> RAZONES = Collections.unmodifiableList(Arrays.asList(
 			"Reporte de su pago"
 			));
-	/*
-	"Cédula jurídica de la Desaf.",
-	"Reporte de su pago",
-	"Certificación de patrono al día",
-	"Requisitos sobre trámites administrativos",
-	"Información general",
-	"Trámites administrativos",
-	"Requisitos de arreglo de pago",
-	"Monto de su deuda",
-	"Estado de cuenta",
-	"Medios de Pago"
-	*/
 
+	
 	private Logger logger = LoggerFactory.getLogger(NotificationsProcessor.class);
 
 	private Page<Notificaciones> notificaciones;
@@ -98,21 +95,61 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
 		notificaciones.forEach(item -> {
+			String estatus = null;
 			if(!pagoRealizado(item)) {
-				String messageId = notificarCanal(item);
-				item.setMessageId(messageId);
+				
+				
+				String messageId;
+				try {
+					messageId = notificarCanal(item);
+				
+					if(null == messageId || messageId.isEmpty()) {
+						System.out.println(String.format("No se ha obtenido el messageId del mensaje enviado para la campaña: %s y el segregado: %s", item.getPrimaryKey().getCampana().getId(),item.getPrimaryKey().getPatrono().getSegregado()));
+						estatus = ENVIADA_SIN_MESSAGEID;
+					}else {
+						item.setMessageId(messageId);
+						estatus = ENVIADA;
+					}
+				} catch (NotificationException ne) {
+					System.out.println(ne.getMessage());
+					estatus = getExceptionEstatus(ne.getErrorCode()); 
+					
+				}
 				item.setFechaEnvio(new Date());
-				item.setEstatus(ENVIADA);
+				
 				System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
 			} else {
-				item.setEstatus(PAGO_GESTIONADO);
+				estatus = PAGO_GESTIONADO;
 			}
+			
+			item.setEstatus(estatus);
 			notificacionesRepo.save(item);
 		});
 		return RepeatStatus.FINISHED;
 	}
 
 	
+
+	/** 
+	 * Obtiene un estatus dependiendo del codigo de la excepcion
+	 * @param errorCode
+	 * @return
+	 */
+	private String getExceptionEstatus(int errorCode) {
+		String estatus = null;
+		switch (errorCode) {
+			case -100:
+				estatus = NO_CONTACT_INFO;
+				break;
+			case -200:
+				estatus = NOT_SUPPORTED_CHANNEL;
+				break;
+			default:
+				break;
+			}
+		
+		return estatus;
+	}
 
 	@Override
 	public ExitStatus afterStep(StepExecution stepExecution) {
@@ -161,36 +198,31 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	 * Envia una notificacion dependiendo del canal
 	 * @param notificacion
 	 * @return
+	 * @throws NotificationException 
 	 */
-	private String notificarCanal(Notificaciones notificacion) {
+	private String notificarCanal(Notificaciones notificacion) throws NotificationException {
 		String messageId = null;
 		Integer tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo().getId();
 		Notification notification = factory.getCaseService(tipoCampana);
 		Map<String, Object> notificationData = loadParams(notificacion);
-		try {
-			switch (notificacion.getPrimaryKey().getCanal()) {
-				case SMS:		
-					System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-					messageId = notification.sendNotification(notificationData, NotificationChannel.SMS);
-					break;
-				case EMAIL:
-					System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-					messageId = notification.sendNotification(notificationData, NotificationChannel.EMAIL);
-					break;
-				case VOZ:
-					System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-					messageId = notification.sendNotification(notificationData, NotificationChannel.VOICE);
-					break;
-				default:
-					break;
-			}
-			
 		
-		//Se captura toda excepción, para impedir que el proceso de notificación de campañas se detenga por un error en una notificación	
-		} catch (Exception e) {
-			// FIXME: Almacenar en bitácora error generado
-			e.printStackTrace();
+		switch (notificacion.getPrimaryKey().getCanal()) {
+			case SMS:		
+				System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				messageId = notification.sendNotification(notificationData, NotificationChannel.SMS);
+				break;
+			case EMAIL:
+				System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				messageId = notification.sendNotification(notificationData, NotificationChannel.EMAIL);
+				break;
+			case VOZ:
+				System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				messageId = notification.sendNotification(notificationData, NotificationChannel.VOICE);
+				break;
+			default:
+				break;
 		}
+		 
 		
 		return messageId;
 	}
