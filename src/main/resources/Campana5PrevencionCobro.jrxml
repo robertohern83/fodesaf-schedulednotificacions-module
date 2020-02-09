@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -54,42 +54,52 @@ SUM(Intereses_Administrativos) as Intereses_Administrativos,
 SUM(Total_Periodos) as Total_Periodos,
 SUM(Cuotas_Al_Cobro) as Cuotas_Al_Cobro,
 SUM(Total_Arreglo) as Total_Arreglo
-FROM Patronos
+FROM Intellect_Maestro
 where Segregado = $P{pSegregado}
 group by Cedula,Segregado, Nombre]]>
 	</queryString>
 	<field name="Cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="Cedula"/>
 	</field>
+	<field name="Segregado" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="Segregado"/>
+	</field>
 	<field name="Nombre" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="Nombre"/>
 	</field>
-	<field name="Principal" class="java.lang.Double">
+	<field name="Principal" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Principal"/>
 	</field>
-	<field name="Recargos" class="java.lang.Double">
+	<field name="Recargos" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Recargos"/>
 	</field>
-	<field name="Multas" class="java.lang.Double">
+	<field name="Multas" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Multas"/>
 	</field>
-	<field name="Saldo_Arreglo" class="java.lang.Double">
+	<field name="Saldo_Arreglo" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Saldo_Arreglo"/>
 	</field>
-	<field name="Intereses_Moratorios" class="java.lang.Double">
+	<field name="Principal_Arreglo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="Principal_Arreglo"/>
+	</field>
+	<field name="Intereses_Moratorios" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Intereses_Moratorios"/>
 	</field>
-	<field name="Deuda_Total" class="java.lang.Double">
+	<field name="Deuda_Total" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Deuda_Total"/>
 	</field>
-	<field name="Intereses_Administrativos" class="java.lang.Double">
+	<field name="Intereses_Administrativos" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Intereses_Administrativos"/>
 	</field>
-	<field name="Principal_Arreglo" class="java.lang.Double"/>
-	<field name="Segregado" class="java.lang.String"/>
-	<field name="Total_Periodos" class="java.lang.Double"/>
-	<field name="Cuotas_Al_Cobro" class="java.lang.Double"/>
-	<field name="Total_Arreglo" class="java.lang.Double"/>
+	<field name="Total_Periodos" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="Total_Periodos"/>
+	</field>
+	<field name="Cuotas_Al_Cobro" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="Cuotas_Al_Cobro"/>
+	</field>
+	<field name="Total_Arreglo" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="Total_Arreglo"/>
+	</field>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
