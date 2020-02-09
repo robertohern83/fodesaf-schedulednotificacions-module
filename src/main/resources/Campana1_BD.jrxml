@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="DataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<style name="Table_TH" mode="Opaque" backcolor="#D3D3D3">
 		<box>
@@ -64,7 +64,7 @@
 		<defaultValueExpression><![CDATA["203101101324002001"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select * from dbo.Patronos where Segregado = $P{pSegregadoPrincipal}]]>
+		<![CDATA[select * from dbo.Intellect_Maestro where Segregado = $P{pSegregadoPrincipal}]]>
 	</queryString>
 	<field name="Segregado" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="Segregado"/>
