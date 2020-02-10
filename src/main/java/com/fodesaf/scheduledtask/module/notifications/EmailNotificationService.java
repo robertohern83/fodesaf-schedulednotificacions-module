@@ -21,6 +21,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
@@ -36,7 +37,8 @@ public class EmailNotificationService {
 	
 	// Replace sender@example.com with your "From" address.
 		// This address must be verified with Amazon SES.
-		private static String SENDER = "info@in2cloudsconsulting.com";
+		@Value("${fodesaf.notifications.email.sender}")
+		private static String SENDER;
 
 		// Replace recipient@example.com with a "To" address. If your account 
 		// is still in the sandbox, this address must be verified.
