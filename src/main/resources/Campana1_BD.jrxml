@@ -30,7 +30,7 @@
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<parameter name="pSegregadoHijo" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select * from dbo.DetallePatronos where Segregado = $P{pSegregadoHijo}]]>
+			<![CDATA[select * from dbo.Intellect_Periodo where Segregado = $P{pSegregadoHijo}]]>
 		</queryString>
 		<field name="Segregado" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="Segregado"/>
