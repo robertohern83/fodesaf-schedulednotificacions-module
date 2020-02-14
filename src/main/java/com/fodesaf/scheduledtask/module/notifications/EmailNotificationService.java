@@ -3,11 +3,6 @@ package com.fodesaf.scheduledtask.module.notifications;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -28,9 +23,6 @@ import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.RawMessage;
 import com.amazonaws.services.simpleemail.model.SendRawEmailRequest;
-import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
-
-import net.sf.jasperreports.engine.JRException;
 
 @Service
 public class EmailNotificationService {
@@ -38,60 +30,15 @@ public class EmailNotificationService {
 	// Replace sender@example.com with your "From" address.
 		// This address must be verified with Amazon SES.
 		@Value("${fodesaf.notifications.email.sender}")
-		private static String SENDER;
+		private String SENDER;
 
 		// Replace recipient@example.com with a "To" address. If your account 
 		// is still in the sandbox, this address must be verified.
 		//private static String RECIPIENT = "roberto.hernandez@in2cloudsconsulting.com";
 		
-		private static String RECIPIENT = "consultorias.rhm@gmail.com";
-
-
-		// The subject line for the email.
-		private static String SUBJECT = "Email de ejemplo de notificacion de campaña";
-
-
-		// The email body for recipients with non-HTML email clients.
-		private static String BODY_TEXT = "Hola,\r\n"
-	                                        + "Este es un correo de ejemplo de  "
-	                                        + "un correo para contacto de clientes";
-
-		// The HTML body of the email.
-		private static String BODY_HTML = "<html>"
-	                                        + "<head></head>"
-	                                        + "<body>"
-	                                        + "<h1>Hola!</h1>"
-	                                        + "<p>Por favor vea el correo adjunto para certificar su deuda</p>"
-	                                        + "</body>"
-	                                        + "</html>";
-
-	static AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.defaultClient();
+		static AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.defaultClient();
 	
-	public static void main (String args[]) throws JRException, Exception {
-		
-		
-		Connection conn = null;
-    	try {
-	    	Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	    	conn = DriverManager.getConnection("jdbc:sqlserver://fodesafcampaingsdb.c31iwj6og8sy.us-east-1.rds.amazonaws.com:1433;databaseName=DBCobrosFodesaf","admin","satelite");
-	    	} catch (SQLException ex) {
-	    		ex.printStackTrace();
-	    } catch (ClassNotFoundException ex) {
-	    	ex.printStackTrace();
-	    }
-		
-		
-		Map<String, Object> params = new HashMap<>();
-		//params.put("pSegregadoPrincipal", "000100575474001001");
-		params.put("pCedula", "00100596918");
-		
-		byte[] file = GenerateReportFromTemplate.createReportFromDatabase(conn, params, "/Campana2_BD.jasper", "pdf");
-		
-		
-		EmailNotificationService service = new EmailNotificationService();
-		service.sendEmailNotification(SENDER, SUBJECT, BODY_HTML, BODY_TEXT, RECIPIENT, file, "application/pdf", "Notificacion.pdf");
-		
-	}
+	
 	
 	public String sendEmailNotification(String sender, String Subject, String htmlBody, String textBody, String recipient, byte[] attachment, String contentType, String fileName) {
 		Session session = Session.getDefaultInstance(new Properties());

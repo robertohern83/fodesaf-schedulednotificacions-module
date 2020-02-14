@@ -114,6 +114,8 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 					System.out.println(ne.getMessage());
 					estatus = getExceptionEstatus(ne.getErrorCode()); 
 					
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 				item.setFechaEnvio(new Date());
 				
