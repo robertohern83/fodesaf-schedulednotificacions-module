@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -109,14 +109,14 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<reportElement x="-20" y="-32" width="560" height="1" uuid="99fd3545-8756-43e2-9f2b-6065c5370d90"/>
 			</line>
 			<textField evaluationTime="Report" pattern="hh:mm a">
-				<reportElement x="410" y="30" width="101" height="10" uuid="32a929ee-6dfb-4d9c-8245-3b977df1e2ae"/>
+				<reportElement x="410" y="44" width="101" height="10" uuid="32a929ee-6dfb-4d9c-8245-3b977df1e2ae"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="410" y="20" width="101" height="10" uuid="18108497-773f-4291-a38c-788a9772f9b3"/>
+				<reportElement x="410" y="34" width="101" height="10" uuid="18108497-773f-4291-a38c-788a9772f9b3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
@@ -286,7 +286,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement>
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Honorarios y costas:]]></text>
+				<text><![CDATA[Honorarios y costos:]]></text>
 			</staticText>
 			<textField pattern="#,##0.00#">
 				<reportElement x="110" y="180" width="120" height="15" uuid="ecfddce6-03bf-4890-9953-646d994777af"/>
@@ -352,9 +352,9 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[La columna Tipo se refiere a si la planilla es Ordinaria o Extraordinaria.
 La columna Período se refiere a la fecha de la planilla.
-La columna Principal se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
+La columna Principal se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/194.
 La columna Recardo se refiere al 1.5% del monto de la planilla.
-La columna Multa corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
+La columna Multa corresponde a lo decretado en el artículo 9 de la Ley 8783 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
 Con base en lo reportado por la CCSS, con un corte al
 ]]></text>
 			</staticText>
@@ -362,7 +362,7 @@ Con base en lo reportado por la CCSS, con un corte al
 				<reportElement x="10" y="12" width="473" height="1" uuid="699d0bcf-072c-4635-a2de-692cfdcc41ff"/>
 			</line>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="241" y="102" width="101" height="10" uuid="4ac2a2a2-d539-46c6-aee0-20e68de42e0f"/>
+				<reportElement x="241" y="110" width="101" height="10" uuid="4ac2a2a2-d539-46c6-aee0-20e68de42e0f"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>

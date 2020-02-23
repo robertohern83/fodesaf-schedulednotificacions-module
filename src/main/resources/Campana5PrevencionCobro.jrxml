@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
+<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
@@ -52,10 +52,13 @@ SUM(Deuda_Total) as Deuda_Total,
 SUM(Intereses_Administrativos) as Intereses_Administrativos,
 SUM(Total_Periodos) as Total_Periodos,
 SUM(Cuotas_Al_Cobro) as Cuotas_Al_Cobro,
-SUM(Total_Arreglo) as Total_Arreglo
+SUM(Total_Arreglo) as Total_Arreglo,
+Telefono as Telefono,
+TeleFax as TeleFax,
+Correo as Correo
 FROM Intellect_Maestro_Desaf
 where Segregado = $P{pSegregado}
-group by Cedula,Segregado, Nombre]]>
+group by Cedula,Segregado, Nombre,Telefono, TeleFax, Correo]]>
 	</queryString>
 	<field name="Cedula" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.label" value="Cedula"/>
@@ -99,6 +102,9 @@ group by Cedula,Segregado, Nombre]]>
 	<field name="Total_Arreglo" class="java.math.BigDecimal">
 		<property name="com.jaspersoft.studio.field.label" value="Total_Arreglo"/>
 	</field>
+	<field name="Telefono" class="java.lang.String"/>
+	<field name="Telefax" class="java.lang.String"/>
+	<field name="Correo" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -418,7 +424,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<subreportExpression><![CDATA["CampanaPrevencion_Detalle.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
-		<band height="104">
+		<band height="123">
 			<staticText>
 				<reportElement x="10" y="-40" width="486" height="104" uuid="0e92bbab-6d59-418c-bc0b-01aa24ffd0e2"/>
 				<textElement textAlignment="Left">
@@ -431,20 +437,6 @@ La columna Recargo se refiere al 1.5% del monto de la planilla.
 La columna Multa corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
 Con base en lo reportado por la CCSS, con un corte al 
 ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="12" y="65" width="486" height="20" uuid="ee1d8fae-27d8-4633-be41-66d4bc35a430"/>
-				<textElement textAlignment="Justified">
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Teléfono:87879909	Telefax:00000000	]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="12" y="84" width="486" height="20" uuid="19afb6fb-ac82-4b8a-a98f-fac608e6f0ba"/>
-				<textElement textAlignment="Justified">
-					<font size="9"/>
-				</textElement>
-				<text><![CDATA[Correo: INDUSTRIASQUIFER01@HOTMAIL.COM]]></text>
 			</staticText>
 			<line>
 				<reportElement x="10" y="59" width="491" height="1" uuid="3a626c54-d2ee-4ba2-84c2-5bd07598d160"/>
@@ -459,6 +451,30 @@ Con base en lo reportado por la CCSS, con un corte al
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
+			<textField>
+				<reportElement x="57" y="71" width="100" height="30" uuid="1e52e9ff-f890-4d5b-ac2a-49d4ca11fea5"/>
+				<textFieldExpression><![CDATA[$F{Telefono}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="9" y="70" width="57" height="30" uuid="a564196e-1f15-43a1-90e8-a1e5a4dbbc86"/>
+				<text><![CDATA[Telefono:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="210" y="71" width="100" height="30" uuid="a541f5c5-17bd-494e-81f1-9b9b02a6edac"/>
+				<textFieldExpression><![CDATA[$F{Telefax}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="158" y="71" width="52" height="30" uuid="e92c97f1-d1fb-41e8-b46a-1a228b939e58"/>
+				<text><![CDATA[Fax:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="58" y="93" width="252" height="30" uuid="cafd54a0-6210-4bd6-9bcc-557b35eab6ed"/>
+				<textFieldExpression><![CDATA[$F{Correo}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="10" y="93" width="47" height="30" uuid="7f066c9e-1a2b-49cf-b03f-6833ee0ab150"/>
+				<text><![CDATA[Correo:]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<pageFooter>
