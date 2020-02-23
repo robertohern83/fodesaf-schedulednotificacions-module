@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.fodesaf</groupId>
 	<artifactId>fodesaf-schedulednotificacions-module</artifactId>
-	<version>1.0.0</version>
+	<version>0.0.1</version>
 	<name>fodesaf-schedulednotificacions-module</name>
 	<description>Modulo de tareas programadas para notificaciones</description>
 
