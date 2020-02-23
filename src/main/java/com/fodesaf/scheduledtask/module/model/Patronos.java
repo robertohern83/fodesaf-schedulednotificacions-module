@@ -25,7 +25,7 @@ import lombok.Setter;
  *
  */
 @Entity
-@Table (name = "Intellect_Maestro", schema = "dbo")
+@Table (name = "Intellect_Maestro_DESAF", schema = "dbo")
 @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
 public class Patronos implements Serializable {
 	/**
