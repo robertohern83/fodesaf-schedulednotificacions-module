@@ -23,7 +23,7 @@ public class FodesafSchedulednotificacionsModuleApplication {
 		SpringApplication.run(FodesafSchedulednotificacionsModuleApplication.class, args);
 	}
 
-	@Scheduled(cron = "0 */2 * * * ?")
+	@Scheduled(cron = "0 */2 8-23 * * *")
     public void perform() throws Exception  {
         JobParameters params = new JobParametersBuilder()
                 .addString("JobID", String.valueOf(System.currentTimeMillis()))
