@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
@@ -206,7 +206,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Total atraso por planillas]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="10" y="105" width="120" height="15" uuid="79e984f8-6a1b-4014-98ed-216d33ace629"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -290,7 +290,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Honorarios y costas:]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="110" y="180" width="120" height="15" uuid="ecfddce6-03bf-4890-9953-646d994777af"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>

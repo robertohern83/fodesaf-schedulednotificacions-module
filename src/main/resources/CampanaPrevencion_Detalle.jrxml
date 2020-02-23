@@ -225,7 +225,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField pattern="#,##0.00#">
 								<reportElement x="0" y="0" width="80" height="30" uuid="9cb562be-25ee-4d43-a860-64a053b07a54"/>
 								<textFieldExpression><![CDATA[$F{Principal}]]></textFieldExpression>
 							</textField>
@@ -239,7 +239,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField pattern="#,##0.00#">
 								<reportElement x="0" y="0" width="80" height="30" uuid="c4bada5f-6d48-4079-9e6e-279e0f61b9eb"/>
 								<textFieldExpression><![CDATA[$F{Recargo}]]></textFieldExpression>
 							</textField>
@@ -253,7 +253,7 @@
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField pattern="#,##0.00#">
 								<reportElement x="0" y="0" width="90" height="30" uuid="e49ffc85-a48d-44af-809e-a14c841f4f9e"/>
 								<textFieldExpression><![CDATA[$F{Multa}]]></textFieldExpression>
 							</textField>

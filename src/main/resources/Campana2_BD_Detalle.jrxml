@@ -208,21 +208,21 @@ where Cedula = $P{pCedula}]]>
 				</textElement>
 				<text><![CDATA[Total atraso por planillas]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="0" y="67" width="120" height="15" uuid="79e984f8-6a1b-4014-98ed-216d33ace629"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Principal}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="120" y="67" width="120" height="15" uuid="98e77f00-f27c-4e8e-9f01-f5c2ea3e9ea4"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Recargos}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="240" y="67" width="120" height="15" uuid="5b4d946e-7576-428b-937a-290df3205228"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -380,7 +380,7 @@ where Cedula = $P{pCedula}]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField pattern="#,##0.00#">
 								<reportElement x="0" y="0" width="80" height="30" uuid="9cb562be-25ee-4d43-a860-64a053b07a54"/>
 								<textFieldExpression><![CDATA[$F{Principal}]]></textFieldExpression>
 							</textField>
@@ -394,7 +394,7 @@ where Cedula = $P{pCedula}]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField pattern="#,##0.00#">
 								<reportElement x="0" y="0" width="80" height="30" uuid="c4bada5f-6d48-4079-9e6e-279e0f61b9eb"/>
 								<textFieldExpression><![CDATA[$F{Recargo}]]></textFieldExpression>
 							</textField>
@@ -408,7 +408,7 @@ where Cedula = $P{pCedula}]]>
 							</staticText>
 						</jr:columnHeader>
 						<jr:detailCell style="Table_TD" height="30">
-							<textField>
+							<textField pattern="#,##0.00#">
 								<reportElement x="0" y="0" width="90" height="30" uuid="e49ffc85-a48d-44af-809e-a14c841f4f9e"/>
 								<textFieldExpression><![CDATA[$F{Multa}]]></textFieldExpression>
 							</textField>
@@ -431,7 +431,7 @@ where Cedula = $P{pCedula}]]>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Arreglo}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="370" y="67" width="100" height="30" uuid="e3092123-0ae9-4a74-a759-4bc814802242"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>

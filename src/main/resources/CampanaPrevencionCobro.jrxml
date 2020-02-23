@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -54,7 +54,7 @@ SUM(Intereses_Administrativos) as Intereses_Administrativos,
 SUM(Total_Periodos) as Total_Periodos,
 SUM(Cuotas_Al_Cobro) as Cuotas_Al_Cobro,
 SUM(Total_Arreglo) as Total_Arreglo
-FROM Intellect_Maestro
+FROM Intellect_Maestro_Desaf
 where Segregado = $P{pSegregado}
 group by Cedula,Segregado, Nombre]]>
 	</queryString>
@@ -213,7 +213,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
-				<text><![CDATA[Si usted efectuó sus pagos, y recibe este Aviso, repórtelos al correo ¨desaf.cobros”mtss.go.cr¨, incluyendo su numero de cedula correspondiente.]]></text>
+				<text><![CDATA[Si usted efectuó sus pagos, y recibe este Aviso, repórtelos al correo ¨desaf.cobros@mtss.go.cr¨, incluyendo su numero de cedula correspondiente.]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="211" width="493" height="29" uuid="7ba32bee-1f15-4b82-b406-75792757949a"/>
@@ -229,12 +229,12 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[VENCIDO EL PLAZO SE PROCEDERA A TRASLADAR SU DEDUDA A COBRO JUDICIAL, ADICIONANDO LOS RECARGOS LEGALES RESPECTIVOS.]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="322" y="73" width="181" height="12" uuid="9bae1ac8-9fc4-49b4-9458-2ff427a6bc15"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Cuotas_Al_Cobro}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="321" y="91" width="181" height="15" uuid="67fe9b52-bfc1-41ed-a22e-4b3feff72d92"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
@@ -251,7 +251,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<line>
 				<reportElement x="2" y="80" width="491" height="1" uuid="17bcb903-a1f6-43d5-913e-313bd28927de"/>
 			</line>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="122" y="117" width="120" height="15" uuid="98e77f00-f27c-4e8e-9f01-f5c2ea3e9ea4"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -265,7 +265,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Intereses moratorios]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="2" y="117" width="120" height="15" uuid="79e984f8-6a1b-4014-98ed-216d33ace629"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -286,14 +286,14 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Períodos Atrasados]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="242" y="117" width="120" height="15" uuid="5b4d946e-7576-428b-937a-290df3205228"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Multas}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="362" y="117" width="121" height="15" uuid="3a8195dd-c59a-43e1-9ba1-111b2dd948d5"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
@@ -365,7 +365,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Total deuda por arreglo]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="365" y="71" width="120" height="20" uuid="84bb59b0-04d7-4ffb-b137-c640eec5aca8"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression><![CDATA[$F{Total_Arreglo}]]></textFieldExpression>
@@ -384,28 +384,28 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[Monto total de la deuda]]></text>
 			</staticText>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="283" y="91" width="130" height="15" uuid="638f93f6-1c09-4799-b17c-2d33b24242fc"/>
 				<textElement textAlignment="Center">
 					<font size="10" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Deuda_Total}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="5" y="71" width="120" height="15" uuid="6ccda2d9-2418-404e-993b-4e0bb9e0f5dc"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Saldo_Arreglo}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="245" y="71" width="120" height="15" uuid="8554da03-5080-4435-96d9-f3bdfdcd296a"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{Intereses_Moratorios}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField pattern="#,##0.00#">
 				<reportElement x="125" y="71" width="120" height="15" uuid="8352d0a2-0f2b-48ed-b68a-bbc314d636dc"/>
 				<textElement textAlignment="Center">
 					<font size="9"/>
@@ -451,8 +451,8 @@ Con base en lo reportado por la CCSS, con un corte al ]]></text>
 				<reportElement x="12" y="108" width="491" height="1" uuid="3a626c54-d2ee-4ba2-84c2-5bd07598d160"/>
 			</line>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="241" y="86" width="101" height="10" uuid="9579699b-123e-435d-8ad8-09c4c6551998"/>
-				<textElement textAlignment="Right" verticalAlignment="Middle">
+				<reportElement x="256" y="86" width="101" height="10" uuid="9579699b-123e-435d-8ad8-09c4c6551998"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
