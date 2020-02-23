@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<parameter name="pSegregadoHijo" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select * from dbo.Intellect_Periodo where Segregado = $P{pSegregadoHijo}]]>
+			<![CDATA[select * from dbo.Intellect_Periodo_DESAF where Segregado = $P{pSegregadoHijo}]]>
 		</queryString>
 		<field name="Segregado" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="Segregado"/>
@@ -38,9 +38,8 @@
 			<property name="com.jaspersoft.studio.field.label" value="Multa"/>
 		</field>
 	</subDataset>
-	<parameter name="pSegregado" class="java.lang.String">
-		<defaultValueExpression><![CDATA["203101101324002001"]]></defaultValueExpression>
-	</parameter>
+	<parameter name="pSegregado" class="java.lang.String"/>
+	<parameter name="pConsecutive" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT Cedula,Segregado, Nombre
 , SUM(Principal) as Principal,
@@ -104,7 +103,7 @@ group by Cedula,Segregado, Nombre]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="100">
+		<band height="84">
 			<staticText>
 				<reportElement x="47" y="0" width="420" height="40" uuid="c078e9a9-93cb-466b-8e87-bad709b6aef3"/>
 				<textElement textAlignment="Center">
@@ -154,53 +153,46 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 		</band>
 	</title>
 	<pageHeader>
-		<band height="393" splitType="Stretch">
+		<band height="378" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 			<staticText>
-				<reportElement x="0" y="7" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
+				<reportElement x="0" y="14" width="520" height="18" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PREVENCIÓN DE COBRO]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="2" y="-11" width="520" height="20" uuid="48760194-813b-4733-ae9c-afe548d16be8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[GCO-50001-2019]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="10" y="30" width="493" height="40" uuid="0c42d810-1e2b-4f69-9a1c-45d79ae42760"/>
+				<reportElement x="10" y="35" width="493" height="40" uuid="0c42d810-1e2b-4f69-9a1c-45d79ae42760"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[De conformidad con la competencia del Departamento de Gestión de Cobro, respecto al proceso del recargo del 5% de las planillas que todo patrono debe pagar al FODESAF (Ley 8783 reforma a la Ley 5662, art. 15), se le notifica que su obligación se encuentra incumplida, según el siguiente detalle:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="70" width="330" height="15" uuid="8cec3bce-470f-4b4e-a5e0-ee220f2637bf"/>
+				<reportElement x="33" y="75" width="330" height="15" uuid="8cec3bce-470f-4b4e-a5e0-ee220f2637bf"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Tiene un atraso en el arreglo de pago por un monto de:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="33" y="90" width="330" height="15" uuid="e93da7e8-638d-4338-87ad-2a9ec467ffc8"/>
+				<reportElement x="33" y="95" width="330" height="15" uuid="e93da7e8-638d-4338-87ad-2a9ec467ffc8"/>
 				<textElement>
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Además tiene periodos nuevos fuera de arreglo por:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="107" width="493" height="34" uuid="54e370d3-d06a-4765-af6b-9e0a7084277c"/>
+				<reportElement x="10" y="112" width="493" height="34" uuid="54e370d3-d06a-4765-af6b-9e0a7084277c"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Dado lo anterior se le concede un plazo de 10 días hábiles improrrogables para que proceda a poner al día su deuda. ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="153" width="493" height="34" uuid="f48b63d0-a8b3-4b41-8d4d-f3730c122332"/>
+				<reportElement x="10" y="158" width="493" height="34" uuid="f48b63d0-a8b3-4b41-8d4d-f3730c122332"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
@@ -209,40 +201,47 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="179" width="493" height="30" uuid="0952c37d-4bee-413f-8c6e-41f3a1eb36da"/>
+				<reportElement x="10" y="184" width="493" height="30" uuid="0952c37d-4bee-413f-8c6e-41f3a1eb36da"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[Si usted efectuó sus pagos, y recibe este Aviso, repórtelos al correo ¨desaf.cobros@mtss.go.cr¨, incluyendo su numero de cedula correspondiente.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="211" width="493" height="29" uuid="7ba32bee-1f15-4b82-b406-75792757949a"/>
+				<reportElement x="10" y="216" width="493" height="29" uuid="7ba32bee-1f15-4b82-b406-75792757949a"/>
 				<textElement textAlignment="Center">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PAGUE EN LINEA CON SU NUMERO PATRONAL A TRAVES DEL BCR-PAGO DE SERVICIOS - CUOTAS Y PLANES FODESAF.]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="10" y="130" width="493" height="34" uuid="80ab2336-9ba0-43c3-8dd7-a7bdba8e2ec0"/>
+				<reportElement x="10" y="135" width="493" height="34" uuid="80ab2336-9ba0-43c3-8dd7-a7bdba8e2ec0"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
 				<text><![CDATA[VENCIDO EL PLAZO SE PROCEDERA A TRASLADAR SU DEDUDA A COBRO JUDICIAL, ADICIONANDO LOS RECARGOS LEGALES RESPECTIVOS.]]></text>
 			</staticText>
 			<textField pattern="#,##0.00#">
-				<reportElement x="322" y="73" width="181" height="12" uuid="9bae1ac8-9fc4-49b4-9458-2ff427a6bc15"/>
+				<reportElement x="322" y="78" width="181" height="12" uuid="9bae1ac8-9fc4-49b4-9458-2ff427a6bc15"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Cuotas_Al_Cobro}]]></textFieldExpression>
 			</textField>
 			<textField pattern="#,##0.00#">
-				<reportElement x="321" y="91" width="181" height="15" uuid="67fe9b52-bfc1-41ed-a22e-4b3feff72d92"/>
+				<reportElement x="321" y="96" width="181" height="15" uuid="67fe9b52-bfc1-41ed-a22e-4b3feff72d92"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
 			</textField>
 			<image>
-				<reportElement x="9" y="250" width="493" height="120" uuid="f33893ac-adbe-4ee1-911e-420d3254d6c3"/>
+				<reportElement x="9" y="255" width="493" height="120" uuid="f33893ac-adbe-4ee1-911e-420d3254d6c3"/>
 				<imageExpression><![CDATA["campannaprevencionfirma.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="0" y="0" width="520" height="12" uuid="6ba538c2-42ad-493c-90cb-18875beb79b5"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GCO-" + $P{pConsecutive}+ "-" +YEAR(NOW())]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>

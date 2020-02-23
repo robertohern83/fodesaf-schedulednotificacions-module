@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
@@ -8,7 +8,7 @@
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 		<parameter name="pSegregadoHijo" class="java.lang.String"/>
 		<queryString>
-			<![CDATA[select * from dbo.Intellect_Periodo where Segregado = $P{pSegregadoHijo}]]>
+			<![CDATA[select * from dbo.Intellect_Periodo_DESAF where Segregado = $P{pSegregadoHijo}]]>
 		</queryString>
 		<field name="Segregado" class="java.lang.String">
 			<property name="com.jaspersoft.studio.field.label" value="Segregado"/>
@@ -38,9 +38,8 @@
 			<property name="com.jaspersoft.studio.field.label" value="Multa"/>
 		</field>
 	</subDataset>
-	<parameter name="pSegregado" class="java.lang.String">
-		<defaultValueExpression><![CDATA["203101101324002001"]]></defaultValueExpression>
-	</parameter>
+	<parameter name="pSegregado" class="java.lang.String"/>
+	<parameter name="pConsecutive" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[SELECT Cedula,Segregado, Nombre
 , SUM(Principal) as Principal,
@@ -104,7 +103,7 @@ group by Cedula,Segregado, Nombre]]>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="88">
+		<band height="87">
 			<staticText>
 				<reportElement x="47" y="0" width="420" height="40" uuid="c078e9a9-93cb-466b-8e87-bad709b6aef3"/>
 				<textElement textAlignment="Center">
@@ -158,18 +157,11 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<printWhenExpression><![CDATA[new Boolean($V{PAGE_NUMBER}.intValue() == 1)]]></printWhenExpression>
 			<staticText>
-				<reportElement x="0" y="8" width="520" height="20" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
+				<reportElement x="0" y="12" width="520" height="16" uuid="03f4ffbc-3e84-4b56-a1d4-29ca6c173452"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="9" isBold="true"/>
 				</textElement>
 				<text><![CDATA[PREVENCIÓN DE COBRO]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="2" y="-8" width="520" height="20" uuid="48760194-813b-4733-ae9c-afe548d16be8"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="9" isBold="true"/>
-				</textElement>
-				<text><![CDATA[GCO-50003-2019]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="10" y="30" width="493" height="40" uuid="0c42d810-1e2b-4f69-9a1c-45d79ae42760"/>
@@ -243,6 +235,13 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<reportElement x="12" y="250" width="488" height="140" uuid="86385d7c-9325-44e6-8188-860b5324d3a6"/>
 				<imageExpression><![CDATA["campannaprevencionfirma.png"]]></imageExpression>
 			</image>
+			<textField>
+				<reportElement x="0" y="0" width="520" height="12" uuid="07be194b-9538-4671-b7f2-834951304833"/>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA["GCO-" + $P{pConsecutive}+ "-" +YEAR(NOW())]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<detail>
