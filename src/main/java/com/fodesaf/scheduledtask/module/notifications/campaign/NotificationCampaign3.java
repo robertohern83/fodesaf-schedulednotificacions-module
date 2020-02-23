@@ -115,6 +115,8 @@ public class NotificationCampaign3 implements Notification {
 			"</p>\n" + 
 			"<p>\n" + 
 			"Debe reportar el comprobante al correo electrónico desaf.cobros@mtss.go.cr \n" + 
+			"</p>\n" + 
+			"<p>\n" + 
 			"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
 			"</p>\n" + 
 			"</body>\n" + 
@@ -163,6 +165,8 @@ public class NotificationCampaign3 implements Notification {
 			"</p>\n" + 
 			"<p>\n" + 
 			"Debe reportar el comprobante al correo electrónico desaf.cobros@mtss.go.cr \n" + 
+			"</p>\n" + 
+			"<p>\n" + 
 			"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
 			"</p>\n" + 
 			"</body>\n" + 
