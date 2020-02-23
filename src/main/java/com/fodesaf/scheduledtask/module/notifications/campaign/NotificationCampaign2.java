@@ -24,6 +24,7 @@ import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
+import com.fodesaf.scheduledtask.module.util.Constants;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -140,7 +141,7 @@ public class NotificationCampaign2 implements Notification {
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel)  throws NotificationException {
 		String messageIdResult = null;
 		Patronos patrono = (Patronos)notificationData.get("Patrono");
-		DecimalFormat df = new DecimalFormat("#.00"); 
+		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		
 		switch (channel) {
 		case SMS:

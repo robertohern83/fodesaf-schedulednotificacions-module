@@ -85,8 +85,8 @@ class NotificationsFactoryTest {
 		
 		Patronos patrono = new Patronos();
 		
-		patrono.setCedula("00107050876");
-		patrono.setSegregado("000107050876001001");
+		patrono.setCedula("00100575474");
+		patrono.setSegregado("000100575474001001");
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setCuotasAlCobro(12345.45);

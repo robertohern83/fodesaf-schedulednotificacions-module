@@ -24,6 +24,7 @@ import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.Mes
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
 import com.fodesaf.scheduledtask.module.service.ConsecutivosService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
+import com.fodesaf.scheduledtask.module.util.Constants;
 
 import net.sf.jasperreports.engine.JRException;
 
@@ -77,7 +78,7 @@ public class NotificationCampaign4 implements Notification {
 		String messageIdResult = null;
 		
 		Patronos patrono = (Patronos)notificationData.get("Patrono");
-		DecimalFormat df = new DecimalFormat("#.00"); 
+		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		int attemp = (int)notificationData.get("Attemp");
 		
 		
