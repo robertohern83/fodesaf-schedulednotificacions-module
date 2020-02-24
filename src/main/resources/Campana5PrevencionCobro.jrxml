@@ -414,7 +414,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<reportElement x="4" y="184" width="491" height="1" uuid="55094071-73c3-4fa4-9d8d-e4320d915b08"/>
 			</line>
 		</band>
-		<band height="254">
+		<band height="80">
 			<subreport>
 				<reportElement x="10" y="10" width="515" height="70" uuid="9e203469-b024-47c9-961b-0a4e1bca2115"/>
 				<subreportParameter name="pSegregado">
@@ -432,7 +432,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				</textElement>
 				<text><![CDATA[La columna Tipo se refiere a si la planilla es Ordinaria o Extraordinaria.
 La columna Períodos se refiere a la fecha de la planilla.
-La columna Principal se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/12/194.
+La columna Principal se refiere al 5% del total de salarios pagados mensualmente por el patrono, de conformidad con el artículo 15 de la Ley 5662 del 23/12/1974.
 La columna Recargo se refiere al 1.5% del monto de la planilla.
 La columna Multa corresponde a lo decretado en el artículo 9 de la Ley 8782 del 13/10/2009, que establece el 25% de multa si el atraso va de 3 a 12 cuotas, 50% de 13 a 36, 75% de 36 a 72 y 100% si tiene más de cuotas de atraso.
 Con base en lo reportado por la CCSS, con un corte al 
@@ -468,11 +468,11 @@ Con base en lo reportado por la CCSS, con un corte al
 				<text><![CDATA[Fax:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="58" y="93" width="252" height="30" uuid="cafd54a0-6210-4bd6-9bcc-557b35eab6ed"/>
+				<reportElement x="58" y="88" width="252" height="30" uuid="cafd54a0-6210-4bd6-9bcc-557b35eab6ed"/>
 				<textFieldExpression><![CDATA[$F{Correo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="10" y="93" width="47" height="30" uuid="7f066c9e-1a2b-49cf-b03f-6833ee0ab150"/>
+				<reportElement x="10" y="86" width="47" height="30" uuid="7f066c9e-1a2b-49cf-b03f-6833ee0ab150"/>
 				<text><![CDATA[Correo:]]></text>
 			</staticText>
 		</band>
