@@ -54,7 +54,7 @@ public class PatronosService {
 			}
 		}
 		
-		return telefonoResultado.trim();
+		return null != telefonoResultado ? telefonoResultado.trim() : null;
 	}
 
 	private String obtenerTelefonoValidado(String telefono, boolean smsCompatible) {
