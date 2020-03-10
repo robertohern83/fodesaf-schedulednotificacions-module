@@ -53,7 +53,7 @@ public class EmailNotificationService {
 		
 	        message.setFrom(new InternetAddress(SENDER));
 	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
-	        message.setRecipients(Message.RecipientType.CC, InternetAddress.parse(SENDER));
+	        message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(SENDER));
 	
 	        // Create a multipart/alternative child container.
 	        MimeMultipart msg_body = new MimeMultipart("alternative");
