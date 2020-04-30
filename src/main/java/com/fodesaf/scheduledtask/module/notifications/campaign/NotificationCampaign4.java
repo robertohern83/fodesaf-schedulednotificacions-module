@@ -52,24 +52,34 @@ public class NotificationCampaign4 implements Notification {
 	@Autowired
 	ConsecutivosService consecutivosService;
 	
-	private static final String SMS_TEMPLATE_1 = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Evítese cobros judiciales y gastos adicionales.";
+	//TODO: Reversar cambio a mensaje
+	//private static final String SMS_TEMPLATE_1 = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Evítese cobros judiciales y gastos adicionales.";
+	private static final String SMS_TEMPLATE_1 = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Se le solicita amortizar este pendiente.";
 	
 	private static final String SMS_TEMPLATE_2 = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Su deuda será trasladada a Cobro Judicial.";
 	
 	// The subject line for the email.
 	private static final String SUBJECT = "Notificación de cobro - FODESAF";
 
-
+	//TODO: Reversar cambio a mensaje
 	// The email body for recipients with non-HTML email clients.
-	private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
-
+	//private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
+	private static final String BODY_TEXT_1 = "Señor patrono\n" + 
+			//TODO: Esta primera línea es temporal
+			"Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n\n" + 
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.";
+	//TODO: Reversar cambio a mensaje
 	//The email body for recipients with HTML email clients.
 	private static final String BODY_HTML_1 = "<html>\n" + 
 			"<head></head>\n" + 
-			"<body>\n" + 
+			"<body>\n" +
 			"<p>\n" + 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. </p>\n" + 
+			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n" +
+			"</p>\n" +
 			"<p>\n" + 
+			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. </p>\n" +
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" +
+			"</p>\n" + 
 			"</body>\n" + 
 			"</html>";
 	

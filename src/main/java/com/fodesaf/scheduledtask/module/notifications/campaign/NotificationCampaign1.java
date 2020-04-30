@@ -50,15 +50,18 @@ public class NotificationCampaign1 implements Notification {
 	PatronosService patronosService;
 	
 	
-	
-	private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Le agradecemos ponerse al día lo antes posible. Si ya canceló favor omitir este mensaje.";
+	//TODO: Reversar cambio a mensaje
+	//private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Le agradecemos ponerse al día lo antes posible. Si ya canceló favor omitir este mensaje.";
+	private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Se le solicita amortizar este pendiente.";
 	
 	// The subject line for the email.
 	private static final String SUBJECT = "Notificación de cobro - FODESAF";
 
-
+	//TODO: Reversar cambio a mensaje
 	// The email body for recipients with non-HTML email clients.
-	private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
+	private static final String BODY_TEXT_1 = 
+			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n\n" +
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
 			" \n" + 
 			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR).\n" + 
 			"El pago puede realizarse por medio del servicio de Conectividad en ventanilla (indicando al cajero el número patronal completo, el cual consta de 18 dígitos) o desde su cuenta del BCR seleccionando: 1-Pago de Servicios 2-Cuotas y Planes 3-Cobro FODESAF 4-Pago a realizar (debe colocar el número patronal completo, el cual consta de 18 dígitos). Con lo anterior, el pago se aplicará automáticamente a su deuda, o bien puede realizarlo por medio de depósito bancario o transferencia a las siguientes cuentas:\n" + 
@@ -75,17 +78,28 @@ public class NotificationCampaign1 implements Notification {
 			"Es importante anotar en el detalle del depósito / transferencia el número de cédula jurídica de la empresa, el número de cédula física o número de asegurado (en el caso de extranjero) de quien mantiene la deuda con el Fodesaf en el depósito.\n" + 
 			" \n" + 
 			"Debe reportar el comprobante al correo electrónico desaf.cobros@mtss.go.cr\n" + 
-			"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
+			//TODO: Reversar cambio a mensaje
+			//"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
+			"Se le solicita amortizar este pendiente.\n" + 
 			"";
 	
-	private static final String BODY_TEXT_2 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto ";
+	//TODO: Reversar cambio a mensaje
+	//private static final String BODY_TEXT_2 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
+	private static final String BODY_TEXT_2 = 
+			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n\n" +
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente. ";
 
+	//TODO: Reversar cambio a mensaje
 	// The HTML body of the email.
 	private static final String BODY_HTML_1 = "\n" + 
 			"<html>\n" + 
 			"\n" + 
 			"<head></head>\n" + 
 			"<body>\n" + 
+			//TODO: Reversar cambio a mensaje
+			"<p>\n" + 
+			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n" +
+			"</p>\n" +
 			"<p>\n" + 
 			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
 			"</p>\n" + 
@@ -127,18 +141,25 @@ public class NotificationCampaign1 implements Notification {
 			"Debe reportar el comprobante al correo electrónico desaf.cobros@mtss.go.cr\n" + 
 			"</p>\n" + 
 			"<p>\n" + 
-			"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" + 
+			//"Le agradecemos poner al día el monto indicado. Si ya canceló favor omitir este mensaje.\n" +
+			"Se le solicita amortizar este pendiente.\n" +
 			"</p>\n" + 
 			"</body>\n" + 
 			"\n" + 
 			"</html>";
 	
+	//TODO: Reversar cambio a mensaje
 	private static final String BODY_HTML_2 = "<html>\n" + 
 			"<head></head>\n" + 
-			"<body>\n" + 
+			"<body>\n" +
 			"<p>\n" + 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto </p>\n" + 
+			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n" +
+			"</p>\n" +
 			"<p>\n" + 
+			//TODO: Reversar cambio a mensaje
+			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto </p>\n" + 
+			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" + 
+			"</p>\n" + 
 			"</body>\n" + 
 			"</html>";
 	
