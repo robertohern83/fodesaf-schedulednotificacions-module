@@ -145,7 +145,6 @@ public class NotificationCampaign1 implements Notification {
 			"<head></head>\n" + 
 			"<body>\n" +
 			"<p>\n" + 
-			"<p>\n" + 
 			//TODO: Reversar cambio a mensaje
 			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto </p>\n" + 
 			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" + 

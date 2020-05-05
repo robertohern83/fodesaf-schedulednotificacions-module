@@ -64,14 +64,12 @@ public class NotificationCampaign4 implements Notification {
 	//TODO: Reversar cambio a mensaje
 	// The email body for recipients with non-HTML email clients.
 	//private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
-	private static final String BODY_TEXT_1 = "Señor patrono\n" + 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.";
+	private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.";
 	//TODO: Reversar cambio a mensaje
 	//The email body for recipients with HTML email clients.
 	private static final String BODY_HTML_1 = "<html>\n" + 
 			"<head></head>\n" + 
 			"<body>\n" +
-			"<p>\n" + 
 			"<p>\n" + 
 			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. </p>\n" +
 			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" +
