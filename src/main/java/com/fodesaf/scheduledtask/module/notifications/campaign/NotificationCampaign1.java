@@ -57,10 +57,8 @@ public class NotificationCampaign1 implements Notification {
 	// The subject line for the email.
 	private static final String SUBJECT = "Notificación de cobro - FODESAF";
 
-	//TODO: Reversar cambio a mensaje
 	// The email body for recipients with non-HTML email clients.
 	private static final String BODY_TEXT_1 = 
-			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n\n" +
 			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
 			" \n" + 
 			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR).\n" + 
@@ -83,10 +81,8 @@ public class NotificationCampaign1 implements Notification {
 			"Se le solicita amortizar este pendiente.\n" + 
 			"";
 	
-	//TODO: Reversar cambio a mensaje
 	//private static final String BODY_TEXT_2 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
 	private static final String BODY_TEXT_2 = 
-			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n\n" +
 			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente. ";
 
 	//TODO: Reversar cambio a mensaje
@@ -96,10 +92,6 @@ public class NotificationCampaign1 implements Notification {
 			"\n" + 
 			"<head></head>\n" + 
 			"<body>\n" + 
-			//TODO: Reversar cambio a mensaje
-			"<p>\n" + 
-			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n" +
-			"</p>\n" +
 			"<p>\n" + 
 			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
 			"</p>\n" + 
@@ -153,8 +145,6 @@ public class NotificationCampaign1 implements Notification {
 			"<head></head>\n" + 
 			"<body>\n" +
 			"<p>\n" + 
-			"Señor patrono, Considerando las disposiciones emitidas por la CCSS, en las que suspende el cobro de sus  contribuciones por un plazo de 3 meses. La Desaf informa que las mismas No aplican para el 5% correspondientes al Fodesaf, por lo tanto el cobro se mantiene. \n" +
-			"</p>\n" +
 			"<p>\n" + 
 			//TODO: Reversar cambio a mensaje
 			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto </p>\n" + 
