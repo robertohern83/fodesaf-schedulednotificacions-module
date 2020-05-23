@@ -52,9 +52,9 @@ public class NotificationCampaign5 implements Notification {
 	@Autowired
 	ConsecutivosService consecutivosService;
 	
-	private static final String SMS_TEMPLATE_1 = "Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. El total pendiente es de ¢ <<MONTO>>. Evítese Cobros Judiciales y gastos adicionales.";
+	private static final String SMS_TEMPLATE_1 = "Señor Patrono <<CEDULA>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. El total pendiente es de ¢ <<MONTO>>. Evítese Cobros Judiciales y gastos adicionales.";
 	
-	private static final String SMS_TEMPLATE_2 = "Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. El total pendiente es de ¢ <<MONTO>>. Su deuda será trasladada a Cobro Judicial.";
+	private static final String SMS_TEMPLATE_2 = "Señor Patrono <<CEDULA>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. El total pendiente es de ¢ <<MONTO>>. Su deuda será trasladada a Cobro Judicial.";
 	
 	// The subject line for the email.
 	private static final String SUBJECT = "Notificación de cobro - FODESAF";
@@ -90,10 +90,18 @@ public class NotificationCampaign5 implements Notification {
 			
 			if(null != telefono) {
 				if(1 == attemp) {
-					messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE_1.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())), smsSender, MessageType.PROMOTIONAL);
+					messageIdResult = smsService.sendSMSMessage(
+							formatTelephone(telefono), 
+							SMS_TEMPLATE_1.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula()), 
+							smsSender, 
+							MessageType.PROMOTIONAL);
 				}
 				else {
-					messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE_2.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())), smsSender, MessageType.PROMOTIONAL);
+					messageIdResult = smsService.sendSMSMessage(
+							formatTelephone(telefono), 
+							SMS_TEMPLATE_2.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula()), 
+							smsSender, 
+							MessageType.PROMOTIONAL);
 				}
 			}
 			else {

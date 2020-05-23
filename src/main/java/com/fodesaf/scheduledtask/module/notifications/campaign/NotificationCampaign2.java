@@ -55,7 +55,7 @@ public class NotificationCampaign2 implements Notification {
 	@Autowired
 	PatronosService patronosService;
 	
-	private static final String SMS_TEMPLATE = "Señor Patrono, el Fodesaf le informa que mantiene una deuda con nuestra institución. El total pendiente es de <<MONTO>>. Si desea más información nos puede contactar a desaf.cobros@mtss.go.cr o al teléfono 2547-3600 opción 9.";
+	private static final String SMS_TEMPLATE = "Señor Patrono <<CEDULA>>, el Fodesaf le informa que mantiene una deuda con nuestra institución. El total pendiente es de <<MONTO>>. Si desea más información nos puede contactar a desaf.cobros@mtss.go.cr o al teléfono 2547-3600 opción 9.";
 	
 	// The subject line for the email.
 	private static final String SUBJECT = "Notificación de cobro - FODESAF";
@@ -150,7 +150,11 @@ public class NotificationCampaign2 implements Notification {
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
 			if(null != telefono) {
-				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())), smsSender, MessageType.PROMOTIONAL);
+				messageIdResult = smsService.sendSMSMessage(
+						formatTelephone(telefono), 
+						SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula()), 
+						smsSender, 
+						MessageType.PROMOTIONAL);
 			}
 			else {
 				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 

@@ -42,7 +42,7 @@ public class NotificationCampaign3 implements Notification {
 	@Autowired
 	PatronosService patronosService;
 	
-	private static final String SMS_TEMPLATE = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que ya está al cobro la cuota del mes de su arreglo de pago. El monto de la cuota es de ¢ <<MONTO>>.";
+	private static final String SMS_TEMPLATE = "Señor Patrono <<CEDULA>>, el Departamento de Gestión de Cobro del Fodesaf informa que ya está al cobro la cuota del mes de su arreglo de pago. El monto de la cuota es de ¢ <<MONTO>>.";
 	
 	// The subject line for the email.
 	private static final String SUBJECT = "Notificación de cobro - FODESAF";
@@ -185,7 +185,11 @@ public class NotificationCampaign3 implements Notification {
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
 			if(null != telefono) {
-				messageIdResult = smsService.sendSMSMessage(formatTelephone(telefono), SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), smsSender, MessageType.PROMOTIONAL);
+				messageIdResult = smsService.sendSMSMessage(
+						formatTelephone(telefono), 
+						SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", patrono.getCedula()),
+						smsSender, 
+						MessageType.PROMOTIONAL);
 			}
 			else {
 				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 

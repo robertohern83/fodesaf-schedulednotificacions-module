@@ -70,8 +70,8 @@ public class PatronosService {
 	}
 
 	private boolean isSMSCompatible(String telefono) {
-		//FIXME: Pendiente investigar si es posible determinar si un numero es celular o no
-		return telefono.trim().matches("[0-9]{8}");
+		//De acuerdo a Fodesaf, solo son celulares los que inician con 6, 7 y 8
+		return telefono.trim().matches("[6,7,8][0-9]{7}");
 	}	
 	
 	public String obtenerCorreoPatrono(Patronos patrono){
