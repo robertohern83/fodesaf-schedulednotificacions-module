@@ -163,9 +163,10 @@ public class NotificationCampaign1 implements Notification {
 			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
 			if(null != telefono) {
+				
 				messageIdResult = smsService.sendSMSMessage(
 						formatTelephone(telefono), 
-						SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro()).replaceAll("<<CEDULA>>", patrono.getCedula())), smsSender, MessageType.PROMOTIONAL);
+						SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", patrono.getCedula()), smsSender, MessageType.PROMOTIONAL);
 			}
 			else {
 				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
