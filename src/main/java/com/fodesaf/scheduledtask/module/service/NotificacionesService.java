@@ -48,6 +48,8 @@ public class NotificacionesService {
 			public Predicate toPredicate(Root<Notificaciones> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
 				List<Predicate> predicates = new ArrayList<>();
 				
+				//predicates.add(criteriaBuilder.and(criteriaBuilder.isNotNull(root.get("primaryKey").get("patrono"))));
+				
 				//Excluir notificaciones a campañas que ya hayan llegado a su limite diario
 				if(null != campanasExcluidas && !campanasExcluidas.isEmpty()) {
 					//root.get("primaryKey").get("campana").in(campanasExcluidas);
@@ -84,6 +86,13 @@ public class NotificacionesService {
 		return controlRepo.findByPrimaryKeyFechaControl(fecha);
 		
 	}
+
+	
+	public int cleanPatronos() {
+		
+		return notificacionesRepo.cleanPatronos();
+	}
+	
 	
 
 }

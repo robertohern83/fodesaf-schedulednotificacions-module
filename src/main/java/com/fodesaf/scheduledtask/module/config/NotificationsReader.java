@@ -33,7 +33,9 @@ import com.fodesaf.scheduledtask.module.service.NotificacionesService;
  */
 public class NotificationsReader implements Tasklet, StepExecutionListener {
 
-	private static final String EN_PROCESO = "En Proceso";
+	private static final String EN_PROCESO = "EN PROCESO";
+	
+	private static final String PATRONO_NO_EXISTE = "PATRONO NO EXISTE";
 
 	private static final int MAXIMO_POR_BLOQUE = 10;
 
@@ -59,6 +61,13 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 	@Override
 	public void beforeStep(StepExecution stepExecution) {
 		//notificaciones = (Page<Notificaciones>) new ArrayList<Notificaciones>();
+		
+		
+		//Se debe forzar la actualización de las notificaciones pendientes que ya no poseean un 
+		//patrono
+		int c = notificacionesService.cleanPatronos();
+		
+		System.out.println("Se actualizaron " + c + " registros de notificaciones por patronos inexistentes");
         logger.debug("Iniciando lectura de patronos a notificar...");
 
 	}
@@ -82,6 +91,7 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 		
 		notificaciones = notificacionesService.findByCriteria(PENDING_STATUS, EN_PROCESO, campanasExcluidas, pageable);
 		
+		
 		return RepeatStatus.FINISHED;
 	}
 
@@ -94,9 +104,11 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
           .getExecutionContext()
           .put("notificaciones", this.notificaciones);
         
-        notificaciones.forEach(item -> {
+        
+        notificaciones.forEach(item -> {	
 			item.setEstatus(EN_PROCESO);
 			notificacionesRepo.save(item);
+			
 		});
         
         logger.debug("Finalizada lectura de patronos a notificar");

@@ -5,9 +5,15 @@ package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostLoad;
+
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -24,6 +30,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
+@DynamicUpdate
 public class NotificacionesPK implements Serializable {
 	/**
 	 * 
@@ -44,8 +51,9 @@ public class NotificacionesPK implements Serializable {
 
 	@Getter
 	@Setter
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "segregado", referencedColumnName = "segregado")
+	@NotFound(action=NotFoundAction.IGNORE)
 	Patronos patrono;
 	
 	@Getter
@@ -60,7 +68,17 @@ public class NotificacionesPK implements Serializable {
 	@Setter
 	int intento;
 
-	
+	/*@PostLoad
+	public void postLoad(){
+	    try {
+	        if(getPatrono() != null){
+	            setPatrono(null);
+	        }
+	    }
+	    catch (EntityNotFoundException e){
+	    	setPatrono(null);
+	    }
+	} */
 	
 
 }

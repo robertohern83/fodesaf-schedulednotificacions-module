@@ -95,37 +95,40 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
 		notificaciones.forEach(item -> {
-			String estatus = null;
-			if(!pagoRealizado(item)) {
-				
-				
-				String messageId;
-				try {
-					messageId = notificarCanal(item);
-				
-					if(null == messageId || messageId.isEmpty()) {
-						System.out.println(String.format("No se ha obtenido el messageId del mensaje enviado para la campaña: %s y el segregado: %s", item.getPrimaryKey().getCampana().getId(),item.getPrimaryKey().getPatrono().getSegregado()));
-						estatus = ENVIADA_SIN_MESSAGEID;
-					}else {
-						item.setMessageId(messageId);
-						estatus = ENVIADA;
-					}
-				} catch (NotificationException ne) {
-					System.out.println(ne.getMessage());
-					estatus = getExceptionEstatus(ne.getErrorCode()); 
-					
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				item.setFechaEnvio(new Date());
-				
-				System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
-			} else {
-				estatus = PAGO_GESTIONADO;
-			}
 			
-			item.setEstatus(estatus);
-			notificacionesRepo.save(item);
+			if(null != item.getPrimaryKey().getPatrono()) {
+				String estatus = null;
+				if(!pagoRealizado(item)) {
+					
+					
+					String messageId;
+					try {
+						messageId = notificarCanal(item);
+					
+						if(null == messageId || messageId.isEmpty()) {
+							System.out.println(String.format("No se ha obtenido el messageId del mensaje enviado para la campaña: %s y el segregado: %s", item.getPrimaryKey().getCampana().getId(),item.getPrimaryKey().getPatrono().getSegregado()));
+							estatus = ENVIADA_SIN_MESSAGEID;
+						}else {
+							item.setMessageId(messageId);
+							estatus = ENVIADA;
+						}
+					} catch (NotificationException ne) {
+						System.out.println(ne.getMessage());
+						estatus = getExceptionEstatus(ne.getErrorCode()); 
+						
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					item.setFechaEnvio(new Date());
+					
+					System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
+				} else {
+					estatus = PAGO_GESTIONADO;
+				}
+				
+				item.setEstatus(estatus);
+				notificacionesRepo.save(item);
+			}
 		});
 		return RepeatStatus.FINISHED;
 	}

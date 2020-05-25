@@ -66,13 +66,15 @@ public class NotificationsWriter implements Tasklet, StepExecutionListener {
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
 		
 		notificaciones.forEach(item -> {
-			
-			if(1 == item.getPrimaryKey().getIntento()) {
-				insertarSegundoIntento(item);
+			if(null != item.getPrimaryKey().getPatrono()) {
+				if(1 == item.getPrimaryKey().getIntento()) {
+					insertarSegundoIntento(item);
+				}
+				System.out.println("NOTIFICACION ENVIADA A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
+			} else {
+				System.out.println("PATRONO NO SE ENCUENTRA EN LA BD, SE OMITE NOTIFICACION -> " + item.getPrimaryKey().getCedula());
+				
 			}
-			
-			
-			System.out.println("NOTIFICACION ENVIADA A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
 		});
 		
         return RepeatStatus.FINISHED;

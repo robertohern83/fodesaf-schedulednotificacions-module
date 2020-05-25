@@ -12,6 +12,7 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ import lombok.ToString;
  */
 @Entity
 @Table (name = "Notificaciones", schema = "dbo")
+@DynamicUpdate
 @NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
 public class Notificaciones implements Serializable{
 
@@ -61,6 +63,8 @@ public class Notificaciones implements Serializable{
 	@Column (name = "Fechaprogramada")
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	LocalDate fechaProgramada;
+	
+	
 
 	
 
