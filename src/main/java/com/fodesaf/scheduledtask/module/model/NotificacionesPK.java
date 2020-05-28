@@ -5,11 +5,9 @@ package com.fodesaf.scheduledtask.module.model;
 
 import java.io.Serializable;
 
-import javax.persistence.EntityNotFoundException;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.PostLoad;
 
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NotFound;

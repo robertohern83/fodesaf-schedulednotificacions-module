@@ -14,6 +14,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
@@ -21,7 +22,7 @@ import lombok.Setter;
  */
 @Entity
 @Table (name = "Campañacanales", schema = "dbo")
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
 public class CampanaCanales implements Serializable {
 	/**
 	 * 
@@ -32,10 +33,6 @@ public class CampanaCanales implements Serializable {
 	@EmbeddedId
 	CampanaCanalesPK primaryKey;
 
-	@Override
-	public String toString() {
-		return "CampanaCanales [primaryKey=" + primaryKey + "]";
-	}
 	
 
 	
