@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -445,14 +445,14 @@ Con base en lo reportado por la CCSS, con un corte al
 				<reportElement x="8" y="-41" width="491" height="1" uuid="eebcd75c-8119-4ee8-b1cf-d0e0940de20e"/>
 			</line>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="254" y="44" width="101" height="10" uuid="188bcb5c-d5e9-4025-a314-25e28ac4796e"/>
+				<reportElement x="232" y="32" width="101" height="14" uuid="188bcb5c-d5e9-4025-a314-25e28ac4796e"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="57" y="71" width="100" height="30" uuid="1e52e9ff-f890-4d5b-ac2a-49d4ca11fea5"/>
+				<reportElement x="57" y="70" width="100" height="30" uuid="1e52e9ff-f890-4d5b-ac2a-49d4ca11fea5"/>
 				<textFieldExpression><![CDATA[$F{Telefono}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -460,15 +460,15 @@ Con base en lo reportado por la CCSS, con un corte al
 				<text><![CDATA[Telefono:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="210" y="71" width="100" height="30" uuid="a541f5c5-17bd-494e-81f1-9b9b02a6edac"/>
+				<reportElement x="210" y="70" width="100" height="30" uuid="a541f5c5-17bd-494e-81f1-9b9b02a6edac"/>
 				<textFieldExpression><![CDATA[$F{Telefax}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="158" y="71" width="52" height="30" uuid="e92c97f1-d1fb-41e8-b46a-1a228b939e58"/>
+				<reportElement x="158" y="70" width="52" height="30" uuid="e92c97f1-d1fb-41e8-b46a-1a228b939e58"/>
 				<text><![CDATA[Fax:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="58" y="88" width="252" height="30" uuid="cafd54a0-6210-4bd6-9bcc-557b35eab6ed"/>
+				<reportElement x="58" y="86" width="252" height="30" uuid="cafd54a0-6210-4bd6-9bcc-557b35eab6ed"/>
 				<textFieldExpression><![CDATA[$F{Correo}]]></textFieldExpression>
 			</textField>
 			<staticText>
