@@ -46,7 +46,7 @@ class NotificationsFactoryTest {
 		
 		patrono.setCedula("00107050876");
 		patrono.setSegregado("000107050876001001");
-		patrono.setCorreo("consultorias.rhm@gmail.com");
+		patrono.setCorreo("consultorias.rhm@gmail.com,roberto.hernandez@in2cloudsconsulting.com");
 		patrono.setCuotasAlCobro(12345.45);
 		
 		notificationData.put("Patrono", patrono);

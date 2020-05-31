@@ -59,7 +59,7 @@ public class NotificationCampaign4 implements Notification {
 	private static final String SMS_TEMPLATE_2 = "Señor Patrono <<CEDULA>>, el Fodesaf le informa que su arreglo de pago se encuentra atrasado. El total pendiente es de ¢ <<MONTO>>. Su deuda será trasladada a Cobro Judicial.";
 	
 	// The subject line for the email.
-	private static final String SUBJECT = "Notificación de cobro - FODESAF";
+	private static final String SUBJECT = "Prevención de cobro – FODESAF";
 
 	//TODO: Reversar cambio a mensaje
 	// The email body for recipients with non-HTML email clients.

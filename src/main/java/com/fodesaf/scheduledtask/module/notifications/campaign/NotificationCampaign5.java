@@ -57,7 +57,7 @@ public class NotificationCampaign5 implements Notification {
 	private static final String SMS_TEMPLATE_2 = "Señor Patrono <<CEDULA>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. El total pendiente es de ¢ <<MONTO>>. Su deuda será trasladada a Cobro Judicial.";
 	
 	// The subject line for the email.
-	private static final String SUBJECT = "Notificación de cobro - FODESAF";
+	private static final String SUBJECT = "Prevención de cobro – FODESAF";
 
 
 	// The email body for recipients with non-HTML email clients.
