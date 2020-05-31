@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w1" value="528"/>
 	<property name="com.jaspersoft.studio.property.dataset.dialog.DatasetDialog.sash.w2" value="459"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
 		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
@@ -429,7 +429,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 		</band>
 		<band height="223">
 			<staticText>
-				<reportElement x="17" y="0" width="486" height="120" uuid="0e92bbab-6d59-418c-bc0b-01aa24ffd0e2"/>
+				<reportElement x="17" y="0" width="486" height="100" uuid="0e92bbab-6d59-418c-bc0b-01aa24ffd0e2"/>
 				<textElement textAlignment="Justified">
 					<font size="9"/>
 				</textElement>
@@ -444,9 +444,9 @@ Con base en lo reportado por la CCSS, con un corte al ]]></text>
 				<reportElement x="12" y="108" width="491" height="1" uuid="3a626c54-d2ee-4ba2-84c2-5bd07598d160"/>
 			</line>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="256" y="86" width="101" height="10" uuid="9579699b-123e-435d-8ad8-09c4c6551998"/>
+				<reportElement x="240" y="72" width="101" height="15" uuid="9579699b-123e-435d-8ad8-09c4c6551998"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font size="8" isBold="false"/>
+					<font size="9" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -459,11 +459,11 @@ Con base en lo reportado por la CCSS, con un corte al ]]></text>
 				<text><![CDATA[Telefono:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="300" y="122" width="100" height="30" uuid="ecedb1bc-e217-4134-bc57-1cd5fec3f783"/>
+				<reportElement x="300" y="120" width="100" height="30" uuid="ecedb1bc-e217-4134-bc57-1cd5fec3f783"/>
 				<textFieldExpression><![CDATA[$F{Telefax}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="265" y="122" width="35" height="30" uuid="b940a519-133a-46ee-8c72-feb5a82661cd"/>
+				<reportElement x="265" y="120" width="35" height="30" uuid="b940a519-133a-46ee-8c72-feb5a82661cd"/>
 				<text><![CDATA[Fax:]]></text>
 			</staticText>
 			<textField>
@@ -471,7 +471,7 @@ Con base en lo reportado por la CCSS, con un corte al ]]></text>
 				<textFieldExpression><![CDATA[$F{Correo}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="19" y="160" width="100" height="30" uuid="acd40691-9959-4301-a6fe-00912d3591be"/>
+				<reportElement x="19" y="161" width="100" height="30" uuid="acd40691-9959-4301-a6fe-00912d3591be"/>
 				<text><![CDATA[Correo]]></text>
 			</staticText>
 		</band>
