@@ -22,5 +22,5 @@ steps:
     goals: 'package -DskipTests=true'
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)' 
+    targetPath: '$(Pipeline.Workspace)/target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
     artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
