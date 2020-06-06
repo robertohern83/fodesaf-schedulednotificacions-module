@@ -70,9 +70,9 @@ public class NotificationsWriter implements Tasklet, StepExecutionListener {
 				if(1 == item.getPrimaryKey().getIntento()) {
 					insertarSegundoIntento(item);
 				}
-				System.out.println("NOTIFICACION ENVIADA A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
+				logger.info("NOTIFICACION ENVIADA A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
 			} else {
-				System.out.println("PATRONO NO SE ENCUENTRA EN LA BD, SE OMITE NOTIFICACION -> " + item.getPrimaryKey().getCedula());
+				logger.info("PATRONO NO SE ENCUENTRA EN LA BD, SE OMITE NOTIFICACION -> " + item.getPrimaryKey().getCedula());
 				
 			}
 		});

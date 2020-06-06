@@ -67,7 +67,7 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 		//patrono
 		int c = notificacionesService.cleanPatronos();
 		
-		System.out.println("Se actualizaron " + c + " registros de notificaciones por patronos inexistentes");
+		logger.info("Se actualizaron " + c + " registros de notificaciones por patronos inexistentes");
         logger.debug("Iniciando lectura de patronos a notificar...");
 
 	}

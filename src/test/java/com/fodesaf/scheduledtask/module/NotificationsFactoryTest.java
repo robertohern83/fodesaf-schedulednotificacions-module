@@ -157,6 +157,8 @@ class NotificationsFactoryTest {
 		patrono.setDeudaTotal(12345.45);
 		patrono.setNombre("NOMBRE DE PRUEBA");
 		
+		notificationData.put("Patrono", patrono);
+		
 		notification.sendNotification(notificationData, NotificationChannel.VOICE);
 	}
 	

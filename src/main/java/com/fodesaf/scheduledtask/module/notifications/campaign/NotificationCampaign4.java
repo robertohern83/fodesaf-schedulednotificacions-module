@@ -88,7 +88,7 @@ public class NotificationCampaign4 implements Notification {
 		
 		switch (channel) {
 		case SMS:
-			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
+			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
 			if(null != telefono) {
 				if(1 == attemp) {
@@ -107,6 +107,10 @@ public class NotificationCampaign4 implements Notification {
 				}
 			}
 			else {
+				
+				logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()));
+				
 				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()),
 						NO_CONTACT_INFO_ERROR);
@@ -114,7 +118,7 @@ public class NotificationCampaign4 implements Notification {
 			
 			break;
 		case EMAIL:
-			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
+			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
 			if(null != emails) {
@@ -142,10 +146,12 @@ public class NotificationCampaign4 implements Notification {
 									"application/pdf", 
 									"Notificacion.pdf");
 				} catch (IOException | JRException | SQLException  e) {
-					e.printStackTrace();
+					logger.error(e.getLocalizedMessage(), e);
 				}
 			}
 			else {
+				logger.error(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s",
+						this.getSupportedCampaign(), patrono.getSegregado()));
 				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s",
 						this.getSupportedCampaign(), patrono.getSegregado()),
 						NO_CONTACT_INFO_ERROR);
@@ -153,6 +159,7 @@ public class NotificationCampaign4 implements Notification {
 			
 			break;
 		case VOICE:
+			logger.error(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()));
 			throw new NotificationException(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()), NOT_SUPPORTED_CHANNEL);
 			
 		default:

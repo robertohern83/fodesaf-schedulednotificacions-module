@@ -147,7 +147,7 @@ public class NotificationCampaign2 implements Notification {
 		
 		switch (channel) {
 		case SMS:
-			System.out.println(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
+			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
 			if(null != telefono) {
 				messageIdResult = smsService.sendSMSMessage(
@@ -157,13 +157,16 @@ public class NotificationCampaign2 implements Notification {
 						MessageType.PROMOTIONAL);
 			}
 			else {
+				logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()));
+				
 				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()),
 						NO_CONTACT_INFO_ERROR);
 			}
 			break;
 		case EMAIL:
-			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
+			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
 			if(null != emails) {
@@ -183,10 +186,14 @@ public class NotificationCampaign2 implements Notification {
 									"application/pdf", 
 									"Notificacion.pdf");
 				} catch (IOException | JRException | SQLException  e) {
+					logger.error(e.getLocalizedMessage(), e);
 					throw new NotificationException("Excepcion al generar notificacion de correo electronico", e);
 				}
 			}
 			else {
+				logger.error(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()));
+				
 				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()),
 						NO_CONTACT_INFO_ERROR);
@@ -194,7 +201,7 @@ public class NotificationCampaign2 implements Notification {
 			
 			break;
 		case VOICE:
-			System.out.println(String.format("Enviando notificación por voz, %s", this.getSupportedCampaign()));
+			logger.info(String.format("Enviando notificación por voz, %s", this.getSupportedCampaign()));
 			telefono = patronosService.obtenerTelefonoPatrono(patrono, false);
 			
 			if(null != telefono) {
@@ -203,6 +210,9 @@ public class NotificationCampaign2 implements Notification {
 				messageIdResult = connectService.sendVoiceNotification(contactFlowId, attributes, formatTelephone(telefono));
 			}
 			else {
+				logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+						this.getSupportedCampaign(), patrono.getSegregado()));
+				
 				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()), 
 						NO_CONTACT_INFO_ERROR);

@@ -39,7 +39,6 @@ import com.fodesaf.scheduledtask.module.notifications.NotificationFactory;
  */
 public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 	
-	
 	NotificationFactory factory;
 
 	private static final String VOZ = "VOZ";
@@ -106,22 +105,22 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 						messageId = notificarCanal(item);
 					
 						if(null == messageId || messageId.isEmpty()) {
-							System.out.println(String.format("No se ha obtenido el messageId del mensaje enviado para la campaña: %s y el segregado: %s", item.getPrimaryKey().getCampana().getId(),item.getPrimaryKey().getPatrono().getSegregado()));
+							logger.info(String.format("No se ha obtenido el messageId del mensaje enviado para la campaña: %s y el segregado: %s", item.getPrimaryKey().getCampana().getId(),item.getPrimaryKey().getPatrono().getSegregado()));
 							estatus = ENVIADA_SIN_MESSAGEID;
 						}else {
 							item.setMessageId(messageId);
 							estatus = ENVIADA;
 						}
 					} catch (NotificationException ne) {
-						System.out.println(ne.getMessage());
+						logger.error(ne.getMessage(), ne);
 						estatus = getExceptionEstatus(ne.getErrorCode()); 
 						
 					} catch (Exception e) {
-						e.printStackTrace();
+						logger.error(e.getLocalizedMessage(), e);
 					}
 					item.setFechaEnvio(new Date());
 					
-					System.out.println("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
+					logger.info("NOTIFICAR A PATRONO -> " + item.getPrimaryKey().getPatrono().getNombre());
 				} else {
 					estatus = PAGO_GESTIONADO;
 				}
@@ -213,15 +212,15 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 		
 		switch (notificacion.getPrimaryKey().getCanal()) {
 			case SMS:		
-				System.out.println("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				logger.info("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
 				messageId = notification.sendNotification(notificationData, NotificationChannel.SMS);
 				break;
 			case EMAIL:
-				System.out.println("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				logger.info("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
 				messageId = notification.sendNotification(notificationData, NotificationChannel.EMAIL);
 				break;
 			case VOZ:
-				System.out.println("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
+				logger.info("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
 				messageId = notification.sendNotification(notificationData, NotificationChannel.VOICE);
 				break;
 			default:
