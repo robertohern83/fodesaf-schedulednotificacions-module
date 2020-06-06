@@ -48,6 +48,7 @@ class NotificationsFactoryTest {
 		patrono.setSegregado("000107050876001001");
 		patrono.setCorreo("consultorias.rhm@gmail.com,roberto.hernandez@in2cloudsconsulting.com");
 		patrono.setCuotasAlCobro(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Segregado", "000107050876001001");
@@ -69,6 +70,7 @@ class NotificationsFactoryTest {
 		patrono.setSegregado("000107050876001001");
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setCuotasAlCobro(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 2);
@@ -90,6 +92,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setCuotasAlCobro(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 2);
@@ -112,6 +115,7 @@ class NotificationsFactoryTest {
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
 		notificationData.put("Patrono", patrono);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notification.sendNotification(notificationData, NotificationChannel.SMS);
 	}
@@ -130,6 +134,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		
@@ -150,6 +155,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notification.sendNotification(notificationData, NotificationChannel.VOICE);
 	}
@@ -174,6 +180,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setCuotasAlCobro(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 1);
@@ -194,6 +201,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setCuotasAlCobro(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		notificationData.put("Attemp", 2);
 		notificationData.put("Patrono", patrono);
 		
@@ -213,6 +221,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setCuotasAlCobro(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		notificationData.put("Telefono", "87307606");
 		notificationData.put("Patrono", patrono);
 		
@@ -233,6 +242,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 1);
@@ -254,6 +264,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 2);
@@ -275,6 +286,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Consecutive", "9999");
@@ -297,6 +309,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		
 		notificationData.put("Patrono", patrono);
 		notificationData.put("Attemp", 1);
@@ -318,6 +331,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		notificationData.put("Attemp", 2);
 		notificationData.put("Patrono", patrono);
 		
@@ -339,6 +353,7 @@ class NotificationsFactoryTest {
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
 		patrono.setDeudaTotal(12345.45);
+		patrono.setNombre("NOMBRE DE PRUEBA");
 		notificationData.put("Consecutive", "9999");
 		notificationData.put("Patrono", patrono);
 		

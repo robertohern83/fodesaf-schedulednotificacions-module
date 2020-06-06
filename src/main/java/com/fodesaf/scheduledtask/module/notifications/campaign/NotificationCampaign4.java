@@ -64,7 +64,7 @@ public class NotificationCampaign4 implements Notification {
 	//TODO: Reversar cambio a mensaje
 	// The email body for recipients with non-HTML email clients.
 	//private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
-	private static final String BODY_TEXT_1 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.";
+	private static final String BODY_TEXT_1 = "Señor Patrono <<NOMBRE_PATRONO>>, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.";
 	//TODO: Reversar cambio a mensaje
 	//The email body for recipients with HTML email clients.
 	private static final String BODY_HTML_1 = "<html>\n" + 
@@ -72,7 +72,7 @@ public class NotificationCampaign4 implements Notification {
 			"<body>\n" +
 			"<p>\n" + 
 			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. </p>\n" +
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" +
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" +
 			"</p>\n" + 
 			"</body>\n" + 
 			"</html>";
@@ -135,8 +135,8 @@ public class NotificationCampaign4 implements Notification {
 							emailService.sendEmailNotification(
 									emailSender, 
 									SUBJECT, 
-									BODY_HTML_1, 
-									BODY_TEXT_1, 
+									BODY_HTML_1.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
+									BODY_TEXT_1.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
 									emails, 
 									file, 
 									"application/pdf", 

@@ -62,7 +62,7 @@ public class NotificationCampaign2 implements Notification {
 
 
 	// The email body for recipients with non-HTML email clients.
-	private static final String BODY_TEXT_1 = "Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución.\n" + 
+	private static final String BODY_TEXT_1 = "Señor Patrono <<NOMBRE_PATRONO>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución.\n" + 
 			" \n" + 
 			"Se adjunta estado de la deuda actualizado con el detalle de los periodos pendientes: \n" + 
 			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR). El pago puede realizarse por medio del servicio de Conectividad en ventanilla (indicando al cajero el número patronal completo, el cual consta de 18 dígitos) o desde su cuenta del BCR seleccionando: 1-Pago de Servicios 2-Cuotas y Planes 3-Cobro FODESAF 4-Pago a realizar (debe colocar el número patronal completo, el cual consta de 18 dígitos). Con lo anterior, el pago se aplicará automáticamente a su deuda, o bien puede realizarlo por medio de depósito bancario o transferencia a las siguientes cuentas:\n" + 
@@ -92,7 +92,7 @@ public class NotificationCampaign2 implements Notification {
 			"<head></head>\n" + 
 			"<body>\n" + 
 			"<p>\n" + 
-			"Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución.\n" + 
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución.\n" + 
 			"</p>\n" + 
 			"<p>\n" + 
 			"Se adjunta estado de la deuda actualizado con el detalle de los periodos pendientes. \n" + 
@@ -176,8 +176,8 @@ public class NotificationCampaign2 implements Notification {
 							emailService.sendEmailNotification(
 									emailSender, 
 									SUBJECT, 
-									BODY_HTML_1, 
-									BODY_TEXT_1, 
+									BODY_HTML_1.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
+									BODY_TEXT_1.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
 									emails, 
 									file, 
 									"application/pdf", 

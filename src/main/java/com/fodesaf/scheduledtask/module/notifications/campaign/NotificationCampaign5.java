@@ -61,14 +61,14 @@ public class NotificationCampaign5 implements Notification {
 
 
 	// The email body for recipients with non-HTML email clients.
-	private static final String BODY_TEXT_1 = "Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. Sírvase revisar archivo adjunto. ";
+	private static final String BODY_TEXT_1 = "Señor Patrono <<NOMBRE_PATRONO>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. Sírvase revisar archivo adjunto. ";
 
 	//The email body for recipients with HTML email clients.
 	private static final String BODY_HTML_1 = "<html>\n" + 
 			"<head></head>\n" + 
 			"<body>\n" + 
 			"<p>\n" + 
-			"Señor Patrono, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. Sírvase revisar archivo adjunto.  </p>\n" + 
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Fondo de Desarrollo Social y Asignaciones Familiares (Fodesaf) le informa que mantiene una deuda con la institución. Sírvase revisar archivo adjunto.  </p>\n" + 
 			"<p>\n" + 
 			"</body>\n" + 
 			"</html>";
@@ -134,8 +134,8 @@ public class NotificationCampaign5 implements Notification {
 							emailService.sendEmailNotification(
 									emailSender, 
 									SUBJECT, 
-									BODY_HTML_1, 
-									BODY_TEXT_1, 
+									BODY_HTML_1.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
+									BODY_TEXT_1.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
 									emails, 
 									file, 
 									"application/pdf", 

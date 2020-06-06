@@ -59,7 +59,7 @@ public class NotificationCampaign1 implements Notification {
 
 	// The email body for recipients with non-HTML email clients.
 	private static final String BODY_TEXT_1 = 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
 			" \n" + 
 			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR).\n" + 
 			"El pago puede realizarse por medio del servicio de Conectividad en ventanilla (indicando al cajero el número patronal completo, el cual consta de 18 dígitos) o desde su cuenta del BCR seleccionando: 1-Pago de Servicios 2-Cuotas y Planes 3-Cobro FODESAF 4-Pago a realizar (debe colocar el número patronal completo, el cual consta de 18 dígitos). Con lo anterior, el pago se aplicará automáticamente a su deuda, o bien puede realizarlo por medio de depósito bancario o transferencia a las siguientes cuentas:\n" + 
@@ -83,7 +83,7 @@ public class NotificationCampaign1 implements Notification {
 	
 	//private static final String BODY_TEXT_2 = "Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto.";
 	private static final String BODY_TEXT_2 = 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente. ";
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente. ";
 
 	//TODO: Reversar cambio a mensaje
 	// The HTML body of the email.
@@ -93,7 +93,7 @@ public class NotificationCampaign1 implements Notification {
 			"<head></head>\n" + 
 			"<body>\n" + 
 			"<p>\n" + 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. El total pendiente es de ¢ <<MONTO>>.\n" + 
 			"</p>\n" + 
 			"<p>\n" + 
 			"Usted puede realizar su pago mediante el servicio de Conectividad con el Banco de Costa Rica (BCR).\n" + 
@@ -147,7 +147,7 @@ public class NotificationCampaign1 implements Notification {
 			"<p>\n" + 
 			//TODO: Reversar cambio a mensaje
 			//"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto </p>\n" + 
-			"Señor Patrono, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" + 
+			"Señor Patrono <<NOMBRE_PATRONO>>, el Departamento de Gestión de Cobro del Fodesaf informa que usted mantiene un atraso en el arreglo de pago. Sírvase revisar archivo adjunto. Se le solicita amortizar este pendiente.\n" + 
 			"</p>\n" + 
 			"</body>\n" + 
 			"</html>";
@@ -185,8 +185,8 @@ public class NotificationCampaign1 implements Notification {
 					messageIdResult = emailService.sendEmailNotification(
 							emailSender, 
 							SUBJECT, 
-							BODY_HTML_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), 
-							BODY_TEXT_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())), 
+							BODY_HTML_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())).replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
+							BODY_TEXT_1.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())).replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
 							emails, 
 							null, 
 							null, 
@@ -202,8 +202,8 @@ public class NotificationCampaign1 implements Notification {
 								emailService.sendEmailNotification(
 										emailSender, 
 										SUBJECT, 
-										BODY_HTML_2, 
-										BODY_TEXT_2, 
+										BODY_HTML_2.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
+										BODY_TEXT_2.replaceAll("<<NOMBRE_PATRONO>>", patrono.getNombre()), 
 										emails, 
 										file, 
 										"application/pdf", 
