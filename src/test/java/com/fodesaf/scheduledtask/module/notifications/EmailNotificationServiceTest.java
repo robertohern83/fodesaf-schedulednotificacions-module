@@ -1,6 +1,7 @@
 package com.fodesaf.scheduledtask.module.notifications;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -17,11 +18,17 @@ public class EmailNotificationServiceTest {
 	
 	@Test
 	public void sendEmailNotificationWithDefaultSenderTest() {
+		
+		List<String> testEmails = new ArrayList<String>();
+		
+		testEmails.add("roberto.hern83@gmail.com");
+		testEmails.add("roberto.hernandez@in2cloudsconsulting.com");
+		
 		service.sendEmailNotification("roberto.hernandez@in2cloudsconsulting.com",
 				"Prueba envio con copia", 
 				"Hola usuario", 
 				"Hola Usuario", 
-				"roberto.hern83@gmail.com", 
+				testEmails, 
 				null, 
 				null, 
 				null);

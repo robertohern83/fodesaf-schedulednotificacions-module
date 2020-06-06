@@ -115,9 +115,9 @@ public class NotificationCampaign4 implements Notification {
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
-			String correo = patronosService.obtenerCorreoPatrono(patrono);
+			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
-			if(null != correo) {
+			if(null != emails) {
 				DecimalFormat dfConsecutive = new DecimalFormat("00000"); 
 				int intConsecutive = consecutivosService.getNextConsecutive();
 				if (-1 == intConsecutive) {
@@ -137,7 +137,7 @@ public class NotificationCampaign4 implements Notification {
 									SUBJECT, 
 									BODY_HTML_1, 
 									BODY_TEXT_1, 
-									correo, 
+									emails, 
 									file, 
 									"application/pdf", 
 									"Notificacion.pdf");

@@ -164,9 +164,9 @@ public class NotificationCampaign2 implements Notification {
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
-			String correo = patronosService.obtenerCorreoPatrono(patrono);
+			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
-			if(null != correo) {
+			if(null != emails) {
 				Map<String, Object> params = new HashMap<>();
 				params.put("pCedula", patrono.getCedula());
 				byte[] file = null;
@@ -178,7 +178,7 @@ public class NotificationCampaign2 implements Notification {
 									SUBJECT, 
 									BODY_HTML_1, 
 									BODY_TEXT_1, 
-									correo, 
+									emails, 
 									file, 
 									"application/pdf", 
 									"Notificacion.pdf");

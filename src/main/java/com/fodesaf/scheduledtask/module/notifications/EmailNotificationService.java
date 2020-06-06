@@ -3,6 +3,7 @@ package com.fodesaf.scheduledtask.module.notifications;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -40,7 +41,7 @@ public class EmailNotificationService {
 	
 	
 	
-	public String sendEmailNotification(String sender, String Subject, String htmlBody, String textBody, String recipient, byte[] attachment, String contentType, String fileName) {
+	public String sendEmailNotification(String sender, String Subject, String htmlBody, String textBody, List<String> recipients, byte[] attachment, String contentType, String fileName) {
 		Session session = Session.getDefaultInstance(new Properties());
         
 		
@@ -52,7 +53,7 @@ public class EmailNotificationService {
 			message.setSubject(Subject, "UTF-8");
 		
 	        message.setFrom(new InternetAddress(SENDER));
-	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipient));
+	        message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(String.join(",", recipients)));
 	        message.setRecipients(Message.RecipientType.BCC, InternetAddress.parse(SENDER));
 	
 	        // Create a multipart/alternative child container.

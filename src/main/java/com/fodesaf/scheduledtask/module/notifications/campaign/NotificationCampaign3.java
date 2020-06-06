@@ -199,9 +199,9 @@ public class NotificationCampaign3 implements Notification {
 			break;
 		case EMAIL:
 			System.out.println(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
-			String correo = patronosService.obtenerCorreoPatrono(patrono);
+			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
-			if(null != correo) {
+			if(null != emails) {
 				int attemp = (int)notificationData.get("Attemp");
 				
 				if(1 == attemp) {
@@ -210,7 +210,7 @@ public class NotificationCampaign3 implements Notification {
 							SUBJECT, 
 							BODY_HTML_1.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
 							BODY_TEXT_1.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
-							correo, 
+							emails, 
 							null, 
 							null, 
 							null);
@@ -221,7 +221,7 @@ public class NotificationCampaign3 implements Notification {
 							SUBJECT, 
 							BODY_HTML_2.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
 							BODY_TEXT_2.replaceAll("<<MONTO>>", String.valueOf(df.format(patrono.getCuotasAlCobro()))), 
-							correo, 
+							emails, 
 							null, 
 							null, 
 							null);

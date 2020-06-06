@@ -1,5 +1,8 @@
 package com.fodesaf.scheduledtask.module.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -74,19 +77,19 @@ public class PatronosService {
 		return telefono.trim().matches("[6,7,8][0-9]{7}");
 	}	
 	
-	public String obtenerCorreoPatrono(Patronos patrono){
-		String emailResultado = null;
-		
+	public List<String> obtenerCorreoPatrono(Patronos patrono){
+		List<String> emailList = new ArrayList<String>();
 		DatosPatrono datosPatrono = this.obtenerDatosPatronoPorCedula(patrono.getCedula());
-		if(null != datosPatrono && null != datosPatrono.getCelular()) {
-			emailResultado = datosPatrono.getEmail();
+		
+		if(null != datosPatrono && null != datosPatrono.getEmail()) {
+			emailList.add(datosPatrono.getEmail());
 		}
 		
-		if(null == emailResultado && null != patrono) {
-			emailResultado = patrono.getCorreo();
+		if(null != patrono && null != patrono.getCorreo()) {
+			emailList.add(patrono.getCorreo());
 		}
 		
-		return emailResultado;
+		return emailList;
 	}
 
 }
