@@ -13,6 +13,7 @@ import java.util.function.Function;
 
 import javax.sql.DataSource;
 
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -166,13 +167,15 @@ public class NotificationCampaign1 implements Notification {
 		case SMS:
 			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			
-			this.iterateOverPhonesAndInvokeFunction(patrono, 
-					buildSMSMessagesConsumer(messageIds, patrono, SMS_TEMPLATE.replaceAll(
+			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
+					NotificationCampaignHelper.buildSMSMessagesConsumer(smsService, smsSender, messageIds, patrono, SMS_TEMPLATE.replaceAll(
 							"<<MONTO>>", 
 							df.format(
 									patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", 
 									patrono.getCedula())), 
-					getPhonesFilter(patrono, true));
+					NotificationCampaignHelper.getPhonesFilter(patronosService, patrono, true), 
+					logger, 
+					this.getSupportedCampaign());
 			
 			break;
 		case EMAIL:
@@ -242,20 +245,6 @@ public class NotificationCampaign1 implements Notification {
 	}
 
 
-	public Function<Patronos, List<String>> getPhonesFilter(Patronos patrono, boolean smsCompatible) {
-		return phones -> patronosService.getEmployerPhoneList(patrono, smsCompatible);
-	}
-
-
-	public Consumer<String> buildSMSMessagesConsumer(final List<String> messageIds, Patronos patrono, String message) {
-		return phone ->  messageIds.add(smsService.sendSMSMessage(
-											phone, 
-											message, 
-											smsSender, 
-											MessageType.PROMOTIONAL));
-	}
-
-
 	@Override
 	public Integer getSupportedCampaign() {
 		return 1;
@@ -266,21 +255,6 @@ public class NotificationCampaign1 implements Notification {
 		return Arrays.asList(NotificationChannel.EMAIL, NotificationChannel.SMS);
 	}
 	
-	private void iterateOverPhonesAndInvokeFunction(Patronos patrono, Consumer<String> functionOverPhones, Function<Patronos, List<String>> getPhonesFunction) throws NotificationException{
-		
-		List<String> phoneList = getPhonesFunction.apply(patrono);
-		
-		if(null != phoneList && 0 < phoneList.size()) {
-			phoneList.forEach(functionOverPhones);
-		}
-		else {
-			logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-					this.getSupportedCampaign(), patrono.getSegregado()));
-			
-			throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-					this.getSupportedCampaign(), patrono.getSegregado()), 
-					NO_CONTACT_INFO_ERROR);
-		}
-	}
+
 
 }

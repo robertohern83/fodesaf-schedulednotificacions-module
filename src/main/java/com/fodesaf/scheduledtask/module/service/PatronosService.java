@@ -1,7 +1,9 @@
 package com.fodesaf.scheduledtask.module.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -60,8 +62,8 @@ public class PatronosService {
 		return null != telefonoResultado ? telefonoResultado.trim() : null;
 	}
 	
-	public List<String> getEmployerPhoneList(Patronos employer, boolean smsCompatible){
-		List<String> phoneList = new ArrayList<String>();
+	public Set<String> getEmployerPhoneList(Patronos employer, boolean smsCompatible){
+		Set<String> phoneList = new HashSet<String>();
 		
 		DatosPatrono employerData = this.obtenerDatosPatronoPorCedula(employer.getCedula());
 		if(null != employerData) {
@@ -89,7 +91,7 @@ public class PatronosService {
 		return null;
 	}
 	
-	private void addValidatedPhone(List<String> phoneList, String phone, boolean smsCompatible) {
+	private void addValidatedPhone(Set<String> phoneList, String phone, boolean smsCompatible) {
 		if(null != phone) {
 			if(!smsCompatible) {
 				phoneList.add(formatTelephone(phone));

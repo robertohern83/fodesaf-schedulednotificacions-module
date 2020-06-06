@@ -91,6 +91,7 @@ class NotificationsFactoryTest {
 		patrono.setSegregado("000100575474001001");
 		patrono.setCorreo("consultorias.rhm@gmail.com");
 		patrono.setTelefono("87307606");
+		patrono.setTelefonoRepresentanteLegal("87307606");
 		patrono.setCuotasAlCobro(12345.45);
 		patrono.setNombre("NOMBRE DE PRUEBA");
 		
