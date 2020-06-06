@@ -59,6 +59,23 @@ public class PatronosService {
 		
 		return null != telefonoResultado ? telefonoResultado.trim() : null;
 	}
+	
+	public List<String> getEmployerPhoneList(Patronos employer, boolean smsCompatible){
+		List<String> phoneList = new ArrayList<String>();
+		
+		DatosPatrono employerData = this.obtenerDatosPatronoPorCedula(employer.getCedula());
+		if(null != employerData) {
+			this.addValidatedPhone(phoneList, employerData.getCelular(), smsCompatible);
+			this.addValidatedPhone(phoneList, employerData.getTelefono(), smsCompatible);
+		}
+
+		if(null != employer) {
+			this.addValidatedPhone(phoneList, employer.getTelefono(), smsCompatible);
+			this.addValidatedPhone(phoneList, employer.getTelefonoRepresentanteLegal(), smsCompatible);
+					 
+		}
+		return phoneList;
+	}
 
 	private String obtenerTelefonoValidado(String telefono, boolean smsCompatible) {
 		if(null != telefono) {
@@ -70,6 +87,17 @@ public class PatronosService {
 			}
 		} 
 		return null;
+	}
+	
+	private void addValidatedPhone(List<String> phoneList, String phone, boolean smsCompatible) {
+		if(null != phone) {
+			if(!smsCompatible) {
+				phoneList.add(formatTelephone(phone));
+			}
+			else if(isSMSCompatible(phone)) {
+				phoneList.add(formatTelephone(phone));
+			}
+		}
 	}
 
 	private boolean isSMSCompatible(String telefono) {
@@ -90,6 +118,10 @@ public class PatronosService {
 		}
 		
 		return emailList;
+	}
+	
+	private String formatTelephone(String telefono) {
+		return String.format("+506%s",telefono);
 	}
 
 }

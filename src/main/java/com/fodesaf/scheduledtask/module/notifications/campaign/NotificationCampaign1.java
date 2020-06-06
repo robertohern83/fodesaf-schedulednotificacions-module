@@ -3,10 +3,13 @@ package com.fodesaf.scheduledtask.module.notifications.campaign;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import javax.sql.DataSource;
 
@@ -155,27 +158,22 @@ public class NotificationCampaign1 implements Notification {
 	@Override
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException {
 		String messageIdResult = null;
+		final List<String> messageIds = new ArrayList<String>();
 		Patronos patrono = (Patronos)notificationData.get("Patrono");
 		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		
 		switch (channel) {
 		case SMS:
 			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
-			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
-			if(null != telefono) {
-				
-				messageIdResult = smsService.sendSMSMessage(
-						formatTelephone(telefono), 
-						SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", patrono.getCedula()), smsSender, MessageType.PROMOTIONAL);
-			}
-			else {
-				logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()));
-				
-				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()), 
-						NO_CONTACT_INFO_ERROR);
-			}
+			
+			this.iterateOverPhonesAndInvokeFunction(patrono, 
+					buildSMSMessagesConsumer(messageIds, patrono, SMS_TEMPLATE.replaceAll(
+							"<<MONTO>>", 
+							df.format(
+									patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", 
+									patrono.getCedula())), 
+					getPhonesFilter(patrono, true));
+			
 			break;
 		case EMAIL:
 			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
@@ -233,13 +231,30 @@ public class NotificationCampaign1 implements Notification {
 		default:
 			break;
 		}
+		
+		
+		if(null == messageIdResult && null != messageIds && 0 < messageIds.size()) {
+			messageIdResult = String.join(",", messageIds);
+		}
+		
 		return messageIdResult;
 
 	}
 
-	public String formatTelephone(String telefono) {
-		return String.format("+506%s",telefono);
+
+	public Function<Patronos, List<String>> getPhonesFilter(Patronos patrono, boolean smsCompatible) {
+		return phones -> patronosService.getEmployerPhoneList(patrono, smsCompatible);
 	}
+
+
+	public Consumer<String> buildSMSMessagesConsumer(final List<String> messageIds, Patronos patrono, String message) {
+		return phone ->  messageIds.add(smsService.sendSMSMessage(
+											phone, 
+											message, 
+											smsSender, 
+											MessageType.PROMOTIONAL));
+	}
+
 
 	@Override
 	public Integer getSupportedCampaign() {
@@ -249,6 +264,23 @@ public class NotificationCampaign1 implements Notification {
 	@Override
 	public List<NotificationChannel> getSupportedChannels() {
 		return Arrays.asList(NotificationChannel.EMAIL, NotificationChannel.SMS);
+	}
+	
+	private void iterateOverPhonesAndInvokeFunction(Patronos patrono, Consumer<String> functionOverPhones, Function<Patronos, List<String>> getPhonesFunction) throws NotificationException{
+		
+		List<String> phoneList = getPhonesFunction.apply(patrono);
+		
+		if(null != phoneList && 0 < phoneList.size()) {
+			phoneList.forEach(functionOverPhones);
+		}
+		else {
+			logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+					this.getSupportedCampaign(), patrono.getSegregado()));
+			
+			throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
+					this.getSupportedCampaign(), patrono.getSegregado()), 
+					NO_CONTACT_INFO_ERROR);
+		}
 	}
 
 }
