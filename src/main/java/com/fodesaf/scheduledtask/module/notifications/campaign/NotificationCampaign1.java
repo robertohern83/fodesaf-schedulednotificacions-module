@@ -229,6 +229,7 @@ public class NotificationCampaign1 implements Notification {
 			
 			break;
 		case VOICE:
+			logger.error(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()));
 			throw new NotificationException(String.format("Esta campaña no soporta notificaciones de voz, %s", this.getSupportedCampaign()), NOT_SUPPORTED_CHANNEL);
 
 		default:

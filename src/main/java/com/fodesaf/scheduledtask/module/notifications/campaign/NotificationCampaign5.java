@@ -3,6 +3,7 @@ package com.fodesaf.scheduledtask.module.notifications.campaign;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,6 @@ import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
-import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
 import com.fodesaf.scheduledtask.module.service.ConsecutivosService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
@@ -76,7 +76,7 @@ public class NotificationCampaign5 implements Notification {
 	@Override
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException {
 		String messageIdResult = null;
-	
+		final List<String> messageIds = new ArrayList<String>();
 		
 		Patronos patrono = (Patronos)notificationData.get("Patrono");
 		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
@@ -86,32 +86,22 @@ public class NotificationCampaign5 implements Notification {
 		switch (channel) {
 		case SMS:
 			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
-			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
 			
-			if(null != telefono) {
-				if(1 == attemp) {
-					messageIdResult = smsService.sendSMSMessage(
-							formatTelephone(telefono), 
-							SMS_TEMPLATE_1.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula()), 
+			String messageToSend = (1 == attemp)?
+					SMS_TEMPLATE_1.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula())
+					:
+					SMS_TEMPLATE_2.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula());
+			
+			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
+					NotificationCampaignHelper.buildSMSMessagesConsumer(
+							smsService, 
 							smsSender, 
-							MessageType.PROMOTIONAL);
-				}
-				else {
-					messageIdResult = smsService.sendSMSMessage(
-							formatTelephone(telefono), 
-							SMS_TEMPLATE_2.replaceAll("<<MONTO>>", df.format(patrono.getDeudaTotal())).replaceAll("<<CEDULA>>", patrono.getCedula()), 
-							smsSender, 
-							MessageType.PROMOTIONAL);
-				}
-			}
-			else {
-				logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()));
-				
-				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()),
-						NO_CONTACT_INFO_ERROR);
-			}
+							messageIds, 
+							patrono, 
+							messageToSend), 
+					NotificationCampaignHelper.getPhonesFilter(patronosService, patrono, true), 
+					logger, 
+					this.getSupportedCampaign());
 			
 			break;
 		case EMAIL:

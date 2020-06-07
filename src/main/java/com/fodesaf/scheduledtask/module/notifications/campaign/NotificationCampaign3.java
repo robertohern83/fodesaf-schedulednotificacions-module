@@ -1,6 +1,7 @@
 package com.fodesaf.scheduledtask.module.notifications.campaign;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,6 @@ import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
-import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 import com.fodesaf.scheduledtask.module.util.Constants;
 
@@ -176,30 +176,29 @@ public class NotificationCampaign3 implements Notification {
 	@Override
 	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel)  throws NotificationException{
 		String messageIdResult = null;
-		
+		final List<String> messageIds = new ArrayList<String>();
 		Patronos patrono = (Patronos)notificationData.get("Patrono");
 		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		
 		switch (channel) {
 		case SMS:
 			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
-			String telefono = patronosService.obtenerTelefonoPatrono(patrono, true);
-			if(null != telefono) {
-				messageIdResult = smsService.sendSMSMessage(
-						formatTelephone(telefono), 
-						SMS_TEMPLATE.replaceAll("<<MONTO>>", df.format(patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", patrono.getCedula()),
-						smsSender, 
-						MessageType.PROMOTIONAL);
-			}
-			else {
-				
-				logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()));
-				
-				throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()),
-						NO_CONTACT_INFO_ERROR);
-			}
+			
+			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
+					NotificationCampaignHelper.buildSMSMessagesConsumer(
+							smsService, 
+							smsSender, 
+							messageIds, 
+							patrono, 
+							SMS_TEMPLATE.replaceAll(
+								"<<MONTO>>", 
+								df.format(
+										patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", 
+										patrono.getCedula())), 
+					NotificationCampaignHelper.getPhonesFilter(patronosService, patrono, true), 
+					logger, 
+					this.getSupportedCampaign());
+			
 			break;
 		case EMAIL:
 			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
@@ -248,6 +247,11 @@ public class NotificationCampaign3 implements Notification {
 		default:
 			break;
 		}
+		
+		if(null == messageIdResult && null != messageIds && 0 < messageIds.size()) {
+			messageIdResult = String.join(",", messageIds);
+		}
+		
 		return messageIdResult;
 		
 
