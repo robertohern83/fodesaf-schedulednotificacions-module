@@ -4,7 +4,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -12,12 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
+import com.fodesaf.scheduledtask.module.service.NotificacionesService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 import com.fodesaf.scheduledtask.module.util.Constants;
 
@@ -41,6 +42,9 @@ public class NotificationCampaign3 implements Notification {
 	
 	@Autowired
 	PatronosService patronosService;
+	
+	@Autowired
+	NotificacionesService notificacionesService;
 	
 	private static final String SMS_TEMPLATE = "Señor Patrono <<CEDULA>>, el Departamento de Gestión de Cobro del Fodesaf informa que ya está al cobro la cuota del mes de su arreglo de pago. El monto de la cuota es de ¢ <<MONTO>>.";
 	
@@ -174,10 +178,10 @@ public class NotificationCampaign3 implements Notification {
 			"</html>";
 	
 	@Override
-	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel)  throws NotificationException{
+	public String sendNotification(Notificaciones notificacion, NotificationChannel channel)  throws NotificationException{
 		String messageIdResult = null;
 		final List<String> messageIds = new ArrayList<String>();
-		Patronos patrono = (Patronos)notificationData.get("Patrono");
+		Patronos patrono = notificacion.getPrimaryKey().getPatrono();
 		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		
 		switch (channel) {
@@ -187,9 +191,10 @@ public class NotificationCampaign3 implements Notification {
 			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
 					NotificationCampaignHelper.buildSMSMessagesConsumer(
 							smsService, 
-							smsSender, 
+							smsSender,
+							notificacionesService,
 							messageIds, 
-							patrono, 
+							notificacion, 
 							SMS_TEMPLATE.replaceAll(
 								"<<MONTO>>", 
 								df.format(
@@ -204,8 +209,8 @@ public class NotificationCampaign3 implements Notification {
 			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
-			if(null != emails) {
-				int attemp = (int)notificationData.get("Attemp");
+			if(null != emails && !emails.isEmpty()) {
+				int attemp = notificacion.getPrimaryKey().getIntento();
 				
 				if(1 == attemp) {
 					messageIdResult = emailService.sendEmailNotification(
@@ -229,11 +234,13 @@ public class NotificationCampaign3 implements Notification {
 							null, 
 							null);
 				}
+				
+				//Insertar los destinos de la notificacion (para cada correo)
+				final String messageId = messageIdResult;
+				Arrays.asList(String.join(",", emails).split(","))
+						.forEach(e -> notificacionesService.registrarDestino(notificacion, e, messageId));
 			}
 			else {
-				logger.error(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()));
-				
 				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()),
 						NO_CONTACT_INFO_ERROR);

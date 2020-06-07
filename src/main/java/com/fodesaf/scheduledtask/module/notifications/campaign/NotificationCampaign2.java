@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.ConnectNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
@@ -23,6 +24,7 @@ import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
+import com.fodesaf.scheduledtask.module.service.NotificacionesService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 import com.fodesaf.scheduledtask.module.util.Constants;
 
@@ -54,6 +56,9 @@ public class NotificationCampaign2 implements Notification {
 	
 	@Autowired
 	PatronosService patronosService;
+	
+	@Autowired
+	NotificacionesService notificacionesService;
 	
 	private static final String SMS_TEMPLATE = "Señor Patrono <<CEDULA>>, el Fodesaf le informa que mantiene una deuda con nuestra institución. El total pendiente es de <<MONTO>>. Si desea más información nos puede contactar a desaf.cobros@mtss.go.cr o al teléfono 2547-3600 opción 9.";
 	
@@ -140,10 +145,10 @@ public class NotificationCampaign2 implements Notification {
 			"";
 	
 	@Override
-	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel)  throws NotificationException {
+	public String sendNotification(Notificaciones notificacion, NotificationChannel channel)  throws NotificationException {
 		String messageIdResult = null;
 		final List<String> messageIds = new ArrayList<String>();
-		Patronos patrono = (Patronos)notificationData.get("Patrono");
+		Patronos patrono = notificacion.getPrimaryKey().getPatrono();
 		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		
 		switch (channel) {
@@ -153,9 +158,10 @@ public class NotificationCampaign2 implements Notification {
 			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
 					NotificationCampaignHelper.buildSMSMessagesConsumer(
 							smsService, 
-							smsSender, 
+							smsSender,
+							notificacionesService, 
 							messageIds, 
-							patrono, 
+							notificacion, 
 							SMS_TEMPLATE.replaceAll(
 								"<<MONTO>>", 
 								df.format(
@@ -170,7 +176,7 @@ public class NotificationCampaign2 implements Notification {
 			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
-			if(null != emails) {
+			if(null != emails && !emails.isEmpty()) {
 				Map<String, Object> params = new HashMap<>();
 				params.put("pCedula", patrono.getCedula());
 				byte[] file = null;
@@ -190,11 +196,13 @@ public class NotificationCampaign2 implements Notification {
 					logger.error(e.getLocalizedMessage(), e);
 					throw new NotificationException("Excepcion al generar notificacion de correo electronico", e);
 				}
+				
+				//Insertar los destinos de la notificacion (para cada correo)
+				final String messageId = messageIdResult;
+				Arrays.asList(String.join(",", emails).split(","))
+						.forEach(e -> notificacionesService.registrarDestino(notificacion, e, messageId));
 			}
 			else {
-				logger.error(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()));
-				
 				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()),
 						NO_CONTACT_INFO_ERROR);
@@ -210,10 +218,11 @@ public class NotificationCampaign2 implements Notification {
 			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
 					NotificationCampaignHelper.buildVoiceMessagesConsumer(
 							connectService,
+							notificacionesService,
 							contactFlowId,
 							attributes, 
 							messageIds,
-							patrono), 
+							notificacion), 
 					NotificationCampaignHelper.getPhonesFilter(patronosService, patrono, false), 
 					logger, 
 					this.getSupportedCampaign());

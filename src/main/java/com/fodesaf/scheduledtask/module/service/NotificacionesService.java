@@ -5,6 +5,7 @@ package com.fodesaf.scheduledtask.module.service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -16,12 +17,16 @@ import javax.persistence.criteria.Root;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.fodesaf.scheduledtask.module.model.Campanas;
 import com.fodesaf.scheduledtask.module.model.ControlNotificacionesDiarias;
+import com.fodesaf.scheduledtask.module.model.DestinoNotificaciones;
+import com.fodesaf.scheduledtask.module.model.DestinoNotificacionesPK;
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.repositories.ControlNotificacionesDiariasRepository;
+import com.fodesaf.scheduledtask.module.model.repositories.DestinoNotificacionesRepository;
 import com.fodesaf.scheduledtask.module.model.repositories.NotificacionesRepository;
 
 /**
@@ -34,6 +39,9 @@ public class NotificacionesService {
 	
 	@Resource
 	NotificacionesRepository notificacionesRepo;
+	
+	@Resource
+	DestinoNotificacionesRepository destinoNotificacionesRepo;
 	
 	@Resource 
 	ControlNotificacionesDiariasRepository controlRepo;
@@ -94,6 +102,17 @@ public class NotificacionesService {
 		return notificacionesRepo.cleanPatronos();
 	}
 	
-	
+	@Async
+	public void registrarDestino(Notificaciones notificacion, String destino, String messageId) {
+		DestinoNotificaciones destinoNotificaciones = new DestinoNotificaciones();
+		DestinoNotificacionesPK primaryKey = new DestinoNotificacionesPK(notificacion, destino.trim());
+		destinoNotificaciones.setPrimaryKey(primaryKey);
+		destinoNotificaciones.setMessageId(messageId);
+		destinoNotificaciones.setFechaEnvio(new Date());
+		
+		destinoNotificacionesRepo.save(destinoNotificaciones);
+		
+		
+	}
 
 }

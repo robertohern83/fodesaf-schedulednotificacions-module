@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
@@ -22,6 +23,7 @@ import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
+import com.fodesaf.scheduledtask.module.service.NotificacionesService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 import com.fodesaf.scheduledtask.module.util.Constants;
 
@@ -47,6 +49,9 @@ public class NotificationCampaign1 implements Notification {
 	
 	@Autowired
 	PatronosService patronosService;
+	
+	@Autowired
+	NotificacionesService notificacionesService;
 	
 	
 	//TODO: Reversar cambio a mensaje
@@ -152,10 +157,10 @@ public class NotificationCampaign1 implements Notification {
 			"</html>";
 	
 	@Override
-	public String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException {
+	public String sendNotification(Notificaciones notificacion, NotificationChannel channel) throws NotificationException {
 		String messageIdResult = null;
 		final List<String> messageIds = new ArrayList<String>();
-		Patronos patrono = (Patronos)notificationData.get("Patrono");
+		Patronos patrono = notificacion.getPrimaryKey().getPatrono();
 		DecimalFormat df = new DecimalFormat(Constants.AMOUNT_FORMAT); 
 		
 		switch (channel) {
@@ -166,8 +171,9 @@ public class NotificationCampaign1 implements Notification {
 					NotificationCampaignHelper.buildSMSMessagesConsumer(
 							smsService, 
 							smsSender, 
+							notificacionesService,
 							messageIds, 
-							patrono, 
+							notificacion, 
 							SMS_TEMPLATE.replaceAll(
 								"<<MONTO>>", 
 								df.format(
@@ -182,8 +188,8 @@ public class NotificationCampaign1 implements Notification {
 			logger.info(String.format("Enviando notificacion de EMAIL, %s", this.getSupportedCampaign()));
 			List<String> emails = patronosService.obtenerCorreoPatrono(patrono);
 			
-			if(null != emails) {
-				int attemp = (int)notificationData.get("Attemp");
+			if(null != emails && !emails.isEmpty()) {
+				int attemp = notificacion.getPrimaryKey().getIntento();
 				
 				if(1 == attemp) {
 					messageIdResult = emailService.sendEmailNotification(
@@ -217,10 +223,15 @@ public class NotificationCampaign1 implements Notification {
 						throw new NotificationException("Excepcion al generar notificacion de correo electronico", e);
 					}
 				}
+				//Insertar los destinos de la notificacion (para cada correo)
+				final String messageId = messageIdResult;
+				Arrays.asList(String.join(",", emails).split(","))
+						.forEach(e -> notificacionesService.registrarDestino(notificacion, e, messageId));
+				
+				
 			}
 			else {
-				logger.error(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
-						this.getSupportedCampaign(), patrono.getSegregado()));
+				
 				
 				throw new NotificationException(String.format("Campaña %s, Correo a notificar no encontrado, segregado: %s", 
 						this.getSupportedCampaign(), patrono.getSegregado()), 

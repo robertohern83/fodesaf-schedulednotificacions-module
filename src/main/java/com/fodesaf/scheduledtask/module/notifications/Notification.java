@@ -1,10 +1,11 @@
 package com.fodesaf.scheduledtask.module.notifications;
 
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.fodesaf.scheduledtask.module.model.Notificaciones;
 
 public interface Notification {
 	
@@ -14,7 +15,7 @@ public interface Notification {
 	
 	static final Logger logger = LoggerFactory.getLogger(Notification.class);
 	
-    String sendNotification(Map<String, Object> notificationData, NotificationChannel channel) throws NotificationException;
+    String sendNotification(Notificaciones notificacion, NotificationChannel channel) throws NotificationException;
     
     Integer getSupportedCampaign();
     

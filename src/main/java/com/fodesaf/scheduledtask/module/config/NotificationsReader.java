@@ -35,8 +35,6 @@ public class NotificationsReader implements Tasklet, StepExecutionListener {
 
 	private static final String EN_PROCESO = "EN PROCESO";
 	
-	private static final String PATRONO_NO_EXISTE = "PATRONO NO EXISTE";
-
 	private static final int MAXIMO_POR_BLOQUE = 10;
 
 	private static final String FECHA_CREACION = "FechaCreacion";

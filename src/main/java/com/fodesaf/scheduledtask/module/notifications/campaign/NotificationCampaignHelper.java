@@ -8,12 +8,14 @@ import java.util.function.Function;
 
 import org.slf4j.Logger;
 
+import com.fodesaf.scheduledtask.module.model.Notificaciones;
 import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.ConnectNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
+import com.fodesaf.scheduledtask.module.service.NotificacionesService;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 
 public class NotificationCampaignHelper {
@@ -31,9 +33,6 @@ public class NotificationCampaignHelper {
 			phoneList.forEach(functionOverPhones);
 		}
 		else {
-			logger.error(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
-					supportedCampaign, patrono.getSegregado()));
-			
 			throw new NotificationException(String.format("Campaña %s, Telefono a notificar no encontrado, segregado: %s", 
 					supportedCampaign, patrono.getSegregado()), 
 					Notification.NO_CONTACT_INFO_ERROR);
@@ -45,19 +44,21 @@ public class NotificationCampaignHelper {
 	}
 
 
-	public static Consumer<String> buildSMSMessagesConsumer(SMSNotificationService smsService, String smsSender, final List<String> messageIds, Patronos patrono, String message) {
-		return phone -> { messageIds.add(smsService.sendSMSMessage(
-											phone, 
-											message, 
-											smsSender, 
-											MessageType.PROMOTIONAL));
-				          //TODO: Insertar registro de notificación y pasar servicio como parametro para este guardado. 
+	public static Consumer<String> buildSMSMessagesConsumer(SMSNotificationService smsService, String smsSender,
+			NotificacionesService notificacionesService, final List<String> messageIds, Notificaciones notificacion,
+			String message) {
+		return phone -> {
+			String messageId = smsService.sendSMSMessage(phone, message, smsSender, MessageType.PROMOTIONAL);
+			messageIds.add(messageId);
+			notificacionesService.registrarDestino(notificacion, phone, messageId);
 		};
 	}
 	
-	public static Consumer<String> buildVoiceMessagesConsumer(ConnectNotificationService connectService, String contactFlowId, Map<String, String> attributes,  final List<String> messageIds, Patronos patrono) {
-		return phone -> { messageIds.add(connectService.sendVoiceNotification(contactFlowId, attributes, phone));
-				          //TODO: Insertar registro de notificación y pasar servicio como parametro para este guardado. 
+	public static Consumer<String> buildVoiceMessagesConsumer(ConnectNotificationService connectService, NotificacionesService notificacionesService, String contactFlowId, Map<String, String> attributes,  final List<String> messageIds, Notificaciones notificacion) {
+		return phone -> { 
+			String messageId = connectService.sendVoiceNotification(contactFlowId, attributes, phone); 
+			messageIds.add(messageId);
+			notificacionesService.registrarDestino(notificacion, phone, messageId); 
 		};
 	}
 }

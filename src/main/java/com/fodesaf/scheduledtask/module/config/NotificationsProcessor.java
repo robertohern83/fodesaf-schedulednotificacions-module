@@ -6,9 +6,7 @@ package com.fodesaf.scheduledtask.module.config;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.slf4j.Logger;
@@ -108,11 +106,11 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 							logger.info(String.format("No se ha obtenido el messageId del mensaje enviado para la campaña: %s y el segregado: %s", item.getPrimaryKey().getCampana().getId(),item.getPrimaryKey().getPatrono().getSegregado()));
 							estatus = ENVIADA_SIN_MESSAGEID;
 						}else {
-							item.setMessageId(messageId);
+							logger.info("ID's de las notificaciones enviadas: " + messageId);
 							estatus = ENVIADA;
 						}
 					} catch (NotificationException ne) {
-						logger.error(ne.getMessage(), ne);
+						logger.info(ne.getMessage(), ne);
 						estatus = getExceptionEstatus(ne.getErrorCode()); 
 						
 					} catch (Exception e) {
@@ -208,20 +206,19 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 		String messageId = null;
 		Integer tipoCampana = notificacion.getPrimaryKey().getCampana().getTipo().getId();
 		Notification notification = factory.getCaseService(tipoCampana);
-		Map<String, Object> notificationData = loadParams(notificacion);
 		
 		switch (notificacion.getPrimaryKey().getCanal()) {
 			case SMS:		
 				logger.info("NOTIFICANDO POR CANAL SMS AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-				messageId = notification.sendNotification(notificationData, NotificationChannel.SMS);
+				messageId = notification.sendNotification(notificacion, NotificationChannel.SMS);
 				break;
 			case EMAIL:
 				logger.info("NOTIFICANDO POR CANAL EMAIL AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-				messageId = notification.sendNotification(notificationData, NotificationChannel.EMAIL);
+				messageId = notification.sendNotification(notificacion, NotificationChannel.EMAIL);
 				break;
 			case VOZ:
 				logger.info("NOTIFICANDO POR CANAL VOZ AL PATRONO -> " + notificacion.getPrimaryKey().getPatrono().getNombre());
-				messageId = notification.sendNotification(notificationData, NotificationChannel.VOICE);
+				messageId = notification.sendNotification(notificacion, NotificationChannel.VOICE);
 				break;
 			default:
 				break;
@@ -231,11 +228,6 @@ public class NotificationsProcessor implements Tasklet, StepExecutionListener {
 		return messageId;
 	}
 
-	private Map<String, Object> loadParams(Notificaciones notificacion) {
-		Map<String, Object> notificationData = new HashMap<String, Object>();
-		notificationData.put("Patrono", notificacion.getPrimaryKey().getPatrono());
-		notificationData.put("Attemp", notificacion.getPrimaryKey().getIntento());
-		return notificationData;
-	}
+	
 
 }
