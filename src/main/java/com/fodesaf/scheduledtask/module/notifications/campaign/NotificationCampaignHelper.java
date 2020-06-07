@@ -1,6 +1,7 @@
 package com.fodesaf.scheduledtask.module.notifications.campaign;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -8,6 +9,7 @@ import java.util.function.Function;
 import org.slf4j.Logger;
 
 import com.fodesaf.scheduledtask.module.model.Patronos;
+import com.fodesaf.scheduledtask.module.notifications.ConnectNotificationService;
 import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
@@ -44,10 +46,18 @@ public class NotificationCampaignHelper {
 
 
 	public static Consumer<String> buildSMSMessagesConsumer(SMSNotificationService smsService, String smsSender, final List<String> messageIds, Patronos patrono, String message) {
-		return phone ->  messageIds.add(smsService.sendSMSMessage(
+		return phone -> { messageIds.add(smsService.sendSMSMessage(
 											phone, 
 											message, 
 											smsSender, 
 											MessageType.PROMOTIONAL));
+				          //TODO: Insertar registro de notificación y pasar servicio como parametro para este guardado. 
+		};
+	}
+	
+	public static Consumer<String> buildVoiceMessagesConsumer(ConnectNotificationService connectService, String contactFlowId, Map<String, String> attributes,  final List<String> messageIds, Patronos patrono) {
+		return phone -> { messageIds.add(connectService.sendVoiceNotification(contactFlowId, attributes, phone));
+				          //TODO: Insertar registro de notificación y pasar servicio como parametro para este guardado. 
+		};
 	}
 }

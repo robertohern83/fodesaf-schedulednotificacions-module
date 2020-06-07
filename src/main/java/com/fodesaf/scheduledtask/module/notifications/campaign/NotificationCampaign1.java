@@ -8,16 +8,12 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 
 import com.fodesaf.scheduledtask.module.model.Patronos;
 import com.fodesaf.scheduledtask.module.notifications.EmailNotificationService;
@@ -25,7 +21,6 @@ import com.fodesaf.scheduledtask.module.notifications.Notification;
 import com.fodesaf.scheduledtask.module.notifications.NotificationChannel;
 import com.fodesaf.scheduledtask.module.notifications.NotificationException;
 import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService;
-import com.fodesaf.scheduledtask.module.notifications.SMSNotificationService.MessageType;
 import com.fodesaf.scheduledtask.module.reports.GenerateReportFromTemplate;
 import com.fodesaf.scheduledtask.module.service.PatronosService;
 import com.fodesaf.scheduledtask.module.util.Constants;
@@ -168,11 +163,16 @@ public class NotificationCampaign1 implements Notification {
 			logger.info(String.format("Enviando notificacion de SMS, %s", this.getSupportedCampaign()));
 			
 			NotificationCampaignHelper.iterateOverPhonesAndInvokeFunction(patrono, 
-					NotificationCampaignHelper.buildSMSMessagesConsumer(smsService, smsSender, messageIds, patrono, SMS_TEMPLATE.replaceAll(
-							"<<MONTO>>", 
-							df.format(
-									patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", 
-									patrono.getCedula())), 
+					NotificationCampaignHelper.buildSMSMessagesConsumer(
+							smsService, 
+							smsSender, 
+							messageIds, 
+							patrono, 
+							SMS_TEMPLATE.replaceAll(
+								"<<MONTO>>", 
+								df.format(
+										patrono.getCuotasAlCobro())).replaceAll("<<CEDULA>>", 
+										patrono.getCedula())), 
 					NotificationCampaignHelper.getPhonesFilter(patronosService, patrono, true), 
 					logger, 
 					this.getSupportedCampaign());
