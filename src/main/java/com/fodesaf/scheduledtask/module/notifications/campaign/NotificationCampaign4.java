@@ -140,7 +140,7 @@ public class NotificationCampaign4 implements Notification {
 									emails, 
 									file, 
 									"application/pdf", 
-									"Notificacion.pdf");
+									"Prevencion.pdf");
 				} catch (IOException | JRException | SQLException  e) {
 					logger.error(e.getLocalizedMessage(), e);
 				}
