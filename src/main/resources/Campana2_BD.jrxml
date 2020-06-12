@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.9.0.final using JasperReports Library version 6.9.0-cb8f9004be492ccc537180b49c026951f4220bf3  -->
+<!-- Created with Jaspersoft Studio version 6.12.2.final using JasperReports Library version 6.12.2-75c5e90a222ab406e416cbf590a5397028a52de3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="PPPReferencesReportPDF" pageWidth="595" pageHeight="842" columnWidth="515" leftMargin="40" rightMargin="40" topMargin="40" bottomMargin="40" uuid="fc9bee80-61f2-4097-9578-c782a123f3b9">
-	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter.xml"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="New Data Adapter "/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<subDataset name="DataList" uuid="0d4b3a44-ca91-415a-988a-abbf032a8ed1">
 		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="FodesafDataAdapter"/>
@@ -109,14 +109,14 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<reportElement x="-20" y="-32" width="560" height="1" uuid="99fd3545-8756-43e2-9f2b-6065c5370d90"/>
 			</line>
 			<textField evaluationTime="Report" pattern="hh:mm a">
-				<reportElement x="410" y="44" width="101" height="10" uuid="32a929ee-6dfb-4d9c-8245-3b977df1e2ae"/>
+				<reportElement x="410" y="44" width="101" height="17" uuid="32a929ee-6dfb-4d9c-8245-3b977df1e2ae"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="410" y="34" width="101" height="10" uuid="18108497-773f-4291-a38c-788a9772f9b3"/>
+				<reportElement x="410" y="30" width="101" height="14" uuid="18108497-773f-4291-a38c-788a9772f9b3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
@@ -327,7 +327,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 				<text><![CDATA[NUMERO DE SERVICIO:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="102" y="14" width="260" height="17" uuid="84c16b24-3e42-47fc-b4ce-07b18a9116ba"/>
+				<reportElement x="110" y="16" width="260" height="15" uuid="84c16b24-3e42-47fc-b4ce-07b18a9116ba"/>
 				<textFieldExpression><![CDATA[$F{Cedula}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -362,7 +362,7 @@ Con base en lo reportado por la CCSS, con un corte al
 				<reportElement x="10" y="12" width="473" height="1" uuid="699d0bcf-072c-4635-a2de-692cfdcc41ff"/>
 			</line>
 			<textField evaluationTime="Report" pattern="dd/MM/yyyy">
-				<reportElement x="241" y="110" width="101" height="10" uuid="4ac2a2a2-d539-46c6-aee0-20e68de42e0f"/>
+				<reportElement x="221" y="92" width="102" height="20" uuid="4ac2a2a2-d539-46c6-aee0-20e68de42e0f"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font size="8" isBold="false"/>
 				</textElement>
