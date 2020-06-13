@@ -15,7 +15,7 @@ public class SMSNotificationService {
 	public static void main(String args[]) {
 		
 		SMSNotificationService service = new SMSNotificationService();
-		service.sendSMSMessage("+50687307606", "Hola2", "in2clouds", MessageType.PROMOTIONAL);
+		service.sendSMSMessage("+50687307606", "Hola2", "in2clouds", MessageType.TRANSACTIONAL);
 	}
 	
 	public String sendSMSMessage(String phoneNumber, String message, String pSender, MessageType pType) {
