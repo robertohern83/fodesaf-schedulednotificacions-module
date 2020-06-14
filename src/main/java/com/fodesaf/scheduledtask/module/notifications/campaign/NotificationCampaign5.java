@@ -138,7 +138,7 @@ public class NotificationCampaign5 implements Notification {
 									emails, 
 									file, 
 									"application/pdf", 
-									"Notificacion.pdf");
+									"Prevencion.pdf");
 				} catch (IOException | JRException | SQLException  e) {
 					logger.error(e.getLocalizedMessage(), e);
 				}
@@ -163,6 +163,10 @@ public class NotificationCampaign5 implements Notification {
 
 		default:
 			break;
+		}
+		
+		if(null == messageIdResult && null != messageIds && 0 < messageIds.size()) {
+			messageIdResult = String.join(",", messageIds);
 		}
 		return messageIdResult;
 		

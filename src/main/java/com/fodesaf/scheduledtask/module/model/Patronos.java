@@ -19,6 +19,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @author geanque
@@ -26,7 +27,7 @@ import lombok.Setter;
  */
 @Entity
 @Table (name = "Intellect_Maestro_DESAF", schema = "dbo")
-@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode
+@NoArgsConstructor @AllArgsConstructor @EqualsAndHashCode @ToString
 public class Patronos implements Serializable {
 	/**
 	 * 
@@ -152,33 +153,49 @@ public class Patronos implements Serializable {
 	@Getter @Setter
 	@Column (name = "Total_Arreglo")
 	Double totalArreglo;
-
-	@Override
-	public String toString() {
-		return "Patronos [segregado=" + segregado + ", cedula=" + cedula + ", nombre=" + nombre + ", regimen=" + regimen
-				+ ", condicionLegal=" + condicionLegal + ", alerta=" + alerta + ", categoriaAlerta=" + categoriaAlerta
-				+ ", situacion=" + situacion + ", deudaTotal=" + deudaTotal + ", pagoMinimo=" + pagoMinimo
-				+ ", saldoArreglo=" + saldoArreglo + ", cuotasAlCobro=" + cuotasAlCobro + ", principalArreglo="
-				+ principalArreglo + ", interesesAdministrativos=" + interesesAdministrativos + ", interesesMoratorios="
-				+ interesesMoratorios + ", cuotasAtraso=" + cuotasAtraso + ", desdePeriodoFueraDeArreglo="
-				+ desdePeriodoFueraDeArreglo + ", hastaPeriodoFueraDeArreglo=" + hastaPeriodoFueraDeArreglo
-				+ ", principal=" + principal + ", recargos=" + recargos + ", multas=" + multas + ", correo=" + correo
-				+ ", telefonoRepresentanteLegal=" + telefonoRepresentanteLegal + ", telefono=" + telefono + ", teleFax="
-				+ teleFax + ", ultimaNotificacion=" + ultimaNotificacion + ", ultimaPrevencion=" + ultimaPrevencion
-				+ ", totalPeriodos=" + totalPeriodos + ", totalArreglo=" + totalArreglo + "]";
-	}
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Residencial_1")
+	String telefonoResidencial1;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Residencial_2")
+	String telefonoResidencial2;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Residencial_3")
+	String telefonoResidencial3;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Residencial_4")
+	String telefonoResidencial4;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Residencial_5")
+	String telefonoResidencial5;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Celular_1")
+	String telefonoCelular1;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Celular_2")
+	String telefonoCelular2;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Celular_3")
+	String telefonoCelular3;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Celular_4")
+	String telefonoCelular4;
+	
+	@Getter @Setter
+	@Column (name = "Telefono_Celular_5")
+	String telefonoCelular5;
+	
 	
 
-	
-
-	
-	
-
-	
-
-	
-	
-	
 	
 
 }

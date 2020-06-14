@@ -74,6 +74,21 @@ public class PatronosService {
 		if(null != employer) {
 			this.addValidatedPhone(phoneList, employer.getTelefono(), smsCompatible);
 			this.addValidatedPhone(phoneList, employer.getTelefonoRepresentanteLegal(), smsCompatible);
+			
+			this.addValidatedPhone(phoneList, employer.getTelefonoCelular1(), smsCompatible);
+			this.addValidatedPhone(phoneList, employer.getTelefonoCelular2(), smsCompatible);
+			this.addValidatedPhone(phoneList, employer.getTelefonoCelular3(), smsCompatible);
+			this.addValidatedPhone(phoneList, employer.getTelefonoCelular4(), smsCompatible);
+			this.addValidatedPhone(phoneList, employer.getTelefonoCelular5(), smsCompatible);
+			
+			if(!smsCompatible) {
+				this.addValidatedPhone(phoneList, employer.getTelefonoResidencial1(), smsCompatible);
+				this.addValidatedPhone(phoneList, employer.getTelefonoResidencial2(), smsCompatible);
+				this.addValidatedPhone(phoneList, employer.getTelefonoResidencial3(), smsCompatible);
+				this.addValidatedPhone(phoneList, employer.getTelefonoResidencial4(), smsCompatible);
+				this.addValidatedPhone(phoneList, employer.getTelefonoResidencial5(), smsCompatible);
+			}
+		
 					 
 		}
 		return phoneList;
