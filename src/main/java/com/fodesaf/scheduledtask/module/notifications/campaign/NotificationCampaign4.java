@@ -164,6 +164,11 @@ public class NotificationCampaign4 implements Notification {
 		default:
 			break;
 		}
+		
+		if(null == messageIdResult && null != messageIds && 0 < messageIds.size()) {
+			messageIdResult = String.join(",", messageIds);
+		}
+		
 		return messageIdResult;
 
 	}

@@ -48,7 +48,7 @@ public class NotificationCampaignHelper {
 			NotificacionesService notificacionesService, final List<String> messageIds, Notificaciones notificacion,
 			String message) {
 		return phone -> {
-			String messageId = smsService.sendSMSMessage(phone, message, smsSender, MessageType.PROMOTIONAL);
+			String messageId = smsService.sendSMSMessage(phone, message, smsSender, MessageType.TRANSACTIONAL);
 			messageIds.add(messageId);
 			notificacionesService.registrarDestino(notificacion, phone, messageId);
 		};
