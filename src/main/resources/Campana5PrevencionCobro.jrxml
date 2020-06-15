@@ -235,7 +235,7 @@ DEPARTAMENTO DE GESTIÓN DE COBRO
 			<textField pattern="#,##0.00#">
 				<reportElement x="401" y="89" width="100" height="15" uuid="34f229c6-e0f6-4426-891a-be9768a97491"/>
 				<textElement textAlignment="Right"/>
-				<textFieldExpression><![CDATA[$F{Saldo_Arreglo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{Total_Periodos}]]></textFieldExpression>
 			</textField>
 			<image>
 				<reportElement x="12" y="276" width="488" height="140" uuid="86385d7c-9325-44e6-8188-860b5324d3a6"/>
@@ -463,7 +463,7 @@ Con base en lo reportado por la CCSS, con un corte al
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="52" y="118" width="100" height="30" uuid="1e52e9ff-f890-4d5b-ac2a-49d4ca11fea5"/>
 				<textFieldExpression><![CDATA[$F{Telefono}]]></textFieldExpression>
 			</textField>
@@ -471,7 +471,7 @@ Con base en lo reportado por la CCSS, con un corte al
 				<reportElement x="4" y="118" width="57" height="30" uuid="a564196e-1f15-43a1-90e8-a1e5a4dbbc86"/>
 				<text><![CDATA[Telefono:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="205" y="118" width="100" height="30" uuid="a541f5c5-17bd-494e-81f1-9b9b02a6edac"/>
 				<textFieldExpression><![CDATA[$F{Telefax}]]></textFieldExpression>
 			</textField>
