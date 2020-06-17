@@ -35,13 +35,11 @@ stages:
   - job: deploy
     steps:
     - download: current
-    - task: Bash@3
+    - task: CmdLine@2
       inputs:
-        targetType: 'inline'
-        script: echo HOLAMUNDO
-    - task: Bash@3
+        script: 'echo HOLA MUNDO.' 
+    - task: CmdLine@2
       inputs:
-        targetType: 'inline'
-        script: dir
+        script: 'dir'
         
     
