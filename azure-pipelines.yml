@@ -6,11 +6,10 @@
 trigger:
 - master
 
-pool:
-  vmImage: 'ubuntu-latest'
-
 stages:
 - stage: buildArtifact
+  pool:
+    vmImage: 'ubuntu-latest'
   jobs:
   - job: buildingArtifact
     steps:
@@ -29,18 +28,18 @@ stages:
         targetPath: 'target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
         artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
 - stage: deployArtifact
+  pool:
+    name: Default
+    demands: fodesafProd
   jobs:
   - job: deploy
-    pool:
-      name: Default
-      demands: fodesafProd
-      steps:
-      - download: current
-      - task: CopyFiles@2
-        displayName: 'Copy Files to: C:\Aplicaciones'
-        inputs:
-          Contents: |
-            *.jar
-            *.zip
-          TargetFolder: 'C:\Aplicaciones'
+    steps:
+    - download: current
+    - task: CopyFiles@2
+      displayName: 'Copy Files to: C:\Aplicaciones'
+      inputs:
+        Contents: |
+          *.jar
+          *.zip
+        TargetFolder: 'C:\Aplicaciones'
     
