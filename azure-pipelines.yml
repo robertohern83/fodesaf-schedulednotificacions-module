@@ -10,26 +10,26 @@ variables:
   buildNumberLocal: $(Build.BuildNumber)
 
 stages:
-- stage: buildArtifact
-  pool:
-    vmImage: 'ubuntu-latest'
-  jobs:
-  - job: buildingArtifact
-    steps:
-    - task: Maven@3
-      inputs:
-        mavenPomFile: 'pom.xml'
-        mavenOptions: '-Xmx3072m'
-        javaHomeOption: 'JDKVersion'
-        jdkVersionOption: '1.8'
-        jdkArchitectureOption: 'x64'
-        publishJUnitResults: false
-        testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        goals: 'package -DskipTests=true'
-    - task: PublishPipelineArtifact@1
-      inputs:
-        targetPath: 'target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
-        artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
+#- stage: buildArtifact
+#  pool:
+#    vmImage: 'ubuntu-latest'
+#  jobs:
+#  - job: buildingArtifact
+#    steps:
+#    - task: Maven@3
+#      inputs:
+#        mavenPomFile: 'pom.xml'
+#        mavenOptions: '-Xmx3072m'
+#        javaHomeOption: 'JDKVersion'
+#        jdkVersionOption: '1.8'
+#        jdkArchitectureOption: 'x64'
+#        publishJUnitResults: false
+#        testResultsFiles: '**/surefire-reports/TEST-*.xml'
+#        goals: 'package -DskipTests=true'
+#    - task: PublishPipelineArtifact@1
+#      inputs:
+#        targetPath: 'target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
+#        artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
 - stage: deployArtifact
   pool:
     name: Default
@@ -38,7 +38,7 @@ stages:
   - job: deploy
     steps:
     - download: current
-    - script: echo ${Build.BuildNumber}
+    - powershell: echo ${Build.BuildNumber}
     - script: echo ${BuildNumber}
     - script: echo $env:BUILD_BUILDNUMBER
     #- script: mkdir C:\Aplicaciones\Fodesaf\instalables\fodesaf-schedulednotificacions-module\$env:BUILD_BUILDNUMBER
