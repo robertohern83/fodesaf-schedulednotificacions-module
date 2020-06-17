@@ -35,9 +35,13 @@ stages:
   - job: deploy
     steps:
     - download: current
-    - task: CopyFiles@2
-      displayName: 'Copy Files to: C:\Aplicaciones'
+    - task: Bash@3
       inputs:
-        Contents: '**\*.jar'
-        TargetFolder: 'C:\Aplicaciones'
+        targetType: 'inline'
+        script: echo HOLAMUNDO
+    - task: Bash@3
+      inputs:
+        targetType: 'inline'
+        script: dir
+        
     
