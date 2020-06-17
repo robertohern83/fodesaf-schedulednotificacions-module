@@ -31,8 +31,8 @@ stages:
 - stage: deployArtifact
   jobs:
   - job: string
-    steps:
     pool:
       vmImage: 'WNDPARALLELSLOCAL'
+    steps: 
       powershell:  echo Hola Mundo
     
