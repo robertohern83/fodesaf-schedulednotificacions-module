@@ -35,12 +35,6 @@ stages:
   - job: deploy
     steps:
     - download: current
-    - script: 'mkdir C:\Aplicaciones\Fodesaf\instalables\%BUILDNAME%\%BUILDNUMBER%'
-      env:
-        BUILDNAME: ${Build.DefinitionName}
-        BUILDNUMBER: ${Build.BuildNumber}
-    - script: 'copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones\Fodesaf\instalables\%BUILDNAME%\%BUILDNUMBER%'
-      env:
-        BUILDNAME: ${Build.DefinitionName}
-        BUILDNUMBER: ${Build.BuildNumber}
+    - script: mkdir C:\Aplicaciones\Fodesaf\instalables\${Build.DefinitionName}\${Build.BuildNumber}
+    - script: copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones\Fodesaf\instalables\${Build.DefinitionName}\${Build.BuildNumber}
     
