@@ -34,5 +34,7 @@ stages:
     pool:
       name: Default
       demands: fodesafProd
-      powershell:  echo Hola Mundo
+      steps:
+      - download: current
+        artifact: fodesaf-schedulednotificacions-module-0.0.1.jar
     
