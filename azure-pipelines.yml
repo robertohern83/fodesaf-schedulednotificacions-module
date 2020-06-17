@@ -9,18 +9,25 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-steps:
-- task: Maven@3
-  inputs:
-    mavenPomFile: 'pom.xml'
-    mavenOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.8'
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: false
-    testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    goals: 'package -DskipTests=true'
-- task: PublishPipelineArtifact@1
-  inputs:
-    targetPath: 'target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
-    artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
+stages:
+- stage: buildArtifact
+  steps:
+  - task: Maven@3
+    inputs:
+      mavenPomFile: 'pom.xml'
+      mavenOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.8'
+      jdkArchitectureOption: 'x64'
+      publishJUnitResults: false
+      testResultsFiles: '**/surefire-reports/TEST-*.xml'
+      goals: 'package -DskipTests=true'
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: 'target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
+      artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
+- stage: deployArtifact
+  pool:
+    vmImage: 'WNDPARALLELSLOCAL'
+    powershell:  echo Hola Mundo
+    
