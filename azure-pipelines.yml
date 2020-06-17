@@ -35,7 +35,12 @@ stages:
       name: Default
       demands: fodesafProd
       steps:
-      - task: DownloadPipelineArtifact@2
+      - download: current
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: C:\Aplicaciones'
         inputs:
-          artifact: 
+          Contents: |
+            *.jar
+            *.zip
+          TargetFolder: 'C:\Aplicaciones'
     
