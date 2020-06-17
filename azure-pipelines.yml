@@ -12,7 +12,7 @@ pool:
 stages:
 - stage: buildArtifact
   jobs:
-  - job: string
+  - job: buildingArtifact
     steps:
     - task: Maven@3
       inputs:
@@ -30,8 +30,9 @@ stages:
         artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
 - stage: deployArtifact
   jobs:
-  - job: string
+  - job: deploy
     pool:
-      vmImage: 'WNDPARALLELSLOCAL'
+      name: Default
+      demands: fodesafProd
       powershell:  echo Hola Mundo
     
