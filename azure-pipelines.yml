@@ -33,6 +33,5 @@ stages:
   - job: string
     pool:
       vmImage: 'WNDPARALLELSLOCAL'
-    steps: 
       powershell:  echo Hola Mundo
     
