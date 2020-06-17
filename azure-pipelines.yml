@@ -38,7 +38,7 @@ stages:
   - job: deploy
     steps:
     - download: current
-    - powershell: Write-Host ${buildNumberLocal}
+    - powershell: Write-Output HOLA BASURA ${buildNumberLocal}
     - script: echo ${buildNumberLocal}
     - script: echo $env:BUILD_BUILDNUMBER
     #- script: mkdir C:\Aplicaciones\Fodesaf\instalables\fodesaf-schedulednotificacions-module\$env:BUILD_BUILDNUMBER
