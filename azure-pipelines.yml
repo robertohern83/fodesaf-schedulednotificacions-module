@@ -37,5 +37,5 @@ stages:
       steps:
       - task: DownloadPipelineArtifact@2
         inputs:
-          artifact: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
+          artifact: 
     
