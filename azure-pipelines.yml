@@ -40,6 +40,6 @@ stages:
         script: 'dir ..\' 
     - task: CmdLine@2
       inputs:
-        script: 'cp ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones'
+        script: 'copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones'
         
     
