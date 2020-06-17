@@ -37,9 +37,9 @@ stages:
     - download: current
     - task: CmdLine@2
       inputs:
-        script: 'dir ..\' 
+        script: 'mkdir C:\Aplicaciones\Fodesaf\instalables\${Build.DefinitionName}\${Build.BuildNumber}' 
     - task: CmdLine@2
       inputs:
-        script: 'copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones'
+        script: 'copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones\Fodesaf\instalables\${Build.DefinitionName}\${Build.BuildNumber}'
         
     
