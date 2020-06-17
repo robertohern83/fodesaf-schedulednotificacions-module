@@ -38,7 +38,6 @@ stages:
     - task: CopyFiles@2
       displayName: 'Copy Files to: C:\Aplicaciones'
       inputs:
-        Contents: |
-          .\fodesaf-schedulednotificacions-module-0.0.1.jar\*.jar
+        Contents: '**\*.jar'
         TargetFolder: 'C:\Aplicaciones'
     
