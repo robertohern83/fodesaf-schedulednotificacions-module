@@ -37,9 +37,9 @@ stages:
     - download: current
     - task: CmdLine@2
       inputs:
-        script: 'echo HOLA MUNDO.' 
+        script: 'dir ..\' 
     - task: CmdLine@2
       inputs:
-        script: 'dir'
+        script: 'cp ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones'
         
     
