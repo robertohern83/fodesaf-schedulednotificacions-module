@@ -39,8 +39,8 @@ stages:
     steps:
     - download: current
     - powershell: Write-Host ${buildNumberLocal}
-    - script: "echo ${BuildNumber}"
-    - script: "echo $env:BUILD_BUILDNUMBER"
+    - script: echo ${buildNumberLocal}
+    - script: echo $env:BUILD_BUILDNUMBER
     #- script: mkdir C:\Aplicaciones\Fodesaf\instalables\fodesaf-schedulednotificacions-module\$env:BUILD_BUILDNUMBER
     #- script: copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones\Fodesaf\instalables\fodesaf-schedulednotificacions-module\$env:BUILD_BUILDNUMBER
     
