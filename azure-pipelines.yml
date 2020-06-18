@@ -31,14 +31,14 @@ stages:
       inputs:
         targetPath: 'target/fodesaf-schedulednotificacions-module-0.0.1.jar' 
         artifactName: 'fodesaf-schedulednotificacions-module-0.0.1.jar'
-- stage: deployArtifact
-  pool:
-    name: Default
-    demands: fodesafProd
-  jobs:
-  - job: deploy
-    steps:
-    - download: current
-    - script: mkdir C:\Aplicaciones\Fodesaf-Instalables\instalables\$(buildNameLocal)\$(buildNumberLocal)
-    - script: copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones\Fodesaf-Instalables\instalables\$(buildNameLocal)\$(buildNumberLocal)
+#- stage: deployArtifact
+#  pool:
+#    name: Default
+#    demands: fodesafProd
+#  jobs:
+#  - job: deploy
+#    steps:
+#    - download: current
+#    - script: mkdir C:\Aplicaciones\Fodesaf-Instalables\instalables\$(buildNameLocal)\$(buildNumberLocal)
+#    - script: copy ..\fodesaf-schedulednotificacions-module-0.0.1.jar\fodesaf-schedulednotificacions-module-0.0.1.jar C:\Aplicaciones\Fodesaf-Instalables\instalables\$(buildNameLocal)\$(buildNumberLocal)
     
