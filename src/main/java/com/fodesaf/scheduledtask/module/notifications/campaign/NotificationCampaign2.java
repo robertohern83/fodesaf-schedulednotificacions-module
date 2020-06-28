@@ -13,6 +13,7 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.fodesaf.scheduledtask.module.model.Notificaciones;
@@ -31,6 +32,7 @@ import com.fodesaf.scheduledtask.module.util.Constants;
 import net.sf.jasperreports.engine.JRException;
 
 @Service
+@Scope("prototype")
 public class NotificationCampaign2 implements Notification {
 
 	@Value("${fodesaf.notifications.email.sender}")
