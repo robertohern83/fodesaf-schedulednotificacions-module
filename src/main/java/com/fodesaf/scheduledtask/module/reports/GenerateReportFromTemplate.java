@@ -10,6 +10,11 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fodesaf.scheduledtask.module.notifications.Notification;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -21,6 +26,8 @@ import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimpleWriterExporterOutput;
 
 public class GenerateReportFromTemplate {
+	
+	static final Logger logger = LoggerFactory.getLogger(GenerateReportFromTemplate.class);
 
 	public static void main(String[] args) throws Exception, JRException {
 		Connection conn = null;
@@ -53,6 +60,13 @@ public class GenerateReportFromTemplate {
 		if (in.available() > 0) {			
 			JasperPrint jasperPrint = JasperFillManager.fillReport(in, reportParameters, sqlConnection);
 			file = exportReport(reportFormat, jasperPrint);
+			try {
+				sqlConnection.commit();
+				sqlConnection.close();
+			} catch (SQLException e) {
+				logger.error(e.getMessage(), e);
+			}
+			
 		} 
 		return file;
 	}
